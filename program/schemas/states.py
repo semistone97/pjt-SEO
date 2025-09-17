@@ -1,12 +1,8 @@
-import pandas as pd
 from langgraph.graph import MessagesState
 from typing_extensions import List, Dict
 from pydantic import Field
 from langgraph.graph import MessagesState
 
-class KeywordState(MessagesState):
-    data: pd.DataFrame
-    
 class State(MessagesState):
     data: List[Dict]
     product_name: str

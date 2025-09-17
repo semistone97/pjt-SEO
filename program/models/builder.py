@@ -13,6 +13,6 @@ def build_graph():
     builder.add_sequence([keyword_process, generate_relevance, select_top_keywords, keyword_distribute, generate_title, generate_bp, generate_description])
 
     builder.add_edge(START, "keyword_process")
-    builder.add_edge('select_top_keywords', END)
+    builder.add_edge('generate_description', END)
     
     return builder.compile()
