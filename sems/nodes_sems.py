@@ -1,201 +1,207 @@
-import pandas as pd
-import glob
-from typing import Dict, List
-# State.py에서 정의한 State를 가져옵니다.
-from State import State
-from dotenv import load_dotenv
-load_dotenv()
-
-# Langchain 관련 라이브러리를 가져옵니다.
+import os
+import json
+from typing import List, Dict
+from typing_extensions import TypedDict
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-import json
+from dotenv import load_dotenv
+from pathlib import Path
+import pandas as pd
+from State import State
 
-# 이 코드는 pandas, langchain-openai, python-dotenv 라이브러리가 필요합니다.
-# pip install pandas langchain-openai python-dotenv
+
 
 # --- 노드 함수 정의 ---
 
-def read_csv(state: State) -> Dict:
-    """
-    현재 폴더에서 'keyword_data_*.csv' 패턴의 파일을 찾아 읽어옵니다.
-    파일 데이터를 state의 'data' 필드에 저장합니다.
-    """
-    print("--- [Node: read_csv] - CSV 파일을 읽기 시작합니다. ---")
-    
-    # 현재 폴더에서 패턴에 맞는 파일 검색
-    # 상대경로를 사용하여 동일 폴더 내에서 파일을 찾습니다.
-    file_pattern = 'keyword_data_*.csv'
-    file_list = glob.glob(file_pattern)
-    
-    if not file_list:
-        print(f"에러: 현재 폴더에 '{file_pattern}' 패턴의 파일이 없습니다.")
-        return {"data": []}
-    
-    # 여러 파일이 발견될 경우, 첫 번째 파일을 사용
-    if len(file_list) > 1:
-        print(f"경고: 여러 개의 파일이 발견되었습니다. 첫 번째 파일인 '{file_list[0]}'을 사용합니다.")
-    
-    file_path = file_list[0]
-    print(f"파일을 찾았습니다: {file_path}")
-    
-    try:
-        # pandas를 사용하여 CSV 파일 읽기
-        df = pd.read_csv(file_path)
-        
-        # DataFrame을 dictionary의 리스트 형태로 변환 (State 구조에 맞춤)
-        data = df.to_dict(orient='records')
-        
-        print(f"성공: {file_path} 파일에서 {len(data)}개의 행을 읽었습니다.")
-        
-        return {"data": data}
-        
-    except Exception as e:
-        print(f"파일을 읽는 중 에러가 발생했습니다: {e}")
-        return {"data": []}
-
 def generate_relevance(state: State) -> Dict:
     """
-    LLM을 사용하여 제품 정보와 각 키워드 간의 관련성 점수를 계산합니다.
+    LLM을 사용하여 각 키워드의 연관성을 4가지 카테고리(직접, 중간, 간접, 없음)로 분류합니다.
     """
-    print("--- [Node: generate_relevance] - 관련성 점수 계산을 시작합니다. ---")
+    print("--- [Node: generate_relevance] - 연관성 분류 시작 ---")
     
     product_name = state.get("product_name")
     product_description = state.get("product_description")
     data = state.get("data", [])
-
-    if not data:
-        print("데이터가 없어 관련성 계산을 건너뜁니다.")
-        return {}
-    
-    if not product_name or not product_description:
-        print("제품 이름 또는 설명이 없어 관련성 계산을 건너뜁니다. 모든 점수를 0으로 설정합니다.")
-        for row in data:
-            row['relevance_score'] = 0
-        return {"data": data}
-
-    # 요청하신 대로 LLM을 초기화합니다. 모델명은 'gpt-4-turbo'를 사용했습니다.
     llm = ChatOpenAI(model='gpt-4-turbo', temperature=0)
 
-    # 데이터에서 키워드 리스트를 추출합니다.
-    keywords = [row['keyword'] for row in data if 'keyword' in row]
-    if not keywords:
-        print("데이터에 'keyword' 필드가 없어 관련성 계산을 건너뜁니다.")
+    # 데이터가 비어있으면 중단
+    if not data:
+        print("데이터가 없어 연관성 분류를 건너뜁니다.")
         return {}
 
-    # LLM에게 역할을 부여하고, 출력 형식을 지정하는 프롬프트 템플릿
+    # DataFrame을 dict 리스트로 변환 (만약 DataFrame으로 들어올 경우)
+    if isinstance(data, pd.DataFrame):
+        data = data.to_dict(orient='records')
+
+    keywords = [row['keyword'] for row in data if 'keyword' in row]
+    if not keywords:
+        print("키워드가 없어 연관성 분류를 건너뜁니다.")
+        return {}
+
     prompt_template = ChatPromptTemplate.from_messages([
         ("system", '''
 You are an expert in Amazon SEO and keyword analysis.
-Your task is to evaluate the relevance of a list of keywords to a given product.
-Provide a relevance score from 0 (not relevant at all) to 100 (perfectly relevant).
-The score should reflect how likely a customer searching for that keyword is to purchase the given product.
+Your task is to classify the relevance of a list of keywords to a given product into one of four categories:
+- '직접': Directly related to the product, indicating high purchase intent. Customers searching this are very likely to buy the product.
+- '중간': Related to the product's function or use case, but less specific.
+- '간접': Related to the broader product category or a peripheral use case, but not the product itself.
+- '없음': Not relevant to the product at all.
 
-Consider the product's name, description, and primary function.
-
-Please return your response ONLY as a valid JSON array of objects, where each object has two keys: "keyword" and "relevance_score". Do not include any other text, explanation, or markdown.
+Please return your response ONLY as a valid JSON array of objects, where each object has two keys: "keyword" and "relevance_category". Do not include any other text, explanation, or markdown.
 
 Example format:
 [
-  {{"keyword": "example keyword 1", "relevance_score": 95}},
-  {{"keyword": "example keyword 2", "relevance_score": 20}}
+  {{"keyword": "chicken shredder", "relevance_category": "직접"}},
+  {{"keyword": "kitchen gadget", "relevance_category": "중간"}},
+  {{"keyword": "wedding gift", "relevance_category": "간접"}},
+  {{"keyword": "car accessories", "relevance_category": "없음"}}
 ]
 '''),
         ("human", '''
 Product Name: {product_name}
 Product Description: {product_description}
 
-Please evaluate the following keywords and provide their relevance scores in the specified JSON format:
+Please classify the following keywords and provide their relevance categories in the specified JSON format:
 {keyword_list_str}
 ''')
     ])
     
     chain = prompt_template | llm | StrOutputParser()
     
-    print(f"LLM에게 {len(keywords)}개 키워드의 관련성 점수 계산을 요청합니다...")
+    print(f"LLM에게 {len(keywords)}개 키워드의 연관성 분류를 요청합니다...")
     
     try:
-        # 키워드 리스트를 JSON 문자열로 변환하여 프롬프트에 전달
         response_str = chain.invoke({
             "product_name": product_name,
             "product_description": product_description,
-            "keyword_list_str": json.dumps(keywords)
+            "keyword_list_str": json.dumps(keywords, ensure_ascii=False)
         })
         
-        print("--- LLM으로부터 응답을 받았습니다. 점수를 파싱합니다. ---")
+        print("--- LLM으로부터 응답을 받았습니다. 카테고리를 파싱합니다. ---")
         
-        # LLM의 응답(JSON 문자열)을 파싱
-        scores = json.loads(response_str)
+        classifications = json.loads(response_str)
         
-        # 점수를 빠르게 찾기 위해 딕셔너리 형태로 변환
-        score_map = {item['keyword']: item['relevance_score'] for item in scores}
+        classification_map = {item['keyword']: item['relevance_category'] for item in classifications}
         
-        # 기존 데이터에 'relevance_score'를 추가
         for row in data:
             if 'keyword' in row:
-                row['relevance_score'] = score_map.get(row['keyword'], 0) # 점수가 없는 경우 0점 부여
+                row['relevance_category'] = classification_map.get(row['keyword'], '없음')
         
-        print("--- 모든 키워드에 관련성 점수를 부여했습니다. ---")
+        print("--- 모든 키워드에 연관성 카테고리를 부여했습니다. ---")
         return {"data": data}
 
-    except json.JSONDecodeError:
-        print(f"에러: LLM의 응답을 파싱하는데 실패했습니다. 응답 내용: \n{response_str}")
-        for row in data:
-            row['relevance_score'] = -1 # 에러 발생 시 -1점 부여
-        return {"data": data}
     except Exception as e:
-        print(f"관련성 계산 중 에러가 발생했습니다: {e}")
+        print(f"연관성 분류 중 에러가 발생했습니다: {e}")
         for row in data:
-            row['relevance_score'] = -1
+            row['relevance_category'] = '분류 실패'
         return {"data": data}
 
-def keyword_sorting(state: State) -> Dict:
-    print("--- [Node: keyword_sorting] - 키워드 정렬을 시작합니다. ---")
-    # 이 노드는 다음 단계에서 구현합니다.
-    data = state.get('data', [])
+def select_top_keywords(state: State) -> Dict:
+    """
+    LLM을 사용해 상위 30개 키워드를 선별하고, 나머지는 backend_keywords에 저장합니다.
+    """
+    print("--- [Node: select_top_keywords] - 상위 키워드 선별 및 백엔드 키워드 저장 시작 ---")
+    
+    data = state.get("data", [])
+
     if not data:
-        print("데이터가 없어 정렬을 건너뜁니다.")
-        return {}
-    # TODO: 정렬 로직 추가
-    return {"data": data}
+        print("데이터가 없어 키워드 선별을 건너뜁니다.")
+        return {"data": [], "backend_keywords": []}
 
-# --- 아래는 테스트를 위한 코드입니다 ---
-if __name__ == '__main__':
-    # .env 파일 로드를 위해 python-dotenv가 필요할 수 있습니다.
-    # from dotenv import load_dotenv
-    # load_dotenv()
+    # LLM에게 전달할 데이터 형식으로 변환
+    simplified_data = [
+        {
+            "keyword": row.get("keyword"),
+            "relevance_category": row.get("relevance_category"),
+            "value_score": row.get("value_score")
+        }
+        for row in data
+    ]
 
-    # 테스트를 위해 임시 'keyword_data_2024.csv' 파일을 생성합니다.
-    dummy_data = {
-        'keyword': ['chicken shredder', 'meat shredder', 'pulled pork', 'kitchen gadget'],
-        'search_volume': [25000, 15000, 30000, 5000],
-        'cpr': [800, 500, 1200, 200]
-    }
-    pd.DataFrame(dummy_data).to_csv('keyword_data_2024.csv', index=False)
-    
-    # --- 1. 초기 State 정의 ---
-    # 실제 실행 시에는 product_name, product_description을 설정해야 합니다.
-    initial_state = {
-        "product_name": "KitchenMaster Chicken Shredder",
-        "product_description": "A tool to easily shred cooked chicken, beef, or pork. Features a non-slip base and easy-to-grip handles. Perfect for preparing tacos, enchiladas, and salads.",
-        "category": "Kitchen Gadgets",
-        "data": []
-    }
-    
-    # --- 2. read_csv 노드 실행 ---
-    read_result = read_csv(initial_state)
-    state_after_read = {**initial_state, **read_result}
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", '''
+You are a senior marketing strategist building a balanced and powerful keyword portfolio for an Amazon product. 
+Your goal is to select the 30 most valuable keywords from the provided list to maximize both immediate sales and long-term market reach.
 
-    # --- 3. generate_relevance 노드 실행 ---
-    # .env 파일에 OPENAI_API_KEY가 설정되어 있어야 합니다.
-    print("\n--- generate_relevance 노드 테스트를 시작합니다. ---")
-    relevance_result = generate_relevance(state_after_read)
-    state_after_relevance = {**state_after_read, **relevance_result}
+Each keyword has a 'relevance_category' ('직접', '중간', '간접') and a 'value_score' (representing opportunity).
 
-    # --- 4. 결과 출력 ---
-    if state_after_relevance.get('data'):
-        print("\n--- 관련성 점수 계산 후 데이터 ---")
-        # 보기 쉽게 DataFrame으로 변환하여 출력
-        final_df = pd.DataFrame(state_after_relevance['data'])
-        print(final_df)
+Think of your selection as a strategic portfolio with three tiers. Your final list of 30 should be a strategic mix of these tiers:
+
+1.  **Core Conversion Keywords (approx. 15-20 slots):**
+    *   Select these from the **'직접'** category. These are your most important keywords for driving immediate sales.
+    *   Within this category, choose the ones with the **highest `value_score`**.
+
+2.  **Audience Expansion Keywords (approx. 5-10 slots):**
+    *   Select these from the **'중간'** category. These keywords will help you reach a broader, but still highly relevant, audience.
+    *   Prioritize those with the **highest `value_score`**.
+
+3.  **Strategic Discovery Keywords (approx. 3-5 slots):**
+    *   Select these from the **'간접'** category. Look for "hidden gems" here – keywords with an **exceptionally high `value_score`** that can bring in valuable, low-competition traffic.
+
+**Your final goal is a balanced portfolio of 30 keywords.** Avoid simply filling the list only with '직접' keywords. The aim is to ensure both high conversion and wider audience discovery.
+
+Return your response ONLY as a valid JSON array of strings, containing the 30 selected keywords. Do not include any other text, explanation, or markdown.
+
+Example format:
+[
+  "keyword 1",
+  "keyword 2",
+  "keyword 3"
+]
+'''),
+        ("human", '''
+Here is the list of candidate keywords with their relevance and value scores. Please select the top 30.
+{data_list_str}
+''')
+    ])
+
+    chain = prompt_template | llm | StrOutputParser()
+
+    print(f"LLM에게 {len(simplified_data)}개 후보 중 상위 30개 키워드 선별을 요청합니다...")
+
+    try:
+        response_str = chain.invoke({
+            "data_list_str": json.dumps(simplified_data, ensure_ascii=False)
+        })
+
+        print("--- LLM으로부터 응답을 받았습니다. 최종 키워드 목록을 파싱합니다. ---")
+        
+        top_keywords_list = json.loads(response_str)
+        top_keywords_set = set(top_keywords_list)
+
+        # 상위 키워드 데이터 필터링
+        final_data = [row for row in data if row.get("keyword") in top_keywords_set]
+        
+        # 백엔드 키워드 계산
+        all_keywords_set = {row.get("keyword") for row in data}
+        backend_keywords_set = all_keywords_set - top_keywords_set
+        backend_keywords_list = list(backend_keywords_set)
+
+        print(f"--- 최종 {len(final_data)}개 키워드를 선별했습니다. ---")
+        print(f"--- {len(backend_keywords_list)}개의 백엔드 키워드를 저장합니다. ---")
+        
+        return {"data": final_data, "backend_keywords": backend_keywords_list}
+
+    except Exception as e:
+        print(f"상위 키워드 선별 중 에러가 발생했습니다: {e}")
+        print("에러 발생으로 인해, value_score 기준 상위 30개를 대신 선택합니다.")
+        
+        # 대체 로직
+        data_copy = [d for d in data if d.get('relevance_category') in ['직접', '중간']]
+        if not data_copy:
+            data_copy = data
+
+        sorted_data = sorted(data_copy, key=lambda x: x.get('value_score', 0), reverse=True)
+        final_data = sorted_data[:30]
+
+        # 백엔드 키워드 계산 (대체 로직용)
+        top_keywords_set = {row.get("keyword") for row in final_data}
+        all_keywords_set = {row.get("keyword") for row in data}
+        backend_keywords_set = all_keywords_set - top_keywords_set
+        backend_keywords_list = list(backend_keywords_set)
+
+        return {"data": final_data, "backend_keywords": backend_keywords_list}
+
+# 참고: 김정수 님과 조성희 님이 만드실 다른 노드 함수(예: preprocess_data, build_listing 등)들이
+# 이 파일이나 다른 파일에 추가될 수 있습니다.

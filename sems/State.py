@@ -1,8 +1,7 @@
-from typing import List, Dict, TypedDict, Literal
+from typing import List, Dict, TypedDict
 
-# 각 키워드에 대한 라벨과 연관성 점수를 포함할 데이터 구조
 class State(TypedDict):
-	product_name: str
-	product_description: str
-	category: str
-	data: list[Dict]
+    product_name: str
+    product_description: str
+    data: List[Dict]
+    backend_keywords: List[str] # 선별되지 않은 키워드들을 저장
