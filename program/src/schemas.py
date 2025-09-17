@@ -1,24 +1,7 @@
-from typing_extensions import List, Dict, TypedDict, Annotated
+from typing_extensions import List, Annotated
 from pydantic import Field, BaseModel
-from langgraph.graph import MessagesState
 from pydantic.types import StringConstraints
 
-
-# 데이터 들어갈 State
-class State(MessagesState):
-    data: List[Dict]
-    product_name: str
-    product_description: str
-    category: str
-    title_keyword: List[str] = Field(default_factory=list)
-    bp_keyword: List[str] = Field(default_factory=list)
-    description_keyword: List[str] = Field(default_factory=list)
-    leftover: List[str] = Field(default_factory=list)
-    title: str = ""
-    bp: List[str] = Field(default_factory=list)
-    description: str = ""
-
-# 결과물 형식 지정
 class KeywordDistribute(BaseModel):
     title_keyword: List[str] = Field(..., description='Title에 들어갈 키워드들')
     bp_keyword: List[str] = Field(..., description='Bullet Point에 들어갈 키워드들')

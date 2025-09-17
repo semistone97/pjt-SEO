@@ -1,8 +1,13 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
-from src.classes import State
+import pandas as pd
+from src.states import State
 from src.funcs import preprocess_keywords
+from src.scaler import scaler
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 # ===== ResponseSchema =====
@@ -34,7 +39,7 @@ def keyword_process(state: State):
     
     llm = ChatOpenAI(model="gpt-5-mini")
     
-    df = state["data"]
+    df = pd.DataFrame(state["data"])
 
     # 1. 사전 필터링
     filtered_series = preprocess_keywords(df['keyword'])
@@ -59,4 +64,9 @@ def keyword_process(state: State):
 
     # 5. 원본 DF 필터
     cleaned_data = df[df['keyword'].isin(cleaned_keywords)].reset_index(drop=True)
-    return {"data": cleaned_data}
+    
+    processed_df = scaler(cleaned_data)
+
+    
+    processed_df = processed_df.to_dict(orient='records')
+    return {"data": processed_df}

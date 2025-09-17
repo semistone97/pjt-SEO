@@ -1,6 +1,11 @@
 from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts.few_shot import FewShotPromptTemplate
 
+
+
+
+
+# ====================================================================================================
 # 키워드 프롬프트
 keyword_template = '''
 다음은 아마존에 판매할 상품 {product_name}에 관한 다양한 키워드들과, 키워드가 얼마나 실제 상품과 연관되었는지(Linkage_Class)를 보여주는 데이터입니다.
@@ -37,7 +42,7 @@ Indirect:
 
 keyword_prompt = PromptTemplate.from_template(keyword_template)
 
-
+# ====================================================================================================
 # Title 프롬프트
 title_examples = [
     {
@@ -80,6 +85,7 @@ title_prompt = FewShotPromptTemplate(
     input_variables=["product_name", "category", "product_description", "title_keyword"],
 )
 
+# ====================================================================================================
 # BP 프롬프트
 bp_examples = [
     {
@@ -133,6 +139,7 @@ bp_prompt = FewShotPromptTemplate(
     input_variables=["product_name", "category", "product_description", "bp_keyword"],
 )
 
+# ====================================================================================================
 # Description 프롬프트
 description_examples = [
     {

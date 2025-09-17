@@ -1,10 +1,12 @@
-from listing_states import State, KeywordDistribute, TitleOutput, BPOutput, DescriptionOutput
-from listing_prompts import keyword_prompt, title_prompt, bp_prompt, description_prompt
+from src.states import State
+from src.schemas import KeywordDistribute, TitleOutput, BPOutput, DescriptionOutput
+from src.prompts import keyword_prompt, title_prompt, bp_prompt, description_prompt
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
-load_dotenv()
-llm = ChatOpenAI(model='gpt-4o', temperature=0)
 
+load_dotenv()
+
+llm = ChatOpenAI(model='gpt-4o', temperature=0)
 
 # 키워드 분배 노드
 def keyword_distribute(state: State):

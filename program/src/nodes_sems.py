@@ -1,16 +1,16 @@
-import os
 import json
-from typing import List, Dict
-from typing_extensions import TypedDict
+from typing import Dict
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from dotenv import load_dotenv
-from pathlib import Path
 import pandas as pd
-from State import State
+from src.states import State
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
+llm = ChatOpenAI(model='gpt-4-turbo', temperature=0)
 
 # --- 노드 함수 정의 ---
 
@@ -23,7 +23,6 @@ def generate_relevance(state: State) -> Dict:
     product_name = state.get("product_name")
     product_description = state.get("product_description")
     data = state.get("data", [])
-    llm = ChatOpenAI(model='gpt-4-turbo', temperature=0)
 
     # 데이터가 비어있으면 중단
     if not data:
