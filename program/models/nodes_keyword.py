@@ -2,9 +2,8 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 import pandas as pd
-from src.states import State
-from src.funcs import preprocess_keywords
-from src.scaler import scaler
+from schemas.states import State
+from utils.funcs import preprocess_keywords, scaler
 from dotenv import load_dotenv
 
 load_dotenv()

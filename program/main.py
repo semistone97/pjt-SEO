@@ -1,6 +1,6 @@
 import pandas as pd
 from dotenv import load_dotenv
-from src.graph_builder import build_graph
+from models.builder import build_graph
 
 load_dotenv()
 

@@ -4,7 +4,7 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 import pandas as pd
-from src.states import State
+from schemas.states import State
 from dotenv import load_dotenv
 
 load_dotenv()

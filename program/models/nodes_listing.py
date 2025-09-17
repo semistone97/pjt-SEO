@@ -1,6 +1,6 @@
-from src.states import State
-from src.schemas import KeywordDistribute, TitleOutput, BPOutput, DescriptionOutput
-from src.prompts import keyword_prompt, title_prompt, bp_prompt, description_prompt
+from schemas.states import State
+from schemas.schemas import KeywordDistribute, TitleOutput, BPOutput, DescriptionOutput
+from prompts.prompts import keyword_prompt, title_prompt, bp_prompt, description_prompt
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 

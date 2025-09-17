@@ -1,8 +1,8 @@
 from langgraph.graph import START, END, StateGraph
-from src.nodes import keyword_process
-from src.states import State
-from src.nodes_sems import generate_relevance, select_top_keywords
-from src.listing_nodes import keyword_distribute, generate_title, generate_bp, generate_description
+from models.nodes_keyword import keyword_process
+from schemas.states import State
+from models.nodes_relevance import generate_relevance, select_top_keywords
+from models.nodes_listing import keyword_distribute, generate_title, generate_bp, generate_description
 from dotenv import load_dotenv
 
 load_dotenv()
