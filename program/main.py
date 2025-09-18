@@ -27,10 +27,11 @@ def main():
 
     # 결과 생성
     print('결과 생성을 완료했습니다')
-    print(f'Title: {len(final_state['title'])}자\n{final_state['title']}')
+    print(f'Title: ==============================================\n{final_state['title']}')
+    print('BP: ==============================================')
     for bp in final_state['bp']:
-        print(f'BP: {len(bp)}자\n{bp}')
-    print(f'Description: {len(final_state['description'])}자\n{final_state['description']}')
+        print(bp)
+    print(f'Description: ==============================================\n{final_state['description']}')
 
 if __name__ == "__main__":
     main()
