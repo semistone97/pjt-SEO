@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from models.builder import build_graph
-from data_loader import load_csv
+from utils.data_loader import load_csv
 
 load_dotenv()
 

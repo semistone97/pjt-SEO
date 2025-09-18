@@ -5,7 +5,7 @@ def load_csv(required_cols=None):
     if required_cols is None:
         required_cols = ['Keywords', 'Search Volume', 'Competing Products']
 
-    csv_files = [f for f in os.listdir('.') if f.endswith('.csv')]
+    csv_files = [f for f in os.listdir('..') if f.endswith('.csv')]
     for file in csv_files:
         try:
             df = pd.read_csv(file)
