@@ -28,7 +28,7 @@ We plan to use these keywords on the product sales page. Please distribute them 
 [Data]
 Product Name: {product_name}
 Category: {category}
-Product Description: {product_description}
+Product Description: {product_information}
 ---
 [Keywords]
 Keyword Data:
@@ -65,7 +65,7 @@ title_snuffix = """
 [Data]
 Product Name: {product_name}
 Category: {category}
-Product Description: {product_description}
+Product Description: {product_information}
 ---
 [Keywords]
 {title_keyword}
@@ -79,7 +79,7 @@ title_prompt = FewShotPromptTemplate(
     example_prompt=title_example_prompt,
     prefix=title_prefix,
     suffix=title_snuffix,
-    input_variables=["product_name", "category", "product_description", "title_keyword"],
+    input_variables=["product_name", "category", "product_information", "title_keyword"],
 )
 
 # ====================================================================================================
@@ -119,7 +119,7 @@ bp_snuffix = """
 [Data]
 Product Name: {product_name}
 Category: {category}
-Product Description: {product_description}
+Product Description: {product_information}
 ---
 [Keywords]
 {bp_keyword}
@@ -133,7 +133,7 @@ bp_prompt = FewShotPromptTemplate(
     example_prompt=bp_example_prompt,
     prefix=bp_prefix,
     suffix=bp_snuffix,
-    input_variables=["product_name", "category", 'product_description', "bp_keyword"],
+    input_variables=["product_name", "category", 'product_information', "bp_keyword"],
     )
 
 
@@ -185,7 +185,7 @@ description_snuffix = """
 [Data]
 Product Name: {product_name}
 Category: {category}
-Product Description: {product_description}
+Product Description: {product_information}
 ---
 [Keywords]
 {description_keyword}
@@ -199,5 +199,5 @@ description_prompt = FewShotPromptTemplate(
     example_prompt=description_example_prompt,
     prefix=description_prefix,
     suffix=description_snuffix,
-    input_variables=["product_name", "category", "product_description", "description_keyword"],
+    input_variables=["product_name", "category", "product_information", "description_keyword"],
 )

@@ -6,7 +6,7 @@ from langgraph.graph import MessagesState
 class State(MessagesState):
     data: List[Dict]
     product_name: str
-    product_description: str
+    product_information: str
     backend_keywords: List[str]
     category: str
     title_keyword: List[str] = Field(default_factory=list)

@@ -46,7 +46,7 @@ Example format:
 '''
 relevance_template_human = '''
 Product Name: {product_name}
-Product Description: {product_description}
+Product Description: {product_information}
 
 Please classify the following keywords and provide their relevance categories in the specified JSON format:
 {keyword_list_str}

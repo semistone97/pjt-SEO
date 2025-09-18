@@ -85,7 +85,7 @@ def generate_relevance(state: State) -> Dict:
     print("--- 연관성 분류를 시작합니다 ---")
     
     product_name = state.get("product_name")
-    product_description = state.get("product_description")
+    product_information = state.get("product_information")
     data = state.get("data", [])
 
     # 데이터가 비어있으면 중단
@@ -110,7 +110,7 @@ def generate_relevance(state: State) -> Dict:
     try:
         response_str = chain.invoke({
             "product_name": product_name,
-            "product_description": product_description,
+            "product_information": product_information,
             "keyword_list_str": json.dumps(keywords, ensure_ascii=False)
         })
         
