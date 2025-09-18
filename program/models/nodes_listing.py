@@ -24,7 +24,7 @@ def keyword_distribute(state: State):
             {
                 'product_name': state['product_name'], 
                 'category': state['category'],
-                'product_description': state['product_description'], 
+                'product_information': state['product_information'], 
                 'data': state['data'],
             }
         )
@@ -62,7 +62,7 @@ def generate_title(state: State):
             {
                 'product_name': state['product_name'], 
                 'category': state['category'],
-                'product_description': state['product_description'], 
+                'product_information': state['product_information'], 
                 'title_keyword': state['title_keyword'],
             }
         )
@@ -90,7 +90,7 @@ def generate_bp(state: State):
             {
                 'product_name': state['product_name'], 
                 'category': state['category'],
-                'product_description': state['product_description'], 
+                'product_information': state['product_information'], 
                 'bp_keyword': state['bp_keyword'],
             }
         )
@@ -120,7 +120,7 @@ def generate_description(state: State):
             {
                 'product_name': state['product_name'], 
                 'category': state['category'],
-                'product_description': state['product_description'], 
+                'product_information': state['product_information'], 
                 'description_keyword': state['description_keyword'],
             }
         )
