@@ -20,18 +20,18 @@ def main():
     graph = build_graph()
     final_state = graph.invoke({
         'data': raw_df, 
-        'product_name': input('product name: '),
-        'category': input('category: '),
-        'product_description': input('product description: ')
+        'product_name': input('상품명: '),
+        'category': input('상품의 카테고리를 적어주세요: '),
+        'product_description': input('상품의 크기, 소재 관련 데이터를 적어주세요: ')
     })
 
     # 결과 생성
     print('결과 생성을 완료했습니다')
-    print(f'Title: ==============================================\n{final_state['title']}')
-    print('BP: ==============================================')
+    print(f'Title:       ============================================================================================\\n{final_state['title']}')
+    print('BP:          ============================================================================================')
     for bp in final_state['bp']:
         print(bp)
-    print(f'Description: ==============================================\n{final_state['description']}')
+    print(f'Description: ============================================================================================\n{final_state['description']}')
 
 if __name__ == "__main__":
     main()
