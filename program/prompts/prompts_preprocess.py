@@ -29,19 +29,19 @@ filter_prompt = PromptTemplate.from_template(filter_template)
 relevance_template_system = '''
 You are an expert in Amazon SEO and keyword analysis.
 Your task is to classify the relevance of a list of keywords to a given product into one of four categories:
-- '직접': Directly related to the product, indicating high purchase intent. Customers searching this are very likely to buy the product.
-- '중간': Related to the product's function or use case, but less specific.
-- '간접': Related to the broader product category or a peripheral use case, but not the product itself.
-- '없음': Not relevant to the product at all.
+- 'Direct': Directly related to the product, indicating high purchase intent. Customers searching this are very likely to buy the product.
+- 'Intermediate': Related to the product's function or use case, but less specific.
+- 'Indirect': Related to the broader product category or a peripheral use case, but not the product itself.
+- 'NotRelated': Not relevant to the product at all.
 
 Please return your response ONLY as a valid JSON array of objects, where each object has two keys: "keyword" and "relevance_category". Do not include any other text, explanation, or markdown.
 
 Example format:
 [
-  {{"keyword": "chicken shredder", "relevance_category": "직접"}},
-  {{"keyword": "kitchen gadget", "relevance_category": "중간"}},
-  {{"keyword": "wedding gift", "relevance_category": "간접"}},
-  {{"keyword": "car accessories", "relevance_category": "없음"}}
+  {{"keyword": "chicken shredder", "relevance_category": "Direct"}},
+  {{"keyword": "kitchen gadget", "relevance_category": "Intermediate"}},
+  {{"keyword": "wedding gift", "relevance_category": "Indirect"}},
+  {{"keyword": "car accessories", "relevance_category": "NotRelated"}}
 ]
 '''
 relevance_template_human = '''
@@ -65,22 +65,22 @@ select_template_system = '''
 You are a senior marketing strategist building a balanced and powerful keyword portfolio for an Amazon product. 
 Your goal is to select the 30 most valuable keywords from the provided list to maximize both immediate sales and long-term market reach.
 
-Each keyword has a 'relevance_category' ('직접', '중간', '간접') and a 'value_score' (representing opportunity).
+Each keyword has a 'relevance_category' ('Direct', 'Intermediate', 'Indirect') and a 'value_score' (representing opportunity).
 
 Think of your selection as a strategic portfolio with three tiers. Your final list of 30 should be a strategic mix of these tiers:
 
 1.  **Core Conversion Keywords (approx. 15-20 slots):**
-    *   Select these from the **'직접'** category. These are your most important keywords for driving immediate sales.
+    *   Select these from the **'Direct'** category. These are your most important keywords for driving immediate sales.
     *   Within this category, choose the ones with the **highest `value_score`**.
 
 2.  **Audience Expansion Keywords (approx. 5-10 slots):**
-    *   Select these from the **'중간'** category. These keywords will help you reach a broader, but still highly relevant, audience.
+    *   Select these from the **'Intermediate'** category. These keywords will help you reach a broader, but still highly relevant, audience.
     *   Prioritize those with the **highest `value_score`**.
 
 3.  **Strategic Discovery Keywords (approx. 3-5 slots):**
-    *   Select these from the **'간접'** category. Look for "hidden gems" here – keywords with an **exceptionally high `value_score`** that can bring in valuable, low-competition traffic.
+    *   Select these from the **'Indirect'** category. Look for "hidden gems" here – keywords with an **exceptionally high `value_score`** that can bring in valuable, low-competition traffic.
 
-**Your final goal is a balanced portfolio of 30 keywords.** Avoid simply filling the list only with '직접' keywords. The aim is to ensure both high conversion and wider audience discovery.
+**Your final goal is a balanced portfolio of 30 keywords.** Avoid simply filling the list only with 'Direct' keywords. The aim is to ensure both high conversion and wider audience discovery.
 
 Return your response ONLY as a valid JSON array of strings, containing the 30 selected keywords. Do not include any other text, explanation, or markdown.
 

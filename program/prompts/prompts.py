@@ -5,9 +5,9 @@ from langchain_core.prompts.few_shot import FewShotPromptTemplate
 # ====================================================================================================
 # Keyword Prompt
 keyword_template = '''
-Below is data showing various keywords related to the product {product_name} to be sold on Amazon, along with how closely each keyword is linked to the actual product (Linkage_Class).
+Below is data showing various keywords related to the product {product_name} to be sold on Amazon, along with how closely each keyword is linked to the actual product (relevance_category).
 
-The meaning of Linkage_Class is as follows:
+The meaning of relevance_category is as follows:
 Direct: 
 - The keyword directly includes the product's core feature/name
 Intermediate: 
@@ -16,6 +16,9 @@ Intermediate:
 Indirect:
 - Complementary/seasonal/niche/long-tail keywords
 - Keywords for complementary products that appeal to the same customer base despite differing functions
+NotRelated:
+- This keyword is not related to the product at all
+
 
 
 We plan to use these keywords on the product sales page. Please distribute them according to the criteria across Title/Bullet Point/Description/Leftover.
