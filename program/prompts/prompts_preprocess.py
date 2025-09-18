@@ -1,7 +1,10 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.prompts import PromptTemplate
 
+
+# ====================================================================================================
 # filter_prompt
+
 filter_template = """
 다음 키워드 리스트에 대해 조건을 적용하되, 삭제는 가능한 한 신중히 수행한다:
 
@@ -20,9 +23,10 @@ filter_template = """
 filter_prompt = PromptTemplate.from_template(filter_template)
 
 
+# ====================================================================================================
 # relevance_prompt
-relevance_prompt = ChatPromptTemplate.from_messages([
-        ("system", '''
+
+relevance_template_system = '''
 You are an expert in Amazon SEO and keyword analysis.
 Your task is to classify the relevance of a list of keywords to a given product into one of four categories:
 - '직접': Directly related to the product, indicating high purchase intent. Customers searching this are very likely to buy the product.
@@ -39,20 +43,25 @@ Example format:
   {{"keyword": "wedding gift", "relevance_category": "간접"}},
   {{"keyword": "car accessories", "relevance_category": "없음"}}
 ]
-'''),
-        ("human", '''
+'''
+relevance_template_human = '''
 Product Name: {product_name}
 Product Description: {product_description}
 
 Please classify the following keywords and provide their relevance categories in the specified JSON format:
 {keyword_list_str}
-''')
+'''
+
+relevance_prompt = ChatPromptTemplate.from_messages([
+        ("system", relevance_template_system),
+        ("human", relevance_template_human)
     ])
 
 
+# ====================================================================================================
 # select_top_prompt
-select_prompt = ChatPromptTemplate.from_messages([
-        ("system", '''
+
+select_template_system = '''
 You are a senior marketing strategist building a balanced and powerful keyword portfolio for an Amazon product. 
 Your goal is to select the 30 most valuable keywords from the provided list to maximize both immediate sales and long-term market reach.
 
@@ -81,9 +90,14 @@ Example format:
   "keyword 2",
   "keyword 3"
 ]
-'''),
-        ("human", '''
+'''
+
+select_template_human = '''
 Here is the list of candidate keywords with their relevance and value scores. Please select the top 30.
 {data_list_str}
-''')
+'''
+
+select_prompt = ChatPromptTemplate.from_messages([
+        ("system", select_template_system),
+        ("human", select_template_human)
     ])

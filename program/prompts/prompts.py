@@ -2,9 +2,6 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts.few_shot import FewShotPromptTemplate
 
 
-
-
-
 # ====================================================================================================
 # Keyword Prompt
 keyword_template = '''

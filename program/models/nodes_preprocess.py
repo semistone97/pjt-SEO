@@ -1,73 +1,88 @@
 import json
-from typing import Dict
-from prompts.prompts_preprocess import filter_prompt, relevance_prompt, select_prompt
-from langchain_core.output_parsers import StrOutputParser
-from langchain_openai import ChatOpenAI
 import pandas as pd
+from typing import Dict
+from dotenv import load_dotenv
+from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
+from prompts.prompts_preprocess import filter_prompt, relevance_prompt, select_prompt
 from schemas.states import State
 from utils.funcs import preprocess_keywords, scaler
-from dotenv import load_dotenv
+from utils.config_loader import config
 
 load_dotenv()
 
-
-# ===== ResponseSchema =====
-response_schemas = [
-    ResponseSchema(
-        name="keywords",
-        description="조건을 적용한 키워드 리스트, 문자열 리스트 또는 dict 리스트 가능"
-    )
-]
-parser = StructuredOutputParser.from_response_schemas(response_schemas)
-
+# ====================================================================================================
+# 키워드 정제
 def keyword_process(state: State):
     
-    llm = ChatOpenAI(model="gpt-5-mini")
+    if not state['data']:
+        print("데이터가 없어 키워드 정제를 종료합니다.")
+        return {}
     
-    df = pd.DataFrame(state["data"])
+    try:
+        print(f'--- 키워드 {len(state['data'])}개에 대해 정제를 시작합니다 ---')
+        
+        llm = ChatOpenAI(model=config['llm_keyword']['model'], temperature=float(config['llm_keyword']['temperature']))
+       
+        df = pd.DataFrame(state["data"])
+            
+        response_schemas = [
+            ResponseSchema(
+                name="keywords",
+                description="조건을 적용한 키워드 리스트, 문자열 리스트 또는 dict 리스트 가능"
+            )
+        ]
+        parser = StructuredOutputParser.from_response_schemas(response_schemas)
+        
+        # 1. 사전 필터링
+        filtered_series = preprocess_keywords(df['keyword'])
 
-    # 1. 사전 필터링
-    filtered_series = preprocess_keywords(df['keyword'])
+        # 2. 프롬프트 생성
+        keyword_prompt = filter_prompt.format(
+            data=filtered_series.tolist(),
+            format_instructions=parser.get_format_instructions()
+        )
 
-    # 2. 프롬프트 생성
-    keyword_prompt = filter_prompt.format(
-        data=filtered_series.tolist(),
-        format_instructions=parser.get_format_instructions()
-    )
+        # 3. LLM 호출
+        res = llm.invoke([{"role": "user", "content": keyword_prompt}])
+        structured = parser.parse(res.content)
 
-    # 3. LLM 호출
-    res = llm.invoke([{"role": "user", "content": keyword_prompt}])
-    structured = parser.parse(res.content)
+        # 4. 파싱 처리
+        raw_keywords = structured.get("keywords", [])
+        if len(raw_keywords) > 0 and isinstance(raw_keywords[0], dict):
+            cleaned_keywords = [k.get('keyword') for k in raw_keywords if 'keyword' in k]
+        else:
+            cleaned_keywords = raw_keywords
 
-    # 4. 파싱 처리
-    raw_keywords = structured.get("keywords", [])
-    if len(raw_keywords) > 0 and isinstance(raw_keywords[0], dict):
-        cleaned_keywords = [k.get('keyword') for k in raw_keywords if 'keyword' in k]
-    else:
-        cleaned_keywords = raw_keywords
+        # 5. 원본 DF 필터
+        cleaned_data = df[df['keyword'].isin(cleaned_keywords)].reset_index(drop=True)
+        
+        processed_df = scaler(cleaned_data)
+        
+        processed_df = processed_df.to_dict(orient='records')
+        
+        
+        print(f'키워드 {len(processed_df)}개를 정제하였습니다')
+        return {"data": processed_df}
 
-    # 5. 원본 DF 필터
-    cleaned_data = df[df['keyword'].isin(cleaned_keywords)].reset_index(drop=True)
-    
-    processed_df = scaler(cleaned_data)
-
-    
-    processed_df = processed_df.to_dict(orient='records')
-    return {"data": processed_df}
-
-
+    except Exception as e:
+        print(f"키워드 정제 중 에러가 발생했습니다: {e}")
+        return {}
 
 
-llm = ChatOpenAI(model='gpt-4-turbo', temperature=0)
 
-# --- 노드 함수 정의 ---
+
+# ====================================================================================================
+# 노드 함수 정의
+
+llm = ChatOpenAI(model=config['llm_relevance']['model'], temperature=float(config['llm_keyword']['temperature']))
 
 def generate_relevance(state: State) -> Dict:
     """
     LLM을 사용하여 각 키워드의 연관성을 4가지 카테고리(직접, 중간, 간접, 없음)로 분류합니다.
     """
-    print("--- [Node: generate_relevance] - 연관성 분류 시작 ---")
+    print("--- 연관성 분류를 시작합니다 ---")
     
     product_name = state.get("product_name")
     product_description = state.get("product_description")
@@ -99,7 +114,7 @@ def generate_relevance(state: State) -> Dict:
             "keyword_list_str": json.dumps(keywords, ensure_ascii=False)
         })
         
-        print("--- LLM으로부터 응답을 받았습니다. 카테고리를 파싱합니다. ---")
+        # print("--- LLM으로부터 응답을 받았습니다. 카테고리를 파싱합니다. ---")
         
         classifications = json.loads(response_str)
         
@@ -109,7 +124,7 @@ def generate_relevance(state: State) -> Dict:
             if 'keyword' in row:
                 row['relevance_category'] = classification_map.get(row['keyword'], '없음')
         
-        print("--- 모든 키워드에 연관성 카테고리를 부여했습니다. ---")
+        print("모든 키워드에 연관성 카테고리를 부여했습니다")
         return {"data": data}
 
     except Exception as e:
@@ -118,12 +133,16 @@ def generate_relevance(state: State) -> Dict:
             row['relevance_category'] = '분류 실패'
         return {"data": data}
 
+
+# ====================================================================================================
+# 상위 키워드 선택
+
 def select_top_keywords(state: State) -> Dict:
     """
     LLM을 사용해 상위 30개 키워드를 선별하고, 나머지는 backend_keywords에 저장합니다.
     실패 시 최대 3회 재시도하고, 최종 실패 시 대체 로직을 실행합니다.
     """
-    print("--- [Node: select_top_keywords] - 상위 키워드 선별 및 백엔드 키워드 저장 시작 ---")
+    print("--- 상위 키워드 선별 및 백엔드 키워드를 저장합니다 ---")
     
     data = state.get("data", [])
 
@@ -153,7 +172,7 @@ def select_top_keywords(state: State) -> Dict:
                 "data_list_str": json.dumps(simplified_data, ensure_ascii=False)
             })
 
-            print("--- LLM으로부터 응답을 받았습니다. 최종 키워드 목록을 파싱합니다. ---")
+            # print("--- LLM으로부터 응답을 받았습니다. 최종 키워드 목록을 파싱합니다. ---")
             
             top_keywords_list = json.loads(response_str)
             top_keywords_set = set(top_keywords_list)
