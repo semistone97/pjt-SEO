@@ -2,15 +2,12 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts.few_shot import FewShotPromptTemplate
 
 
-
-
-
 # ====================================================================================================
 # Keyword Prompt
 keyword_template = '''
-Below is data showing various keywords related to the product {product_name} to be sold on Amazon, along with how closely each keyword is linked to the actual product (Linkage_Class).
+Below is data showing various keywords related to the product {product_name} to be sold on Amazon, along with how closely each keyword is linked to the actual product (relevance_category).
 
-The meaning of Linkage_Class is as follows:
+The meaning of relevance_category is as follows:
 Direct: 
 - The keyword directly includes the product's core feature/name
 Intermediate: 
@@ -19,6 +16,9 @@ Intermediate:
 Indirect:
 - Complementary/seasonal/niche/long-tail keywords
 - Keywords for complementary products that appeal to the same customer base despite differing functions
+NotRelated:
+- This keyword is not related to the product at all
+
 
 
 We plan to use these keywords on the product sales page. Please distribute them according to the criteria across Title/Bullet Point/Description/Leftover.
@@ -31,7 +31,7 @@ We plan to use these keywords on the product sales page. Please distribute them 
 [Data]
 Product Name: {product_name}
 Category: {category}
-Product Description: {product_description}
+Product Description: {product_information}
 ---
 [Keywords]
 Keyword Data:
@@ -68,7 +68,7 @@ title_snuffix = """
 [Data]
 Product Name: {product_name}
 Category: {category}
-Product Description: {product_description}
+Product Description: {product_information}
 ---
 [Keywords]
 {title_keyword}
@@ -82,7 +82,7 @@ title_prompt = FewShotPromptTemplate(
     example_prompt=title_example_prompt,
     prefix=title_prefix,
     suffix=title_snuffix,
-    input_variables=["product_name", "category", "product_description", "title_keyword"],
+    input_variables=["product_name", "category", "product_information", "title_keyword"],
 )
 
 # ====================================================================================================
@@ -122,7 +122,7 @@ bp_snuffix = """
 [Data]
 Product Name: {product_name}
 Category: {category}
-Product Description: {product_description}
+Product Description: {product_information}
 ---
 [Keywords]
 {bp_keyword}
@@ -136,7 +136,7 @@ bp_prompt = FewShotPromptTemplate(
     example_prompt=bp_example_prompt,
     prefix=bp_prefix,
     suffix=bp_snuffix,
-    input_variables=["product_name", "category", 'product_description', "bp_keyword"],
+    input_variables=["product_name", "category", 'product_information', "bp_keyword"],
     )
 
 
@@ -188,7 +188,7 @@ description_snuffix = """
 [Data]
 Product Name: {product_name}
 Category: {category}
-Product Description: {product_description}
+Product Description: {product_information}
 ---
 [Keywords]
 {description_keyword}
@@ -202,5 +202,5 @@ description_prompt = FewShotPromptTemplate(
     example_prompt=description_example_prompt,
     prefix=description_prefix,
     suffix=description_snuffix,
-    input_variables=["product_name", "category", "product_description", "description_keyword"],
+    input_variables=["product_name", "category", "product_information", "description_keyword"],
 )

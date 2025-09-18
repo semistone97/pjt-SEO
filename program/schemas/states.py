@@ -4,15 +4,29 @@ from pydantic import Field
 from langgraph.graph import MessagesState
 
 class State(MessagesState):
+    # input data
     data: List[Dict]
     product_name: str
-    product_description: str
-    backend_keywords: List[str]
+    product_information: str
     category: str
+    
+    # 백엔드용 키워드
+    backend_keywords: List[str]
+    
+    # 실사용 키워드
     title_keyword: List[str] = Field(default_factory=list)
     bp_keyword: List[str] = Field(default_factory=list)
     description_keyword: List[str] = Field(default_factory=list)
     leftover: List[str] = Field(default_factory=list)
-    title: str = ""
+    
+    # 결과물
+    title: str = ''
     bp: List[str] = Field(default_factory=list)
-    description: str = ""
+    description: str = ''
+    
+    # 사용자 요청
+    user_feedback: str
+    user_feedback_title: str = ''
+    user_feedback_bp: str = ''
+    user_feedback_description: str = ''
+    
