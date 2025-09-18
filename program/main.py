@@ -1,26 +1,36 @@
-import pandas as pd
 from dotenv import load_dotenv
 from models.builder import build_graph
+from data_loader import load_csv
 
 load_dotenv()
 
 def main():
-
     # 데이터 로드
-    raw_df = pd.read_csv('./data/raw_keywords.csv')[['Keywords', 'Search Volume', 'Competing Products']]
-    raw_df.columns = ['keyword', 'search_volume', 'competing_products']
-    raw_df['competing_products'] = raw_df['competing_products'].fillna(0)
-    raw_df['competing_products'] = raw_df['competing_products'].astype(str).str.replace('>', '').astype('Int64')
-    raw_df = raw_df.to_dict(orient='records')
+    print('형식에 맞는 CSV 파일 검색 중...')
     
+    raw_df, file = load_csv()
+
+    if raw_df is None:
+        print("형식에 맞는 CSV 파일이 없습니다.")    
+        return
+    
+    print("읽은 파일:", file)
+
     # 그래프 실행
     graph = build_graph()
     final_state = graph.invoke({
         'data': raw_df, 
-        'product_name': 'Chicken Shredder',
-        'category': 'Kitchen Gadgets',
-        'product_description': 'it is a tool to rip chicken breasts. easy to use, and easy to dishwash'
+        'product_name': input('product name: '),
+        'category': input('category: '),
+        'product_description': input('product description: ')
     })
+
+    # 결과 생성
+    print('결과 생성을 완료했습니다')
+    print(f'Title: {len(final_state['title'])}자\n{final_state['title']}')
+    for bp in final_state['bp']:
+        print(f'BP: {len(bp)}자\n{bp}')
+    print(f'Description: {len(final_state['description'])}자\n{final_state['description']}')
 
 if __name__ == "__main__":
     main()
