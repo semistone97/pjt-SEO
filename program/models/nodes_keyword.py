@@ -1,5 +1,6 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
+from prompts.prompts_preprocess import filter_prompt
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 import pandas as pd
 from schemas.states import State
@@ -18,22 +19,6 @@ response_schemas = [
 ]
 parser = StructuredOutputParser.from_response_schemas(response_schemas)
 
-# ===== Prompt Template =====
-template = """
-다음 키워드 리스트에 대해 조건을 적용하되, 삭제는 가능한 한 신중히 수행한다:
-
-[조건]
-1. 영어 이외의 외국어 키워드 삭제 권장. 
-2. 같은 키워드의 단수형과 복수형 단어가 동시에 존재할 경우에만, 복수형 키워드를 제거함 
-3. 오타로 판단되는 키워드의 경우, 원본 키워드가 존재할 경우 오타 키워드를 제거함
-
-[데이터]
-{data}
-
-[출력]
-{format_instructions}
-"""
-
 def keyword_process(state: State):
     
     llm = ChatOpenAI(model="gpt-5-mini")
@@ -44,8 +29,7 @@ def keyword_process(state: State):
     filtered_series = preprocess_keywords(df['keyword'])
 
     # 2. 프롬프트 생성
-    prompt = PromptTemplate.from_template(template)
-    keyword_prompt = prompt.format(
+    keyword_prompt = filter_prompt.format(
         data=filtered_series.tolist(),
         format_instructions=parser.get_format_instructions()
     )
