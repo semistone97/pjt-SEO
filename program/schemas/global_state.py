@@ -1,4 +1,5 @@
 from langgraph.graph import MessagesState
+from langchain_core.documents import Document
 from typing_extensions import List, Dict
 from pydantic import Field
 
@@ -6,6 +7,7 @@ class State(MessagesState):
     # input data
     data: List[Dict]
     product_name: str
+    product_docs: List[Document]
     product_information: str
     category: str
     
