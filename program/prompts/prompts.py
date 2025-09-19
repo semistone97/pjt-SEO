@@ -54,14 +54,48 @@ title_examples = [
 title_example_prompt = PromptTemplate.from_template('[keyword]\n{title_keyword}\n[output]\nTitle: {title}')
 
 title_prefix = """
-Use the example for reference. Please create Amazon product titles by verifying the following information.
-The goal is to maximize search visibility. Strictly adhere to the rules below.
+Generate optimal product title by referring to the requirements, guidelines, and examples below.
 
-[Rules]
-- Title must not exceed 200 characters.
-- Include the brand name, product line, and key attributes.
-- Use relevant keywords in the first 80 characters.
-- Capitalize the first letter of every word except prepositions, conjunctions, and articles.
+[Product title requirements]
+Title requirements apply to all product types, except media product types, in all of our worldwide stores. In order to list a product for the first time, your title must meet the below requirements. If your product is already listed and the title doesn't comply with these requirements, the title might be automatically corrected or it might not appear in our search results.
+
+Follow these criteria when creating product titles:
+• Titles must not exceed 200 characters, including spaces. Refer to Title length criteria exceptions for a list of exceptions to this requirement.
+• Titles must not contain promotional phrases, such as "free shipping" or "100% quality guaranteed."
+• Titles must not use the following special characters: !, $, ?, _, {, }, ^, ¬, ¦. Other special characters, such as ~, #, <, >, and *, are allowed only in specific contexts. For example, you may use these symbols as product identifiers ("Style #4301") or measurements ("<10 lb"). Decorative usage of special characters is not allowed. For example, the title "Paradise Towel Wear Co. Beach Coverup << Size Kids XXS >>" is non-compliant because of the excessive use of symbols around the size.
+• Titles must contain the minimum amount of information that can be used to clearly describe the product, such as "Amazon Essentials Dress," "Columbia Hiking Boots," or "Sony Headphones."
+• Titles must not contain the same word more than twice. For example, "Baby Boy Outfits Baby Boy fall Winter Clothes Baby Boy Long Sleeve Suspender Outfit Sets" is a non-compliant title.
+
+[Product title guidelines]
+Creating high-quality product titles is crucial for driving discoverability and conversions. Customers quickly scan search results, so ensuring that your title captures the most important product information is key to making your listing discoverable. Additionally, overly long or cluttered titles can be difficult to read. Therefore, the ideal title should concisely reflect the key information about the physical product, without excessive detail or non-essential elements.
+
+The following guidelines are best practices that you may want to consider to provide the best possible customer experience:
+
+• Keep titles concise. While 200 characters is the maximum allowed, we recommend that you use 80 or fewer characters because mobile screens truncate long titles.
+• Don't include redundant information, unnecessary synonyms, or excessive keywords in the product title.
+• Include only the information that will help customers quickly recognize and understand the product. Order the words to reflect the most important product information upfront. You may consider the following order, if applicable:
+    - Brand name
+    - Flavor/style
+    - Product type name
+    - Key attribute (that is, the unique selling proposition of the product)
+    - Color
+    - Size/pack count
+    - Model number
+
+[For example]
+- Amazon Fresh Decaf Colombia Whole Bean Coffee, Medium Roast, 12 Ounce (Pack of 3)
+- Amazon Fire HD 8 Tablet, 8" HD Display, 3GB Memory, 32GB RAM, 512GB, Black
+- Amazon Essentials Toddler Girls' Short-Sleeve Pique Polo Dress
+• For products that have variations, include the size and color variations in the title of the child ASINs and not in the title of the parent ASIN. The detail page displays the title of the parent ASIN, and the title of the child ASIN will only appear once the ASIN is added to the customer's cart. The child ASIN title will not appear on the product detail page.
+    Example parent title: Amazon Essentials T-Shirt
+    Example child title: Amazon Essentials T-Shirt, White, Medium
+• Don't use ALL CAPS.
+• Capitalize the first letter of each word, except for prepositions (in, on, over, with), conjunctions (and, or, for), or articles (the, a, an).
+• Use numerals: "2" instead of "two".
+• Use only standard letters and numbers. Don't use non-language ASCII characters such as Æ, Š, Œ, Ÿ, or Ž.
+• Don't use subjective commentary, such as "Hot Item" or "Best seller".
+• Titles can include necessary punctuation, like hyphens (-), forward slashes (/), commas (,), ampersands (&), and periods (.).
+• Titles can abbreviate measurements, such as "cm", "oz", "in", and "kg".
 """
 
 title_snuffix = """
@@ -103,19 +137,45 @@ bp_examples = [
 bp_example_prompt = PromptTemplate.from_template('[keyword]\n{bp_keyword}\n[output]\nBullet Point: {bp}')
 
 bp_prefix = """
-Use the example for reference and create bullet points for the Amazon product based on the following information.
-The goal is to convey accurate information to customers and make them want to use the product. Please strictly adhere to the rules below.
+Generate high-quality bullet points suitable for product characteristics by referring to the requirements, guidelines, and examples below.
 
-[Rules]
-- Each bullet point must not exceed 250 characters.
-- Write readable bullet points that explain how the product can benefit customers.
-- Key Features: Write the product's main functions and characteristics as a short list of sentences within 100 characters maximum, capitalizing the first letter of each item.
+[Product bullet points requirements]
+Bullet points highlight the five main features and benefits you want customers to know about your products. Bullet points help customers quickly understand if the product is right for them.
 
-1. Each BP must not exceed 250 characters.
-2. The first 3 BPs describe the product's benefits, using keywords that help customers assess its value.
-3. The remaining 2 BPs describe the product's functions, using keywords related to what the product can do.
-4. If no further keywords are provided, do not generate and fill them; return the response at that point.
-5. Write in sentence form, not as a list of keywords.
+Do not include below information. Bullet points with below information will be removed or updated:
+• Special characters such as ™, ®, €, …, †, ‡, o, ¢, £, ¥, ©, ±, ~, â
+• Any emojis such as ☺, ☹, ✅, ❌
+• ASIN number or "not applicable" or "NA" or "n/a" or "N/A", "not eligible", "yet to decide", "to be decided", "TBD", "COPY PENDING"
+• Prohibited phrases such as eco-friendly, environmentally friendly, ecologically friendly, anti-microbial, anti-bacterial, Made from Bamboo, contains Bamboo, Made from Soy or contains Soy. For more information, go to General Listing Restrictions
+• Prohibited guarantee information such as "Full refund" or "If not satisfied, send it back" or "Unconditional guarantee with no limit"
+• Company information, website links, external hyperlinks or any contact
+• Repetition in bullet points. Each bullet point must mention unique product information
+• Include at least three bullet points
+
+[Writing guidelines for high-quality bullet points]
+• Begin with a capital letter
+• Be formatted as a sentence fragment; don't use end punctuation
+• Use semicolons to separate phrases within a single bullet point
+• Use more than 10 characters but less than 255 characters
+• Write numbers one to nine in full, excluding names, model numbers, and measurements
+• Add header to bullet point and use ":" as separator before providing complete information
+• Include a space between a digit and a measurement (for example, 60 ml)
+• Use clear, natural language in the bullet points, avoid stuffing in unnecessary keywords or phrases
+• Highlight product features and benefits, not the brand's marketing story
+• Highlight how the product meets the customer needs, rather than just listing facts
+• Maintain data consistency across product variants
+• Do not divert or refer to other products not included under this ASIN
+• Remove or minimize duplication across attributes such as title, product description or product overview. Highlight additional or supporting information to help the customer make a more informed decision
+• Avoid any subjective, performance, or comparative claims, unless they are verifiable on the product packaging. Do not compare your product to competitor brands
+• Avoid claims relating to accolades and awards, unless the product detail page contains supporting details, such as date and awarding body
+• Avoid claims about the results of consumer surveys, even if the survey collected subjective opinions, unless substantiated with the source and date
+
+[Example of high-quality bullet points]
+• Cotton Fabric: Made from 100% cotton for softness and breathability
+• Long Sleeve: Long sleeves add coverage and style
+• Loose Fit: Relaxed fit allows for easy movement and comfort
+• Machine Washable: Durable construction allows for easy care
+• Versatile Style: Perfect for dance practice, playtime, or outdoor activity
 """
 
 bp_snuffix = """
@@ -139,52 +199,60 @@ bp_prompt = FewShotPromptTemplate(
     input_variables=["product_name", "category", 'product_information', "bp_keyword"],
     )
 
-
 # ====================================================================================================
 # Description Prompt
 description_examples = [
     {
-        "description_keyword": "chicken, chicken shredder, tools, chicken shredder tool twist, meat shredder, shredder, pork, tool, hand tools, meat shredder tool twist, chicken shredder tool twist large, shredder kitchen, chicken shredder tool, food shredder, chicken breast, kitchen, food, meat, shredded chicken, cooked chicken, kitchen gadgets, meal prep, kitchen tools, amazon kitchen, cooking gifts, cooking gadgets",
-        "description": '''
-[Why You'll Love It]
- 
-  The 10'' Chicken Shredder Tool Twist is your ultimate kitchen companion for quick, safe, and efficient meal preparation. Whether you're making shredded chicken tacos, salads, or pulled pork sandwiches, this tool saves time and effort, delivering professional results in seconds.
- 
-  [Key Features]
- 
-  • Effortless Shredding: Quickly and evenly shred cooked chicken, pork, or beef for various dishes.
- 
-  • Non-Slip Stability: The anti-slip base ensures safety and ease during use.
- 
-  • Large Capacity: Perfect for family-sized meals with a 10-inch bowl and a transparent lid to monitor the process.
- 
-  • Ergonomic Design: Comfortable handle reduces hand strain and ensures optimal control.
- 
-  • Easy Maintenance: Dishwasher-safe design makes cleaning a breeze.
- 
-  [Perfect for These People]
- 
-  Crafted with durability in mind, this versatile shredder is ideal for home cooks, meal prep enthusiasts, BBQ lovers, and even pet owners needing a quick way to prepare shredded meat. Add this must-have gadget to your kitchen and transform your cooking experience.
-        
-        '''
+        "bp_context": "• HYDRATION SUPPORT: One-handed, spill-proof operation perfect for busy lifestyles\n• COMFORTABLE GRIP: Collapsible, soft-touch handle without added bulk\n• LEAK-PROOF DESIGN: Lockable lid with silicone base for quiet landings\n• INSULATION PERFORMANCE: Double-wall keeps drinks cold for 24 hours\n• CONVENIENT CARE: BPA-free and dishwasher safe construction",
+        "description_keyword": "water bottle, insulated, stainless steel, BPA-free, leak-proof, dishwasher safe, double-wall, hydration, travel, office, school, cupholder friendly, spill-proof, one-handed operation, comfort grip, minimalist design",
+        "description": "Simple Modern's Mesa Loop water bottle is designed to support your hydration needs no matter where the day takes you. The sleek, cupholder-friendly bottle delivers reliable hydration with a one-handed, spill-proof operation — perfect for juggling kids, meetings, errands, and life on the go. Its collapsible, soft-touch handle also offers a comfortable grip without adding bulk, making it easy to carry. A lockable, leak-proof lid is included while the silicone base ensures soft, quiet landings wherever you set it down. Double-wall insulation keeps drinks cold for 24 hours, and the BPA-free and dishwasher safe design was made for ultimate convenience. The sleek, minimalist, refined design blends seamlessly from driving, to the office, to school pickup, and so much more."
     }
 ]
 
-description_example_prompt = PromptTemplate.from_template('[keyword]\n{description_keyword}\n[output]\nDescription: {description}')
+description_example_prompt = PromptTemplate.from_template('[Generated BP Context]\n{bp_context}\n[keyword]\n{description_keyword}\n[output]\nDescription: {description}')
 
 description_prefix = """
-Please write the Description for an Amazon product by referring to the example and checking the following information.
-The goal is to convey accurate information to customers in a clean manner, so please strictly adhere to the rules below.
+Generate high-quality product description by referring to the requirements, guidelines, and previously generated bullet points below. Ensure NO content duplication with the bullet points.
 
-[Rules]
-1. The maximum length for the Description is 2000 characters.
-2. Within the first 200 characters, write one meaningful sentence that includes important keywords.
-3. Write the remaining content using keywords to make it easy for customers to read.
-4. If no more keywords can be suggested, do not generate and fill them; return the answer at that point.
-5. Answer must be written in English.
+[Product description requirements]
+The product description, presented in paragraph form on the detail page, should provide an elaboration beyond the bullet points. This section allows you to go into more depth with content NOT covered in bullet points, including detailed usage scenarios, technical specifications, compatibility information, care instructions, warranty details, and comprehensive application contexts. The product description should be concise, clear, and engaging, providing complementary information that helps customers make informed purchasing decisions.
+
+• Description must not exceed 2000 bytes in total length
+• Make the description interesting and communicate the product value within the first 200 characters
+• Present content in paragraph form on the detail page
+
+[Content differentiation from bullet points]
+• DO NOT repeat or rephrase bullet point content
+• Focus on usage scenarios and real-world applications not mentioned in BP
+• Include technical specifications, dimensions, materials, and compatibility details
+• Provide care and maintenance instructions beyond basic cleaning
+• Mention warranty, return policy, or customer service information
+• Describe target audience and ideal use cases
+• Include installation, setup, or first-use guidance when applicable
+• Address frequently asked questions or common concerns
+• Provide context about product category and market positioning
+
+[Product description guidelines]
+• Present content in paragraph form with natural flow between topics
+• Lead with compelling value proposition in first 200 characters to capture attention immediately
+• Expand on practical usage scenarios and real-world applications
+• Include technical details: dimensions, weight, materials, specifications
+• Provide comprehensive care instructions and maintenance tips
+• Mention compatibility with other products, accessories, or systems
+• Include warranty information, return policies, or customer support details
+• Address target demographics and specific use cases
+• Use engaging, conversational tone that builds confidence in purchase decision
+• Focus on information that answers "How do I use this?" and "Will this work for me?"
+• Avoid subjective claims unless verifiable on packaging
+• Do not mention competitors or make comparative statements
+• Ensure content adds value beyond what bullet points already communicate
+• Keep total length under 2000 bytes while maintaining comprehensive coverage
 """
 
 description_snuffix = """
+[Generated Bullet Points]
+{bp_result}
+---
 [Data]
 Product Name: {product_name}
 Category: {category}
@@ -202,5 +270,5 @@ description_prompt = FewShotPromptTemplate(
     example_prompt=description_example_prompt,
     prefix=description_prefix,
     suffix=description_snuffix,
-    input_variables=["product_name", "category", "product_information", "description_keyword"],
+    input_variables=["product_name", "category", "product_information", "description_keyword", "bp_result"],
 )
