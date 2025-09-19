@@ -5,27 +5,67 @@ from langchain_core.prompts.few_shot import FewShotPromptTemplate
 # ====================================================================================================
 # Keyword Prompt
 keyword_template = '''
-Below is data showing various keywords related to the product {product_name} to be sold on Amazon, along with how closely each keyword is linked to the actual product (relevance_category).
+You are given a keyword list related to the product {product_name} to be sold on Amazon.
+Each keyword must be classified into one of the following categories:
 
-The meaning of relevance_category is as follows:
-Direct: 
-- The keyword directly includes the product's core feature/name
-Related: 
+[Relevance_Category Definitions]
+
+Direct:
+- Keywords that explicitly contain the product's core feature or name
+- Example: "chicken shredder," "meat shredder"
+
+Related:
+- Keywords closely connected to the product category or usage context
 - Similarity to product category words (Kitchen gadget, Meat grinder, Food prep)
 - Not direct, but **close in category/usage context**
+- Example: "kitchen gadget," "meal prep"
+
 Indirect:
+- Keywords that are complementary, seasonal, or niche, appealing to similar customers but not describing the core product
 - Complementary/seasonal/niche/long-tail keywords
 - Keywords for complementary products that appeal to the same customer base despite differing functions
+- Example: "cooking gifts," "countertop appliance"
+
 NotRelated:
+- Keywords that are irrelevant to the product
 - This keyword is not related to the product at all
+- Example: "fitness," "travel bag"
 
+[Additional Rules: Move to Leftover]
+- If a keyword contains a brand name, move it to Leftover
+- If a keyword is an ASIN (Amazon Standard Identification Number), move it to Leftover  
+- If a keyword has 3 or more words (long-tail keyword), move it to Leftover
+- These keywords must not remain in Direct, Related, or Indirect categories — always place them in Leftover to avoid consumer confusion
 
+[Listing Elements - Keyword Relevance Category Mapping]
 
-We plan to use these keywords on the product sales page. Please distribute them according to the criteria across Title/Bullet Point/Description/Leftover.
-- Title: Most core, includes key attributes. Primarily Direct keywords, up to 10 keywords maximum
-- Bullet Point: Includes the product's benefits from the customer's perspective. Requires 5 important direct keywords and associated indirect keywords for each.
-- Description: Product explanation. Primarily uses Related keywords, approximately 20 keywords.
-- Leftover: Keywords not used in the above sections.
+1. Title (Product name / top-level visibility)
+- Direct: Must be included (core product nouns, main function, purpose)
+- Related: Optionally included (adjectives or feature highlights — keep title length in mind)
+- Indirect: Generally excluded (title should focus on core relevance; too broad hurts CTR)
+- NotRelated: Exclude entirely
+→ Summary: Title = Direct focus, with minimal Related support. Up to 10 keywords maximum.
+
+2. Bullet Points (features & benefits / SEO + readability)
+- Direct: Lead with them (start each BP with core keywords to highlight function)
+- Related: Actively include (describe features, use cases, benefits)
+- Indirect: Limited use (only if they add context or lifestyle scenarios)
+- NotRelated: Exclude
+→ Summary: Bullet Points = Direct + Related required, Indirect only for context. Requires 5 important direct keywords and associated indirect keywords for each.
+
+3. Description (detailed explanation / SEO + persuasion)
+- Direct: Repeat and emphasize (strengthen product relevance)
+- Related: Naturally weave in (improves SEO while keeping readability)
+- Indirect: Actively leverage (for storytelling, lifestyle context, long-tail search traffic)
+- NotRelated: Exclude
+→ Summary: Description = Direct repetition + Related integration + Indirect expansion. Primarily uses Related keywords, approximately 20 keywords.
+
+4. Leftover (backend keywords / hidden search terms)
+- Direct: If already used in Title/BP/Description, avoid duplication
+- Related: Place unused ones here
+- Indirect: Good spot for remaining Indirect terms
+- NotRelated: Remove (noise reduction)
+→ Summary: Leftover = Collect unused Related & Indirect; drop NotRelated. Keywords not used in the above sections.
 
 ---
 [Data]
@@ -57,12 +97,12 @@ title_prefix = """
 Generate optimal product title by referring to the requirements, guidelines, and examples below.
 
 [Product title requirements]
-Title requirements apply to all product types, except media product types, in all of our worldwide stores. In order to list a product for the first time, your title must meet the below requirements. If your product is already listed and the title doesn't comply with these requirements, the title might be automatically corrected or it might not appear in our search results.
+Title requirements apply to all product types, except media product types, in all of our worldwide stores. In order to list a product for the first time, your title must meet the below requirements. If your product is already listed and the title doesn't comply with these requirements, the title might be automatically corrected or it might not appear in search results.
 
 Follow these criteria when creating product titles:
 • Titles must not exceed 200 characters, including spaces. Refer to Title length criteria exceptions for a list of exceptions to this requirement.
 • Titles must not contain promotional phrases, such as "free shipping" or "100% quality guaranteed."
-• Titles must not use the following special characters: !, $, ?, _, {, }, ^, ¬, ¦. Other special characters, such as ~, #, <, >, and *, are allowed only in specific contexts. For example, you may use these symbols as product identifiers ("Style #4301") or measurements ("<10 lb"). Decorative usage of special characters is not allowed. For example, the title "Paradise Towel Wear Co. Beach Coverup << Size Kids XXS >>" is non-compliant because of the excessive use of symbols around the size.
+• Titles must not use the following special characters: !, $, ?, _, {{, }}, ^, ¬, ¦. Other special characters, such as ~, #, <, >, and *, are allowed only in specific contexts. For example, you may use these symbols as product identifiers ("Style #4301") or measurements ("<10 lb"). Decorative usage of special characters is not allowed. For example, the title "Paradise Towel Wear Co. Beach Coverup << Size Kids XXS >>" is non-compliant because of the excessive use of symbols around the size.
 • Titles must contain the minimum amount of information that can be used to clearly describe the product, such as "Amazon Essentials Dress," "Columbia Hiking Boots," or "Sony Headphones."
 • Titles must not contain the same word more than twice. For example, "Baby Boy Outfits Baby Boy fall Winter Clothes Baby Boy Long Sleeve Suspender Outfit Sets" is a non-compliant title.
 
