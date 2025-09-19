@@ -62,7 +62,7 @@ Title requirements apply to all product types, except media product types, in al
 Follow these criteria when creating product titles:
 • Titles must not exceed 200 characters, including spaces. Refer to Title length criteria exceptions for a list of exceptions to this requirement.
 • Titles must not contain promotional phrases, such as "free shipping" or "100% quality guaranteed."
-• Titles must not use the following special characters: !, $, ?, _, {{, }}, ^, ¬, ¦. Other special characters, such as ~, #, <, >, and *, are allowed only in specific contexts. For example, you may use these symbols as product identifiers ("Style #4301") or measurements ("<10 lb"). Decorative usage of special characters is not allowed. For example, the title "Paradise Towel Wear Co. Beach Coverup << Size Kids XXS >>" is non-compliant because of the excessive use of symbols around the size.
+• Titles must not use the following special characters: !, $, ?, _, curly brackets, ^, ¬, ¦. Other special characters, such as ~, #, <, >, and *, are allowed only in specific contexts. For example, you may use these symbols as product identifiers ("Style #4301") or measurements ("<10 lb"). Decorative usage of special characters is not allowed. For example, the title "Paradise Towel Wear Co. Beach Coverup << Size Kids XXS >>" is non-compliant because of the excessive use of symbols around the size.
 • Titles must contain the minimum amount of information that can be used to clearly describe the product, such as "Amazon Essentials Dress," "Columbia Hiking Boots," or "Sony Headphones."
 • Titles must not contain the same word more than twice. For example, "Baby Boy Outfits Baby Boy fall Winter Clothes Baby Boy Long Sleeve Suspender Outfit Sets" is a non-compliant title.
 

@@ -15,7 +15,7 @@ def regenerate_title(state: State):
     
     if not state['title_keyword']:
         print('\nTitle 재작성용 키워드가 존재하지 않습니다.')
-        return {}
+        return {'user_feedback_title': ''}
     
     print(f'\n--- Title 재작성을 시작합니다... ---')
     
@@ -30,20 +30,20 @@ def regenerate_title(state: State):
         ))
         
         title_feedback_prompt =  '[User Feedback]\n{user_feedback}\nYou are required to take this into consideration.\n' + base_prompt + '[\nCurrent Title\n{title}]'
-         
+            
         prompt = title_feedback_prompt.format(
             user_feedback= state['user_feedback_title'],
             title= state['title']
         )
         
         structured_llm = llm.with_structured_output(TitleOutput)
-        res = structured_llm(prompt)
+        res = structured_llm.invoke(prompt)
         print(f'\n재작성된 Title: 총 {len(res.title)}자')
         return {'title': res.title, 'user_feedback_title': ''}
 
     except Exception as e:
         print(f"\nTitle 재작성 중 에러가 발생했습니다: {e}")
-        return {}
+        return {'user_feedback_title': ''}
 
 # ====================================================================================================
 # BP 노드
@@ -51,7 +51,7 @@ def regenerate_bp(state: State):
     
     if not state['bp_keyword']:
         print('\nBullet Point 재작성용 키워드가 존재하지 않습니다.')
-        return {}
+        return {'user_feedback_bp': ''}
 
     print(f'\n--- Bullet Point 재작성을 시작합니다... ---')
     
@@ -73,7 +73,7 @@ def regenerate_bp(state: State):
         )
         
         structured_llm = llm.with_structured_output(BPOutput)
-        res = structured_llm(prompt)
+        res = structured_llm.invoke(prompt)
         bp_length = []
         for bp in res.bp:
             bp_length.append(len(bp))    
@@ -82,7 +82,7 @@ def regenerate_bp(state: State):
     
     except Exception as e:
         print(f"\nBullet Point 재작성 중 에러가 발생했습니다: {e}")
-        return {}
+        return {'user_feedback_bp': ''}
 
 # ====================================================================================================
 # Description 노드
@@ -90,7 +90,7 @@ def regenerate_description(state: State):
     
     if not state['description_keyword']:
         print('\nDescription 재작성용 키워드가 존재하지 않습니다.')
-        return {}
+        return {'user_feedback_description': ''}
     
     print(f'\n--- Description 재작성을 시작합니다... ---')
     
@@ -113,11 +113,11 @@ def regenerate_description(state: State):
         )
 
         structured_llm = llm.with_structured_output(DescriptionOutput)
-        res = structured_llm(prompt)
+        res = structured_llm.invoke(prompt)
         print(f'\n재작성된 Description: 총 {len(res.description)}자')
         return {'description': res.description, 'user_feedback_description': ''}
 
     except Exception as e:
         print(f"\nDescription 재작성 중 에러가 발생했습니다: {e}")
-        return {}
+        return {'user_feedback_description': ''}
     
