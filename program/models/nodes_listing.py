@@ -10,6 +10,7 @@ load_dotenv()
 
 llm = ChatOpenAI(model=config['llm_listing']['model'], temperature=float(config['llm_listing']['temperature']))
 
+# ====================================================================================================
 # 키워드 분배 노드
 def keyword_distribute(state: State):
     
@@ -48,6 +49,7 @@ def keyword_distribute(state: State):
         print(f"\n키워드 분배 중 에러가 발생했습니다: {e}")
         return {}
 
+# ====================================================================================================
 # Title 노드
 def generate_title(state: State):
     
@@ -75,7 +77,7 @@ def generate_title(state: State):
         print(f"\nTitle 작성 중 에러가 발생했습니다: {e}")
         return {}
 
-
+# ====================================================================================================
 # BP 노드
 def generate_bp(state: State):
     
@@ -106,6 +108,7 @@ def generate_bp(state: State):
         print(f"\nBullet Point 작성 중 에러가 발생했습니다: {e}")
         return {}
 
+# ====================================================================================================
 # Description 노드
 def generate_description(state: State):
     

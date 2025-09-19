@@ -10,6 +10,8 @@ load_dotenv()
 
 llm = ChatOpenAI(model=config['llm_feedback']['model'], temperature=float(config['llm_feedback']['temperature']))
 
+# ====================================================================================================
+# 사용자 피드백 입력
 def user_input(state: State):
     
     print("\n=== 결과물 출력 ===")
@@ -27,7 +29,8 @@ def user_input(state: State):
 
     return {'user_feedback': user_feedback}
 
-
+# ====================================================================================================
+# 피드백 분류
 def parse_user_feedback(state: State):
     
     print('\n--- 피드백 내용을 정리합니다... ---')

@@ -28,7 +28,8 @@ def build_graph():
     builder.add_node('regenerate_bp', generate_bp)
     builder.add_node('regenerate_description', generate_description)
     
-    # 에지
+    # ====================================================================================================
+    # 연결
     builder.add_edge(START, "keyword_process")
     
     builder.add_edge('generate_description', 'user_input')
