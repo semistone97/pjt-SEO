@@ -1,4 +1,4 @@
-from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
 from langchain_core.prompts.few_shot import FewShotPromptTemplate
 
 
@@ -312,3 +312,44 @@ description_prompt = FewShotPromptTemplate(
     suffix=description_snuffix,
     input_variables=["product_name", "category", "product_information", "description_keyword", "bp_result"],
 )
+
+# ====================================================================================================
+# Verification Prompt
+
+verification_template_system = """
+You are an expert content verifier for Amazon product listings. Your task is to meticulously cross-verify a given product listing (title, bullet points, description) against provided factual product information. Identify any discrepancies, inaccuracies, or crucial missing details. Your goal is to ensure the listing is 100% accurate and complete based on the provided product information. If you find any issues, you must correct or enhance the listing elements.
+
+Return your response ONLY as a valid JSON object with three keys: "title", "bullet_points" (a list of strings), and "description". Do not include any other text, explanation, or markdown.
+
+Example format:
+```json
+{
+  "title": "Verified Product Title",
+  "bullet_points": [
+    "Verified bullet point 1",
+    "Verified bullet point 2"
+  ],
+  "description": "Verified product description."
+}
+```
+    """
+
+verification_template_human = """
+Product Information:
+```
+{product_information}
+```
+
+Current Product Listing:
+Title: {title}
+Bullet Points:
+{bullet_points}
+Description: {description}
+
+Please verify and correct/enhance the current product listing based on the provided product information.
+    """
+
+verification_prompt = ChatPromptTemplate.from_messages([
+        ("system", verification_template_system),
+        ("human", verification_template_human)
+    ])
