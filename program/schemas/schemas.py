@@ -32,3 +32,17 @@ class DescriptionOutput(BaseModel):
         StringConstraints(min_length=1, max_length=2000),
         Field(description="최대 2000자까지 허용")
     ]
+    
+class Feedback(BaseModel):
+    title: str = Field(
+        default="",
+        description="사용자가 Title에 대해 요청한 수정사항. 수정사항이 없다면 빈 문자열로 반환."
+    )
+    bp: str = Field(
+        default="",
+        description="사용자가 Bullet Points 전체에 대해 요청한 수정사항. 수정사항이 없다면 빈 문자열로 반환."
+    )
+    description: str = Field(
+        default="",
+        description="사용자가 Description에 대해 요청한 수정사항. 수정사항이 없다면 빈 문자열로 반환."
+    )

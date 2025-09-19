@@ -25,8 +25,10 @@ class State(MessagesState):
     description: str = ''
     
     # 사용자 요청
-    user_feedback: str
+    user_feedback: str = ''
     user_feedback_title: str = ''
     user_feedback_bp: str = ''
     user_feedback_description: str = ''
-    
+
+    # 상태
+    status: str = 'ONGOING'

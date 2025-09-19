@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from models.builder import build_graph
+from graph.builder import build_graph
 from utils.data_loader import load_csv
 
 load_dotenv()
@@ -24,14 +24,6 @@ def main():
         'category': input('상품의 카테고리를 적어주세요: '),
         'product_information': input('상품의 크기, 소재 관련 데이터를 적어주세요: ')
     })
-
-    # 결과 생성
-    print('결과 생성을 완료했습니다')
-    print(f'Title:       ============================================================================================\n{final_state['title']}')
-    print('BP:          ============================================================================================')
-    for bp in final_state['bp']:
-        print(bp)
-    print(f'Description: ============================================================================================\n{final_state['description']}')
 
 if __name__ == "__main__":
     main()

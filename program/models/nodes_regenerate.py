@@ -1,55 +1,34 @@
 from schemas.states import State
-from schemas.schemas import KeywordDistribute, TitleOutput, BPOutput, DescriptionOutput
-from prompts.prompts import keyword_prompt, title_prompt, bp_prompt, description_prompt
+from schemas.schemas import TitleOutput, BPOutput, DescriptionOutput
+from prompts.prompts import title_prompt, bp_prompt, description_prompt
 from langchain_openai import ChatOpenAI
 from utils.config_loader import config
 from dotenv import load_dotenv
-
 
 load_dotenv()
 
 llm = ChatOpenAI(model=config['llm_listing']['model'], temperature=float(config['llm_listing']['temperature']))
 
-# 키워드 분배 노드
-def keyword_distribute(state: State):
-    
-    if not state['data']:
-        print("데이터가 없어 키워드 분배를 종료합니다.")
-        return {}
-    
-    print(f'--- 키워드 {len(state['data'])}개에 대해 분배를 시작합니다 ---')
-    
-    try:
-        prompt = keyword_prompt.invoke(
-            {
-                'product_name': state['product_name'], 
-                'category': state['category'],
-                'product_information': state['product_information'], 
-                'data': state['data'],
-            }
-        )
-        structured_llm = llm.with_structured_output(KeywordDistribute)
-        res = structured_llm.invoke(prompt)
-        
-        print('키워드 분배 결과')
-        print(f'Title Keyword: {len(res.title_keyword)}개')
-        print(f'BP Keyword: {len(res.bp_keyword)}개')
-        print(f'Description Keyword: {len(res.description_keyword)}개')
-        print(f'Leftover: {len(res.leftover)}개')
-        
-        return {
-            'title_keyword': res.title_keyword, 
-            'bp_keyword': res.bp_keyword, 
-            'description_keyword': res.description_keyword, 
-            'leftover': res.leftover
-        }    
 
-    except Exception as e:
-        print(f"키워드 분배 중 에러가 발생했습니다: {e}")
-        return {}
+# regenerate prompt
+regen_template = '''
+아래의 
+
+
+'''
+
+
+
+
+
+
+
+
+
+
 
 # Title 노드
-def generate_title(state: State):
+def regenerate_title(state: State):
     
     if not state['title_keyword']:
         print('Title 작성용 키워드가 존재하지 않습니다.')
@@ -58,6 +37,8 @@ def generate_title(state: State):
     print(f'--- Title 작성을 시작합니다 ---')
     
     try:
+        
+        
         prompt = title_prompt.invoke(
             {
                 'product_name': state['product_name'], 
@@ -77,7 +58,7 @@ def generate_title(state: State):
 
 
 # BP 노드
-def generate_bp(state: State):
+def regenerate_bp(state: State):
     
     if not state['bp_keyword']:
         print('Bullet Point 작성용 키워드가 존재하지 않습니다.')
@@ -107,7 +88,7 @@ def generate_bp(state: State):
         return {}
 
 # Description 노드
-def generate_description(state: State):
+def regenerate_description(state: State):
     
     if not state['description_keyword']:
         print('Description 작성용 키워드가 존재하지 않습니다.')
@@ -132,4 +113,3 @@ def generate_description(state: State):
     except Exception as e:
         print(f"Title 작성 중 에러가 발생했습니다: {e}")
         return {}
-    
