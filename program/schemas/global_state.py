@@ -32,4 +32,4 @@ class State(MessagesState):
     user_feedback_description: str = ''
 
     # 상태
-    status: str = 'ONGOING'
+    status: str = ''

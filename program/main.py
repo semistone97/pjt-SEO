@@ -6,6 +6,8 @@ load_dotenv()
 
 def main():
     # 데이터 로드
+    print('@@@ 프로그램 설명, 약관이 들어갈 곳 @@@')
+    
     print('\n--- 형식에 맞는 CSV 파일 검색 중... ---')
     
     raw_df, file = load_csv()
@@ -20,9 +22,12 @@ def main():
     graph = build_graph()
     final_state = graph.invoke({
         'data': raw_df, 
-        'product_name': input('\n상품명: '),
-        'category': input('상품의 카테고리를 적어주세요: '),
-        'product_information': input('상품의 크기, 소재 관련 데이터를 적어주세요: ')
+        'product_name': 'chicken shredder',
+        'category': 'Home & Kitchen',
+        'product_information': 'multipurpose meat shredder'
+        # 'product_name': input('\n상품명: '),
+        # 'category': input('상품의 카테고리를 적어주세요: '),
+        # 'product_information': input('상품의 크기, 소재 관련 데이터를 적어주세요: ')
     })
 
 if __name__ == "__main__":
