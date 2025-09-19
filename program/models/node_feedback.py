@@ -27,7 +27,7 @@ def user_input(state: State):
         print('\n피드백이 없습니다. 결과물을 출력합니다.')
         return {'status': 'FINISHED'}
 
-    return {'user_feedback': user_feedback}
+    return {'user_feedback': user_feedback, 'status': 'ONGOING'}
 
 # ====================================================================================================
 # 피드백 분류
@@ -42,22 +42,51 @@ def parse_user_feedback(state: State):
         }
     )
     res = structured_llm.invoke(prompt)
-    data = json.loads(res.content)
+    data = {
+        'title': getattr(res, 'title', ''),
+        'bp': getattr(res, 'bp', ''),
+        'description': getattr(res, 'description', '')
+    }   
+    feedback_title = data.get('title', '') or ''
+    bp_raw = data.get('bp', '')
+    if isinstance(bp_raw, (list, tuple)):
+        feedback_bp = '\n'.join(bp_raw).strip()
+    else:
+        feedback_bp = bp_raw or ''
+    feedback_description = data.get('description', '') or ''
     
     print()
+    if feedback_title:
+        print('Title: ', feedback_title) 
     
-    if data.get('title', ''):
-        print('Title: ', state['user_feedback_title']) 
-    
-    if data.get('bp', ''):
-        print('BP: ', state['user_feedback_bp'])
-    
-    if data.get('description', ''):
-        print('Description: ', state['user_feedback_description'])
+    if feedback_bp:
+        print('BP: ', feedback_bp)
+
+    if feedback_description:
+        print('Description: ', feedback_description)
     
     return {
-        'user_feedback_title': data.get('title', ''), 
-        'user_feedback_bp': data.get('bp', ''), 
-        'user_feedback_description': data.get('description', '')
+        'user_feedback_title': feedback_title,
+        'user_feedback_bp': feedback_bp,
+        'user_feedback_description': feedback_description
     }
+     
+# ====================================================================================================
+# 피드백 라우팅용 노드
+def feedback_check(state: State):
+    
+    print('\n--- 남은 피드백이 있는지 확인합니다...')
+    
+    if state['user_feedback_title']:
+        print('\nTitle 피드백이 존재합니다') 
+        return {}
+    
+    if state['user_feedback_bp']:
+        print('\nBP 피드백이 존재합니다') 
+        return {}
+    
+    if state['user_feedback_description']:
+        print('\nDescription 피드백이 존재합니다') 
+        return {}
+    return {}
 

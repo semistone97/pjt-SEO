@@ -6,13 +6,13 @@ def status_router(state):
 
 def feedback_router(state):
     
-    if state.get("user_feedback_title", "").strip():
-        return "generate_title"
-
-    if state.get("user_feedback_bp", "").strip():
-        return "generate_bp"
-
-    if state.get("user_feedback_description", "").strip():
-        return "generate_description"
-
+    if str(state.get("user_feedback_title") or "").strip():
+        return "regenerate_title"
+    
+    if str(state.get("user_feedback_bp") or "").strip():
+        return "regenerate_bp"
+    
+    if str(state.get("user_feedback_description") or "").strip():
+        return "regenerate_description"
+    
     return 'user_input'
