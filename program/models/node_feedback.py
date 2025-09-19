@@ -24,14 +24,8 @@ def user_input(state: State):
     user_feedback = input('\n### 사용자 피드백을 입력해 주세요. 피드백이 없다면, 빈 칸으로 남겨주세요 ###\n')
     
     if not user_feedback.strip():
-        print('\n피드백이 없습니다. 결과물을 출력합니다.')
-        result = {'status': 'FINISHED'}
-        print(f"DEBUG: user_input returning: {result}")  # 디버깅 추가        
-        return {'status': 'FINISHED'}
-
-
-    result = {'user_feedback': user_feedback, 'status': 'ONGOING'}
-    print(f"DEBUG: user_input returning: {result}")  # 디버깅 추가
+        print('\n피드백이 없습니다. 작동을 종료합니다.')
+        return {'user_feedback': '', 'status': 'FINISHED'}
 
     return {'user_feedback': user_feedback, 'status': 'ONGOING'}
 
@@ -73,6 +67,7 @@ def parse_user_feedback(state: State):
         'user_feedback_bp': feedback_bp,
         'user_feedback_description': feedback_description
     }     
+    
 # ====================================================================================================
 # 피드백 라우팅용 노드
 def feedback_check(state: State):

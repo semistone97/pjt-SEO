@@ -7,9 +7,7 @@ from models.node_feedback import user_input, parse_user_feedback, feedback_check
 from models.node_regenerate import regenerate_title, regenerate_bp, regenerate_description
 from graph.router import status_router, feedback_router
 
-
 load_dotenv()
-
 
 def build_graph():
     builder = StateGraph(State)
@@ -42,7 +40,7 @@ def build_graph():
         status_router,
         {
             'parse_user_feedback': 'parse_user_feedback',
-            'END': END
+            END: END
         }
     )
     
