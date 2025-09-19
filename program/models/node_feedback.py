@@ -1,9 +1,9 @@
 from dotenv import load_dotenv
 import json
 from langchain_openai import ChatOpenAI
-from schemas.states import State
-from schemas.schemas import Feedback
-from prompts.prompts_feedback import feedback_prompt
+from schemas.global_state import State
+from schemas.schema import Feedback
+from prompts.prompt_feedback import feedback_prompt
 from utils.config_loader import config
 
 load_dotenv()

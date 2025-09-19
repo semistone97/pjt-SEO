@@ -1,9 +1,9 @@
 from dotenv import load_dotenv
 from langgraph.graph import START, END, StateGraph
-from schemas.states import State
-from models.nodes_preprocess import keyword_process, generate_relevance, select_top_keywords
-from models.nodes_listing import keyword_distribute, generate_title, generate_bp, generate_description
-from models.nodes_feedback import user_input, parse_user_feedback
+from schemas.global_state import State
+from models.node_preprocess import keyword_preprocess, relevance_categorize, select_keywords
+from models.node_listing import keyword_distribute, generate_title, generate_bp, generate_description
+from models.node_feedback import user_input, parse_user_feedback
 from graph.router import status_router, feedback_router
 
 load_dotenv()
@@ -13,10 +13,10 @@ def build_graph():
     builder = StateGraph(State)
     
     # 키워드 분배
-    builder.add_sequence([keyword_process, generate_relevance, select_top_keywords])
+    builder.add_sequence([keyword_preprocess, relevance_categorize, select_keywords])
 
     # 초안 작성
-    builder.add_edge("select_top_keywords", "keyword_distribute")
+    builder.add_edge("select_keywords", "keyword_distribute")
     builder.add_sequence([keyword_distribute, generate_title, generate_bp, generate_description])
 
     # 사용자 피드백
@@ -30,7 +30,7 @@ def build_graph():
     
     # ====================================================================================================
     # 연결
-    builder.add_edge(START, "keyword_process")
+    builder.add_edge(START, "keyword_preprocess")
     
     builder.add_edge('generate_description', 'user_input')
     

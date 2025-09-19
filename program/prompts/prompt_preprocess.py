@@ -30,7 +30,7 @@ relevance_template_system = '''
 You are an expert in Amazon SEO and keyword analysis.
 Your task is to classify the relevance of a list of keywords to a given product into one of four categories:
 - 'Direct': Directly related to the product, indicating high purchase intent. Customers searching this are very likely to buy the product.
-- 'Intermediate': Related to the product's function or use case, but less specific.
+- 'Related': Related to the product's function or use case, but less specific.
 - 'Indirect': Related to the broader product category or a peripheral use case, but not the product itself.
 - 'NotRelated': Not relevant to the product at all.
 
@@ -39,7 +39,7 @@ Please return your response ONLY as a valid JSON array of objects, where each ob
 Example format:
 [
   {{"keyword": "chicken shredder", "relevance_category": "Direct"}},
-  {{"keyword": "kitchen gadget", "relevance_category": "Intermediate"}},
+  {{"keyword": "kitchen gadget", "relevance_category": "Related"}},
   {{"keyword": "wedding gift", "relevance_category": "Indirect"}},
   {{"keyword": "car accessories", "relevance_category": "NotRelated"}}
 ]
@@ -65,7 +65,7 @@ select_template_system = '''
 You are a senior marketing strategist building a balanced and powerful keyword portfolio for an Amazon product. 
 Your goal is to select the 30 most valuable keywords from the provided list to maximize both immediate sales and long-term market reach.
 
-Each keyword has a 'relevance_category' ('Direct', 'Intermediate', 'Indirect') and a 'value_score' (representing opportunity).
+Each keyword has a 'relevance_category' ('Direct', 'Related', 'Indirect') and a 'value_score' (representing opportunity).
 
 Think of your selection as a strategic portfolio with three tiers. Your final list of 30 should be a strategic mix of these tiers:
 
@@ -74,7 +74,7 @@ Think of your selection as a strategic portfolio with three tiers. Your final li
     *   Within this category, choose the ones with the **highest `value_score`**.
 
 2.  **Audience Expansion Keywords (approx. 5-10 slots):**
-    *   Select these from the **'Intermediate'** category. These keywords will help you reach a broader, but still highly relevant, audience.
+    *   Select these from the **'Related'** category. These keywords will help you reach a broader, but still highly relevant, audience.
     *   Prioritize those with the **highest `value_score`**.
 
 3.  **Strategic Discovery Keywords (approx. 3-5 slots):**

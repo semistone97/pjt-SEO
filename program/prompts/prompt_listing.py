@@ -10,7 +10,7 @@ Below is data showing various keywords related to the product {product_name} to 
 The meaning of relevance_category is as follows:
 Direct: 
 - The keyword directly includes the product's core feature/name
-Intermediate: 
+Related: 
 - Similarity to product category words (Kitchen gadget, Meat grinder, Food prep)
 - Not direct, but **close in category/usage context**
 Indirect:
@@ -24,7 +24,7 @@ NotRelated:
 We plan to use these keywords on the product sales page. Please distribute them according to the criteria across Title/Bullet Point/Description/Leftover.
 - Title: Most core, includes key attributes. Primarily Direct keywords, up to 10 keywords maximum
 - Bullet Point: Includes the product's benefits from the customer's perspective. Requires 5 important direct keywords and associated indirect keywords for each.
-- Description: Product explanation. Primarily uses intermediate keywords, approximately 20 keywords.
+- Description: Product explanation. Primarily uses Related keywords, approximately 20 keywords.
 - Leftover: Keywords not used in the above sections.
 
 ---
