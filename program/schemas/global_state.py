@@ -1,7 +1,6 @@
 from langgraph.graph import MessagesState
 from typing_extensions import List, Dict
 from pydantic import Field
-from langgraph.graph import MessagesState
 
 class State(MessagesState):
     # input data

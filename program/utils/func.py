@@ -1,5 +1,5 @@
-import pandas as pd
 import re
+import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 def preprocess_keywords(series: pd.Series) -> pd.Series:

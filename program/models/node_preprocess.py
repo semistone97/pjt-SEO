@@ -5,16 +5,16 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
-from prompts.prompts_preprocess import filter_prompt, relevance_prompt, select_prompt
-from schemas.states import State
-from utils.funcs import preprocess_keywords, scaler
+from prompts.prompt_preprocess import filter_prompt, relevance_prompt, select_prompt
+from schemas.global_state import State
+from utils.func import preprocess_keywords, scaler
 from utils.config_loader import config
 
 load_dotenv()
 
 # ====================================================================================================
 # 키워드 정제
-def keyword_process(state: State):
+def keyword_preprocess(state: State):
     
     if not state['data']:
         print("\n데이터가 없어 키워드 정제를 종료합니다.")
@@ -78,7 +78,7 @@ def keyword_process(state: State):
 
 llm = ChatOpenAI(model=config['llm_relevance']['model'], temperature=float(config['llm_keyword']['temperature']))
 
-def generate_relevance(state: State) -> Dict:
+def relevance_categorize(state: State) -> Dict:
     """
     LLM을 사용하여 각 키워드의 연관성을 4가지 카테고리(직접, 중간, 간접, 없음)로 분류합니다.
     """
@@ -136,7 +136,7 @@ def generate_relevance(state: State) -> Dict:
 # ====================================================================================================
 # 상위 키워드 선택
 
-def select_top_keywords(state: State) -> Dict:
+def select_keywords(state: State) -> Dict:
     """
     LLM을 사용해 상위 30개 키워드를 선별하고, 나머지는 backend_keywords에 저장합니다.
     실패 시 최대 3회 재시도하고, 최종 실패 시 대체 로직을 실행합니다.
