@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-import json
+from datetime import datetime
 from langchain_openai import ChatOpenAI
 from schemas.global_state import State
 from schemas.schema import Feedback
@@ -14,18 +14,46 @@ llm = ChatOpenAI(model=config['llm_feedback']['model'], temperature=float(config
 # 사용자 피드백 입력
 def user_input(state: State):
     
+    title, bp_list, description = state.get('title'), state.get('bp'), state.get('description')
+    leftover = sorted(state.get('leftover') + state.get('backend_keywords'))
+    
     print("\n=== 결과물 출력 ===")
-    print(f'\nTitle:\n{state.get('title')}')
+    print(f'\nTitle:\n{title}')
     print('\nBP:')
-    for bp in state.get('bp'):
+    for bp in bp_list:
         print(bp)
-    print(f'\nDescription:\n{state.get('description')}')
+    print(f'\nDescription:\n{description}')
     
-    user_feedback = input('\n### 사용자 피드백을 입력해 주세요. 피드백이 없다면, 빈 칸으로 남겨주세요 ###\n')
+    user_feedback = input('\n### 사용자 피드백을 입력해 주세요. (/help: 도움말, /export: 현재 파일을 저장, /q: 종료) ###\n').strip()
     
-    if not user_feedback.strip():
-        print('\n피드백이 없습니다. 작동을 종료합니다.')
-        return {'user_feedback': '', 'status': 'FINISHED'}
+    while user_feedback[0] == '/':
+        if user_feedback in ['/q']:
+            print('\n작동을 종료합니다.')
+            return {'user_feedback': '', 'status': 'FINISHED'}
+        
+        elif user_feedback in ['/export']:
+            now = datetime.now()
+            with open(f'Temp_Listing({now.strftime("%Y-%m-%d %H:%M:%S")}).txt', 'w', encoding='utf-8') as f:
+                f.write(f'[Title]\n{title}\n')
+                f.write('[Bullet Point]\n')
+                for bp in bp_list:
+                    f.write(str(bp) + '\n')
+                f.write(f'[Description]\n{description}\n')
+                f.write('Leftover Keywords: ' + ', '.join(map(str, leftover)))
+                        
+            print(f'현재 초안을 Temp_Listing({now.strftime("%Y-%m-%d %H:%M:%S")}).txt 파일에 저장합니다. ')
+        
+        elif user_feedback in ['/help']:
+            print('=== 도움말 리스트 ===')
+            print('/help: 도움말')
+            print('/export: 현재 파일을 저장')
+            print('/q: 현재 초안을 최종 파일로 저장 후 종료')
+
+        else:
+            print('명령어를 인식할 수 없습니다.')
+
+        user_feedback = input('\n### 사용자 피드백을 입력해 주세요 ###\n')
+
 
     return {'user_feedback': user_feedback, 'status': 'ONGOING'}
 

@@ -20,10 +20,10 @@ class BPOutput(BaseModel):
         List[
             Annotated[
                 str, 
-                StringConstraints(min_length=1, max_length=250)
+                StringConstraints(min_length=150, max_length=250)
             ]
         ],
-        Field(..., description="각 항목 최대 250자")
+        Field(..., description="각 항목별 최소 150자, 최대 250자")
     ]
     
 class DescriptionOutput(BaseModel):    

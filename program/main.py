@@ -18,17 +18,34 @@ def main():
     
     print("\n읽은 파일:", file)
 
+
+    # Input Variables
+    product_name = 'chicken shredder'
+    # product_name = input('\n상품명: ')
+
+
+
     # 그래프 실행
     graph = build_graph()
     final_state = graph.invoke({
         'data': raw_df, 
-        'product_name': 'chicken shredder',
+        'product_name': product_name,
         'category': 'Home & Kitchen',
         'product_information': 'multipurpose meat shredder'
-        # 'product_name': input('\n상품명: '),
         # 'category': input('상품의 카테고리를 적어주세요: '),
         # 'product_information': input('상품의 크기, 소재 관련 데이터를 적어주세요: ')
     })
+
+    print(final_state)
+    # with open(f'Keyword_Listing({product_name}).txt', 'w', encoding='utf-8') as f:
+    #     f.write(f'[Title]\n{final_state.get('title')}\n')
+    #     f.write('[Bullet Point]\n')
+    #     for bp in final_state.get('bp'):
+    #         f.write(str(bp) + '\n')
+    #     f.write(f'[Description]\n{final_state.get('description')}\n')
+    #     f.write('Leftover Keywords: ' + ', '.join(map(str, sorted(final_state.get('leftover') + final_state.get('backend_keywords')))))
+                
+    #     print(f'최종 결과물을 Keyword_Listing({product_name}).txt 파일에 저장합니다. ')
 
 if __name__ == "__main__":
     main()
