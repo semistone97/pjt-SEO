@@ -323,14 +323,14 @@ Return your response ONLY as a valid JSON object with three keys: "title", "bull
 
 Example format:
 ```json
-{
+{{
   "title": "Verified Product Title",
   "bullet_points": [
     "Verified bullet point 1",
     "Verified bullet point 2"
   ],
   "description": "Verified product description."
-}
+}}
 ```
     """
 

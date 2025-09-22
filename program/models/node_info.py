@@ -7,6 +7,7 @@ from pypdf import PdfReader # 이 라이브러리는 pip install pypdf 로 설�
 from schemas.global_state import State
 
 from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
 
 from prompts.prompt_listing import verification_prompt
 import json
@@ -20,19 +21,19 @@ os.makedirs(INPUT_DATA_DIR, exist_ok=True)
 
 def information_extract(state: State) -> dict:
     """
-    정보 추출 노드 (information_extract_prototype)
+    정보 추출 노드 (information_extract)
 
     목적:
     - `program/input_data` 디렉토리 내의 모든 PDF 파일을 찾아 내용을 읽어옵니다.
     - 읽어온 PDF 내용을 `State`의 `product_docs: List[Document]`에 저장합니다.
-    - `product_docs`에서 핵심 제품 정보를 추출하여 `State`의 `product_information: str`에 저장합니다.
+    - LLM을 사용하여 `product_docs`의 내용을 요약하고, 핵심 제품 정보를 추출하여 `State`의 `product_information: str`에 저장합니다.
 
     입력 (State에서 가져올 정보):
-    - (없음, 또는 필요에 따라 product_name 등을 활용하여 특정 PDF를 필터링할 수 있음)
+    - (없음)
 
     출력 (State에 업데이트할 정보):
     - product_docs (List[Document]): PDF에서 읽어온 문서 객체들의 목록.
-    - product_information (str): 추출된 핵심 제품 정보 요약.
+    - product_information (str): 추출 및 요약된 핵심 제품 정보.
     """
     print("---정보 추출 노드 실행 중---")
 
@@ -49,20 +50,37 @@ def information_extract(state: State) -> dict:
                 for page in reader.pages:
                     text += page.extract_text() + "\n"
                 
-                # Document 객체 생성 및 저장
                 product_docs.append(Document(page_content=text, metadata={"source": filename}))
                 all_extracted_text.append(text)
                 print(f'읽어온 PDF 파일 : {filename}')
 
             except Exception as e:
                 print(f"PDF 파일 {filename} 읽기 오류: {e}")
-                # 오류 발생 시 해당 파일은 건너뛰고 다음 파일 처리
 
-    # 추출된 텍스트를 기반으로 product_information 요약 (간단한 예시)
-    # 실제 구현에서는 LLM을 사용하여 더 정교하게 요약하거나 특정 정보를 추출할 수 있습니다.
-    product_information = "\n".join(all_extracted_text[:3]) # 처음 3개 문서의 텍스트만 간단히 합침
-    if len(all_extracted_text) > 3:
-        product_information += "\n... (더 많은 문서 내용 생략)"
+    # LLM을 사용하여 텍스트 요약
+    if all_extracted_text:
+        # 모든 PDF 내용을 하나의 문자열로 결합
+        full_text = "\n\n---\n\n".join(all_extracted_text)
+
+        # LLM 초기화 및 요약 체인 구성
+        llm = ChatOpenAI(model="gpt-4o", temperature=0)
+        
+        summarization_template = ChatPromptTemplate.from_messages([
+            ("system", "You are an expert at summarizing product information. Please extract the key features, specifications, and purpose of the product from the following text in a concise manner. The summary should be in Korean."),
+            ("human", "Product Text:\n```\n{product_text}\n```")
+        ])
+        
+        summarization_chain = summarization_template | llm
+
+        print("---PDF 내용 요약 중---")
+        # LLM 호출하여 요약 생성
+        response = summarization_chain.invoke({"product_text": full_text})
+        product_information = response.content
+        print("---요약 완료---")
+        print(f"요약된 제품 정보: {product_information}")
+
+    else:
+        product_information = "제품 정보를 찾을 수 없습니다."
 
     # State 업데이트
     return {
