@@ -69,7 +69,7 @@ def main():
     markdown_content = generate_markdown(grouped_logs)
     
     # 출력 디렉토리 설정
-    output_dir = os.path.join('sems', 'dts')
+    output_dir = os.path.join('docs', 'dts')
     os.makedirs(output_dir, exist_ok=True)
 
     # 파일명 생성 (YYMMDD_dts.md)
