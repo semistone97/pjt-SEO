@@ -5,6 +5,7 @@ from schemas.global_state import State
 from schemas.schema import Feedback
 from prompts.prompt_feedback import feedback_prompt
 from utils.config_loader import config
+import os
 
 load_dotenv()
 
@@ -32,16 +33,22 @@ def user_input(state: State):
             return {'user_feedback': '', 'status': 'FINISHED'}
         
         elif user_feedback in ['/export']:
-            now = datetime.now()
-            with open(f'Temp_Listing({now.strftime("%Y-%m-%d %H:%M:%S")}).txt', 'w', encoding='utf-8') as f:
-                f.write(f'[Title]\n{title}\n')
-                f.write('[Bullet Point]\n')
+            now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+            
+            save_dir = 'output'
+            os.makedirs(save_dir, exist_ok=True)
+            filename = f'{"_".join(state.get('product_name').split())}_Temp_Listing({now}).txt'
+            file_path = os.path.join(save_dir, filename)
+            
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(f'\n[Title]\n{title}\n')
+                f.write('\n[Bullet Point]\n')
                 for bp in bp_list:
                     f.write(str(bp) + '\n')
-                f.write(f'[Description]\n{description}\n')
-                f.write('Leftover Keywords: ' + ', '.join(map(str, leftover)))
+                f.write(f'\n[Description]\n{description}\n')
+                f.write('\nLeftover Keywords: ' + ', '.join(map(str, leftover)))
                         
-            print(f'현재 초안을 Temp_Listing({now.strftime("%Y-%m-%d %H:%M:%S")}).txt 파일에 저장합니다. ')
+            print(f'\n현재 초안을 {filename} 파일에 저장합니다. ')
         
         elif user_feedback in ['/help']:
             print('=== 도움말 리스트 ===')
