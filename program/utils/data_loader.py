@@ -27,7 +27,7 @@ def load_csv(product_name):
             print(f"[Warning] 파일 없음: {file_path}")
             continue
         if file_path.suffix.lower() != '.csv':
-            print(f"[Pass] CSV 파일 아님: {file_path}")
+            print(f"[Skipped] CSV 파일 아님: {file_path}")
             continue
 
         try:
@@ -43,7 +43,7 @@ def load_csv(product_name):
             dfs.append(df_required)
             good_files.append(file_path.name)
         else:
-            print(f"[Pass] 컬럼 형식 불일치: {file_path}")
+            print(f"[Skipped] 컬럼 형식 불일치: {file_path}")
 
     if not good_files:
         print("\n[Warning] 형식에 맞는 CSV 파일이 없습니다.")

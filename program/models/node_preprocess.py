@@ -17,7 +17,7 @@ load_dotenv()
 def keyword_preprocess(state: State):
     
     if not state['data']:
-        print("\n데이터가 없어 키워드 정제를 종료합니다.")
+        print("\n[Skipped] 데이터가 없어 키워드 정제를 종료합니다.")
         return {}
     
     try:
@@ -67,7 +67,7 @@ def keyword_preprocess(state: State):
         return {"data": processed_df}
 
     except Exception as e:
-        print(f"\n키워드 정제 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] 키워드 정제 중 에러가 발생했습니다: {e}")
         return {}
 
 
@@ -90,7 +90,7 @@ def relevance_categorize(state: State) -> Dict:
 
     # 데이터가 비어있으면 중단
     if not data:
-        print("\n데이터가 없어 연관성 분류를 건너뜁니다.")
+        print("\n[Skipped] 데이터가 없어 연관성 분류를 건너뜁니다.")
         return {}
 
     # DataFrame을 dict 리스트로 변환 (만약 DataFrame으로 들어올 경우)
@@ -99,7 +99,7 @@ def relevance_categorize(state: State) -> Dict:
 
     keywords = [row['keyword'] for row in data if 'keyword' in row]
     if not keywords:
-        print("\n키워드가 없어 연관성 분류를 건너뜁니다.")
+        print("\n[Warning] 키워드가 없어 연관성 분류를 건너뜁니다.")
         return {}
 
     
@@ -127,7 +127,7 @@ def relevance_categorize(state: State) -> Dict:
         return {"data": data}
 
     except Exception as e:
-        print(f"\n연관성 분류 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] 연관성 분류 중 에러가 발생했습니다: {e}")
         for row in data:
             row['relevance_category'] = '분류 실패'
         return {"data": data}
@@ -146,7 +146,7 @@ def select_keywords(state: State) -> Dict:
     data = state.get("data", [])
 
     if not data:
-        print("\n데이터가 없어 키워드 선별을 건너뜁니다.")
+        print("\n[Skipped] 데이터가 없어 키워드 선별을 건너뜁니다.")
         return {"data": [], "backend_keywords": []}
 
     simplified_data = [
@@ -186,11 +186,11 @@ def select_keywords(state: State) -> Dict:
 
         except Exception as e:
             retries += 1
-            print(f"\n상위 키워드 선별 중 에러가 발생했습니다: {e}")
+            print(f"\n[Error] 상위 키워드 선별 중 에러가 발생했습니다: {e}")
             if retries < max_retries:
                 print(f"\n--- 재시도합니다... --- ({retries}/{max_retries})")
             else:
-                print(f"\n최대 재시도 횟수({max_retries}회)를 초과했습니다. LLM 호출에 최종 실패했습니다.")
+                print(f"\n[Error] 최대 재시도 횟수({max_retries}회)를 초과했습니다. LLM 호출에 실패했습니다.")
                 break # while 루프 탈출
 
     # LLM 호출이 최종 실패했을 때 실행되는 대체 로직

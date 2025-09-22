@@ -15,7 +15,7 @@ llm = ChatOpenAI(model=config['llm_listing']['model'], temperature=float(config[
 def keyword_distribute(state: State):
     
     if not state['data']:
-        print("\n데이터가 없어 키워드 분배를 종료합니다.")
+        print("\n[Skipped] 데이터가 없어 키워드 분배를 종료합니다.")
         return {}
     
     print(f'\n--- 키워드 {len(state['data'])}개에 대해 분배를 시작합니다... ---')
@@ -46,7 +46,7 @@ def keyword_distribute(state: State):
         }    
 
     except Exception as e:
-        print(f"\n키워드 분배 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] 키워드 분배 중 에러가 발생했습니다: {e}")
         return {}
 
 # ====================================================================================================
@@ -54,7 +54,7 @@ def keyword_distribute(state: State):
 def generate_title(state: State):
     
     if not state['title_keyword']:
-        print('\nTitle 작성용 키워드가 존재하지 않습니다.')
+        print('\n[Skipped] Title 작성용 키워드가 존재하지 않습니다.')
         return {}
     
     print(f'\n--- Title 작성을 시작합니다... ---')
@@ -74,7 +74,7 @@ def generate_title(state: State):
         return {'title': res.title}
 
     except Exception as e:
-        print(f"\nTitle 작성 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] Title 작성 중 에러가 발생했습니다: {e}")
         return {}
 
 # ====================================================================================================
@@ -82,7 +82,7 @@ def generate_title(state: State):
 def generate_bp(state: State):
     
     if not state['bp_keyword']:
-        print('\nBullet Point 작성용 키워드가 존재하지 않습니다.')
+        print('\n[Skipped] Bullet Point 작성용 키워드가 존재하지 않습니다.')
         return {}
 
     print(f'\n--- Bullet Point 작성을 시작합니다... ---')
@@ -105,7 +105,7 @@ def generate_bp(state: State):
         return {'bp': res.bp}
     
     except Exception as e:
-        print(f"\nBullet Point 작성 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] Bullet Point 작성 중 에러가 발생했습니다: {e}")
         return {}
 
 # ====================================================================================================
@@ -113,7 +113,7 @@ def generate_bp(state: State):
 def generate_description(state: State):
     
     if not state['description_keyword']:
-        print('\nDescription 작성용 키워드가 존재하지 않습니다.')
+        print('\n[Skipped] Description 작성용 키워드가 존재하지 않습니다.')
         return {}
     
     print(f'\n--- Description 작성을 시작합니다... ---')
@@ -134,6 +134,6 @@ def generate_description(state: State):
         return {'description': res.description}
 
     except Exception as e:
-        print(f"\nDescription 작성 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] Description 작성 중 에러가 발생했습니다: {e}")
         return {}
     

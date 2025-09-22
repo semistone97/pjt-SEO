@@ -57,7 +57,7 @@ def user_input(state: State):
             print('/q: 현재 초안을 최종 파일로 저장 후 종료')
 
         else:
-            print('명령어를 인식할 수 없습니다.')
+            print('[Warning] 명령어를 인식할 수 없습니다.')
 
         user_feedback = input('\n### 사용자 피드백을 입력해 주세요 ###\n')
 
