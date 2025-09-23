@@ -1,18 +1,12 @@
-import sys
-from langgraph.graph import END
-
 def status_router(state):
 
     if state.get('status') == 'ONGOING':
-        return 'parse_user_feedback'
+        return 'ONGOING'
     
     if state.get('status') == 'FINISHED':
-        return END
+        return 'FINISHED'
     
-    if state.get('status') == 'ERROR':
-        sys.exit(1)
-    
-    return END
+    return 'FINISHED'
 
 def feedback_router(state):
     
@@ -26,3 +20,10 @@ def feedback_router(state):
         return "regenerate_description"
     
     return 'user_input'
+
+def no_pdf_router(state):
+    
+    if state.get('product_docs'):
+        return 'yes_pdf'
+    
+    return 'no_pdf'

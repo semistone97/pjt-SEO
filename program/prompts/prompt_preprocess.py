@@ -102,3 +102,12 @@ select_prompt = ChatPromptTemplate.from_messages([
         ("system", select_template_system),
         ("human", select_template_human)
     ])
+
+
+# ====================================================================================================
+# info_refine_prompt
+
+summarization_prompt = ChatPromptTemplate.from_messages([
+        ("system", "You are an expert at summarizing product information. Please extract the key features, specifications, and purpose of the product from the following text in a concise manner. The summary should be in English."),
+        ("human", "Product Text:\n```\n{product_text}\n```")
+    ])

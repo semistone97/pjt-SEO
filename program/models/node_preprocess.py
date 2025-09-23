@@ -5,10 +5,11 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
-from prompts.prompt_preprocess import filter_prompt, relevance_prompt, select_prompt
+from prompts.prompt_preprocess import filter_prompt, relevance_prompt, select_prompt, summarization_prompt
 from schemas.global_state import State
 from utils.func import preprocess_keywords, scaler
 from utils.config_loader import config
+from langchain_core.prompts import ChatPromptTemplate
 
 
 load_dotenv()
@@ -139,7 +140,7 @@ def relevance_categorize(state: State) -> Dict:
 
 def select_keywords(state: State) -> Dict:
     """
-    LLM을 사용해 상위 30개 키워드를 선별하고, 나머지는 backend_keywords에 저장합니다.
+    LLM을 사용해 상위 키워드를 선별하고, 나머지는 backend_keywords에 저장합니다.
     실패 시 최대 3회 재시도하고, 최종 실패 시 대체 로직을 실행합니다.
     """
     print("\n--- 상위 키워드 선별 및 백엔드 키워드를 저장합니다... ---")
@@ -166,7 +167,7 @@ def select_keywords(state: State) -> Dict:
     
     while retries < max_retries:
         try:
-            print(f"\n--- {len(simplified_data)}개 후보 중 상위 30개 키워드 선별을 요청합니다... --- (시도 {retries + 1}/{max_retries})")
+            print(f"\n--- {len(simplified_data)}개 후보 중 상위 키워드 선별을 요청합니다... --- (시도 {retries + 1}/{max_retries})")
             
             response_str = chain.invoke({
                 "data_list_str": json.dumps(simplified_data, ensure_ascii=False)
@@ -212,3 +213,24 @@ def select_keywords(state: State) -> Dict:
 
     return {"data": final_data, "backend_keywords": backend_keywords_list}
 
+def information_refine(state: State):
+    
+    print("--- PDF 내용을 요약합니다... ---")
+    
+    all_extracted_text = state['product_information']
+    
+    # LLM을 사용하여 텍스트 요약
+    full_text = "\n\n---\n\n".join(all_extracted_text)
+
+    # LLM 초기화 및 요약 체인 구성
+    llm = ChatOpenAI(model="gpt-4o", temperature=0)
+
+    summarization_chain = summarization_prompt | llm
+
+    # LLM 호출하여 요약 생성
+    response = summarization_chain.invoke({"product_text": full_text})
+    product_information = response.content
+    print(f"\n=== 요약된 제품 정보 ===\n{product_information}")
+
+    # State 업데이트
+    return {"product_information": product_information}
