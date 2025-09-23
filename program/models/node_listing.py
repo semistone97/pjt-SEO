@@ -121,7 +121,7 @@ def generate_description(state: State):
     try:
         prompt = description_prompt.invoke(
             {
-                'bp_context': state['bp'],
+                'bp_result': state['bp'],
                 'product_name': state['product_name'], 
                 'category': state['category'],
                 'product_information': state['product_information'], 

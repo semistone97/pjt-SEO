@@ -325,7 +325,7 @@ description_examples = [
 
 
 
-description_example_prompt = PromptTemplate.from_template('[Generated BP Context]\n{bp_context}\n[keyword]\n{description_keyword}\n[output]\nDescription: {description}')
+description_example_prompt = PromptTemplate.from_template('[keyword]\n{description_keyword}\n[output]\nDescription: {description}')
 
 description_prefix = """
 Generate high-quality product description by referring to the requirements, guidelines, and previously generated bullet points below. Ensure NO content duplication with the bullet points.
