@@ -58,30 +58,32 @@ relevance_prompt = ChatPromptTemplate.from_messages([
 
 
 # ====================================================================================================
-# select_top_prompt
+# select_keywords_prompt
 
-select_template_system = '''
+select_count = 50
+
+select_template_system = f'''
 You are a senior marketing strategist building a balanced and powerful keyword portfolio for an Amazon product. 
-Your goal is to select the 30 most valuable keywords from the provided list to maximize both immediate sales and long-term market reach.
+Your goal is to select the {select_count} most valuable keywords from the provided list to maximize both immediate sales and long-term market reach.
 
 Each keyword has a 'relevance_category' ('Direct', 'Related', 'Indirect') and a 'value_score' (representing opportunity).
 
-Think of your selection as a strategic portfolio with three tiers. Your final list of 30 should be a strategic mix of these tiers:
+Think of your selection as a strategic portfolio with three tiers. Your final list of {select_count} should be a strategic mix of these tiers:
 
-1.  **Core Conversion Keywords (approx. 15-20 slots):**
+1.  **Core Conversion Keywords (approx. {select_count * 0.5}~{select_count * 0.6} slots):**
     *   Select these from the **'Direct'** category. These are your most important keywords for driving immediate sales.
     *   Within this category, choose the ones with the **highest `value_score`**.
 
-2.  **Audience Expansion Keywords (approx. 5-10 slots):**
+2.  **Audience Expansion Keywords (approx. {select_count * 0.2}-{select_count * 0.3} slots):**
     *   Select these from the **'Related'** category. These keywords will help you reach a broader, but still highly relevant, audience.
     *   Prioritize those with the **highest `value_score`**.
 
-3.  **Strategic Discovery Keywords (approx. 3-5 slots):**
+3.  **Strategic Discovery Keywords (approx. {select_count * 0.1}-{select_count * 0.2} slots):**
     *   Select these from the **'Indirect'** category. Look for "hidden gems" here – keywords with an **exceptionally high `value_score`** that can bring in valuable, low-competition traffic.
 
-**Your final goal is a balanced portfolio of 30 keywords.** Avoid simply filling the list only with 'Direct' keywords. The aim is to ensure both high conversion and wider audience discovery.
+**Your final goal is a balanced portfolio of {select_count} keywords.** Avoid simply filling the list only with 'Direct' keywords. The aim is to ensure both high conversion and wider audience discovery.
 
-Return your response ONLY as a valid JSON array of strings, containing the 30 selected keywords. Do not include any other text, explanation, or markdown.
+Return your response ONLY as a valid JSON array of strings, containing the {select_count} selected keywords. Do not include any other text, explanation, or markdown.
 
 Example format:
 [
