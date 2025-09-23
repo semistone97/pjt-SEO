@@ -138,7 +138,7 @@ The following guidelines are best practices that you may want to consider to pro
 • Titles can abbreviate measurements, such as "cm", "oz", "in", and "kg".
 """
 
-title_snuffix = """
+title_suffix = """
 [Data]
 Product Name: {product_name}
 Category: {category}
@@ -155,7 +155,7 @@ title_prompt = FewShotPromptTemplate(
     examples=title_examples,
     example_prompt=title_example_prompt,
     prefix=title_prefix,
-    suffix=title_snuffix,
+    suffix=title_suffix,
     input_variables=["product_name", "category", "product_information", "title_keyword"],
 )
 
@@ -218,7 +218,7 @@ Do not include below information. Bullet points with below information will be r
 • Versatile Style: Perfect for dance practice, playtime, or outdoor activity
 """
 
-bp_snuffix = """
+bp_suffix = """
 [Data]
 Product Name: {product_name}
 Category: {category}
@@ -235,7 +235,7 @@ bp_prompt = FewShotPromptTemplate(
     examples=bp_examples,
     example_prompt=bp_example_prompt,
     prefix=bp_prefix,
-    suffix=bp_snuffix,
+    suffix=bp_suffix,
     input_variables=["product_name", "category", 'product_information', "bp_keyword"],
     )
 
@@ -289,7 +289,7 @@ The product description, presented in paragraph form on the detail page, should 
 • Keep total length under 2000 bytes while maintaining comprehensive coverage
 """
 
-description_snuffix = """
+description_suffix = """
 [Generated Bullet Points]
 {bp_result}
 ---
@@ -309,7 +309,7 @@ description_prompt = FewShotPromptTemplate(
     examples=description_examples,
     example_prompt=description_example_prompt,
     prefix=description_prefix,
-    suffix=description_snuffix,
+    suffix=description_suffix,
     input_variables=["product_name", "category", "product_information", "description_keyword", "bp_result"],
 )
 

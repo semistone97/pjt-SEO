@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 import pandas as pd
 from typing import Dict
 from dotenv import load_dotenv
@@ -9,6 +10,7 @@ from prompts.prompt_preprocess import filter_prompt, relevance_prompt, select_pr
 from schemas.global_state import State
 from utils.func import preprocess_keywords, scaler
 from utils.config_loader import config
+
 
 load_dotenv()
 
@@ -59,11 +61,20 @@ def keyword_preprocess(state: State):
         cleaned_data = df[df['keyword'].isin(cleaned_keywords)].reset_index(drop=True)
         
         processed_df = scaler(cleaned_data)
+
+
+        # # 결과 출력 노드
+        # output_dir = Path('output')
+        # output_dir.mkdir(exist_ok=True)
+        # output_file = output_dir / f'02_{"_".join(state.get('product_name').split())}_keyword_preprocess.csv'
+        # processed_df.to_csv(output_file, index=False)
+        
+        
         
         processed_df = processed_df.to_dict(orient='records')
         
-        
         print(f'\n키워드 {len(processed_df)}개를 정제하였습니다')
+        
         return {"data": processed_df}
 
     except Exception as e:
