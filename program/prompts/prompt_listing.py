@@ -85,25 +85,27 @@ keyword_prompt = PromptTemplate.from_template(keyword_template)
 # ====================================================================================================
 # Title Prompt
 title_examples = [
-    {"title_keyword": "chicken, chicken shredder, tools, chicken shredder tool twist, meat shredder, shredder, pork, tool, hand tools, meat shredder tool twist, chicken shredder tool twist large, shredder kitchen, chicken shredder tool, food shredder, chicken breast, kitchen, food, meat, shredded chicken, cooked chicken, kitchen gadgets, meal prep, kitchen tools, amazon kitchen, cooking gifts, cooking gadgets",
-        "title": "Chicken Shredder, 10'' Large Chicken Shredder Tool Twist with Transparent Lid, Ergonomic Handle and Anti-Slip Base, Dishwasher Safe, Ideal for Meal Prep"
-    }
-
-    {"title_keyword": "brown water bottle, water bottle simple modern, simple modern mesa, mesa loop, simple modern water bottle, simple modern, fall water bottle, sm water bottle, simple modern mesa loop, mesa loop simple modern, brown owala water bottle, simple modern 30 oz, simply modern, simple modern harvest collection, hot pink water bottle, simply modern water bottle, 30 oz water bottle, simple modern fall, owala orange, owala brown, simple modern water bottle kids, simple modern 30 oz tumbler, owala sway 30 oz, simply modern kids water bottle, owala down to earth, kids simple modern water bottle, simple modern halloween, ember cold tumbler, simple modern fall tumbler, blue owala water bottle 24 oz",
-     "title": "Simple Modern Mesa Loop Water Bottle with Straw | 24oz Cup Holder Friendly Insulated Stainless Steel Bottles for Travel, Sports and School | Midnight Black"
-    }
-
-    {"title_keyword": "water bottle, owala water bottle, owala water bottle 24 oz, owala water bottle 32oz, owala water bottle 40 oz, water bottles, kids water bottle, owala kids, insulated water bottle, water bottle insulated, owala kids water bottle, owala 40 oz, kids water bottle for school, stainless steel water bottles, water bottle for school, owala 24 oz, owala free sip, awalah water bottle, owala 32 oz, water bottle with straw, water bottle stainless steel, pink owala, owala 16 oz, back to school, owala free sip sway, water bottle kids, travel accessories, hydro flask water bottles, yeti kids water bottle, hydroflask 40 oz water bottle",
-     "title": "Owala FreeSip Insulated Stainless Steel Water Bottle with Straw, BPA-Free Sports Water Bottle, Great for Travel, 24 Oz, Denim"
-    }
-
-    {"title_keyword": "food storage containers with lids, lunch containers, food containers, food storage containers, containers with lids, lunch containers for adults, rubbermaid brilliance storage containers, tupperware set, rubbermaid brilliance, tupperware glass, rubbermaid food storage containers, tupperware sets with lids, glass tupperware, food storage, food containers with lids, food prep containers, containers for food, glass storage containers, meal prep containers, meal prep containers glass, glass food storage, glass meal prep containers with lids, glass tupperware sets with lids, small containers with lids, snack containers, organization and storage, snapware glass storage containers, pyrex glass storage containers with lids, meal prep, freezer storage containers",
-     "title": "Rubbermaid Brilliance Food Storage Containers BPA Free Airtight Lids Ideal for Lunch Meal Prep & Leftovers Set of 5 (3.2 Cup)"
-    }
-
-    {"title_keyword": "bissell little green machine, upholstery cleaner, little green clean machine, couch cleaner, upholstery cleaner machine, green machine carpet cleaner, couch cleaner machine, mattress cleaner, car detailing, green machine, portable carpet cleaner, little green machine, steam cleaner for furniture, wet vacuum cleaner, carpet cleaner, car seat cleaner, bissell carpet cleaner, rug cleaner, pet carpet cleaner, steam cleaner for car, carpet cleaner machine, carpet steam cleaner, carpet shampooer, cleaning tools, bissell steam cleaner, carpet shampooer machine, portable vacuum for car, bissell little green machine solution, mini foldable desktop mop, shark stain striker",
-     "title": "BISSELL Little Green Mini Portable Carpet and Upholstery Deep Cleaner, Car/Auto Detailer, with HydroRinse Self-Cleaning Tool and 4" Tough Stain Tool, Tea Green, 4075"
-    }]
+        {
+            "title_keyword": "chicken, chicken shredder, tools, chicken shredder tool twist, meat shredder, shredder, pork, tool, hand tools, meat shredder tool twist, chicken shredder tool twist large, shredder kitchen, chicken shredder tool, food shredder, chicken breast, kitchen, food, meat, shredded chicken, cooked chicken, kitchen gadgets, meal prep, kitchen tools, amazon kitchen, cooking gifts, cooking gadgets",
+            "title": "Chicken Shredder, 10'' Large Chicken Shredder Tool Twist with Transparent Lid, Ergonomic Handle and Anti-Slip Base, Dishwasher Safe, Ideal for Meal Prep"
+        },
+        {
+            "title_keyword": "brown water bottle, water bottle simple modern, simple modern mesa, mesa loop, simple modern water bottle, simple modern, fall water bottle, sm water bottle, simple modern mesa loop, mesa loop simple modern, brown owala water bottle, simple modern 30 oz, simply modern, simple modern harvest collection, hot pink water bottle, simply modern water bottle, 30 oz water bottle, simple modern fall, owala orange, owala brown, simple modern water bottle kids, simple modern 30 oz tumbler, owala sway 30 oz, simply modern kids water bottle, owala down to earth, kids simple modern water bottle, simple modern halloween, ember cold tumbler, simple modern fall tumbler, blue owala water bottle 24 oz",
+            "title": "Simple Modern Mesa Loop Water Bottle with Straw | 24oz Cup Holder Friendly Insulated Stainless Steel Bottles for Travel, Sports and School | Midnight Black"
+        },
+        {
+            "title_keyword": "water bottle, owala water bottle, owala water bottle 24 oz, owala water bottle 32oz, owala water bottle 40 oz, water bottles, kids water bottle, owala kids, insulated water bottle, water bottle insulated, owala kids water bottle, owala 40 oz, kids water bottle for school, stainless steel water bottles, water bottle for school, owala 24 oz, owala free sip, awalah water bottle, owala 32 oz, water bottle with straw, water bottle stainless steel, pink owala, owala 16 oz, back to school, owala free sip sway, water bottle kids, travel accessories, hydro flask water bottles, yeti kids water bottle, hydroflask 40 oz water bottle",
+            "title": "Owala FreeSip Insulated Stainless Steel Water Bottle with Straw, BPA-Free Sports Water Bottle, Great for Travel, 24 Oz, Denim"
+        },
+        {
+            "title_keyword": "food storage containers with lids, lunch containers, food containers, food storage containers, containers with lids, lunch containers for adults, rubbermaid brilliance storage containers, tupperware set, rubbermaid brilliance, tupperware glass, rubbermaid food storage containers, tupperware sets with lids, glass tupperware, food storage, food containers with lids, food prep containers, containers for food, glass storage containers, meal prep containers, meal prep containers glass, glass food storage, glass meal prep containers with lids, glass tupperware sets with lids, small containers with lids, snack containers, organization and storage, snapware glass storage containers, pyrex glass storage containers with lids, meal prep, freezer storage containers",
+            "title": "Rubbermaid Brilliance Food Storage Containers BPA Free Airtight Lids Ideal for Lunch Meal Prep & Leftovers Set of 5 (3.2 Cup)"
+        },
+        {  
+            "title_keyword": "bissell little green machine, upholstery cleaner, little green clean machine, couch cleaner, upholstery cleaner machine, green machine carpet cleaner, couch cleaner machine, mattress cleaner, car detailing, green machine, portable carpet cleaner, little green machine, steam cleaner for furniture, wet vacuum cleaner, carpet cleaner, car seat cleaner, bissell carpet cleaner, rug cleaner, pet carpet cleaner, steam cleaner for car, carpet cleaner machine, carpet steam cleaner, carpet shampooer, cleaning tools, bissell steam cleaner, carpet shampooer machine, portable vacuum for car, bissell little green machine solution, mini foldable desktop mop, shark stain striker",
+            "title": 'BISSELL Little Green Mini Portable Carpet and Upholstery Deep Cleaner, Car/Auto Detailer, with HydroRinse Self-Cleaning Tool and 4" Tough Stain Tool, Tea Green, 4075'
+        }
+    ]
 
 title_example_prompt = PromptTemplate.from_template('[keyword]\n{title_keyword}\n[output]\nTitle: {title}')
 
@@ -152,7 +154,7 @@ The following guidelines are best practices that you may want to consider to pro
 • Titles can abbreviate measurements, such as "cm", "oz", "in", and "kg".
 """
 
-title_snuffix = """
+title_suffix = """
 [Data]
 Product Name: {product_name}
 Category: {category}
@@ -169,7 +171,7 @@ title_prompt = FewShotPromptTemplate(
     examples=title_examples,
     example_prompt=title_example_prompt,
     prefix=title_prefix,
-    suffix=title_snuffix,
+    suffix=title_suffix,
     input_variables=["product_name", "category", "product_information", "title_keyword"],
 )
 
@@ -227,7 +229,9 @@ bp_examples = [
             'INCLUDES: 4" Tough Stain Tool with removeable lens, HydroRinse self-cleaning hose tool, and 8oz. BISSELL Little Green Formula.',
             'EASY STORAGE: Conveniently stores in small spaces - perfect for cabinets, closets, and more.',
             'LITTLE GREEN FORMULA: Instantly and permanently removes stains and eliminates everyday household odors.'
-]}]
+        ]
+    }
+]
 
 bp_example_prompt = PromptTemplate.from_template('[keyword]\n{bp_keyword}\n[output]\nBullet Point: {bp}')
 
@@ -273,7 +277,7 @@ Do not include below information. Bullet points with below information will be r
 • Versatile Style: Perfect for dance practice, playtime, or outdoor activity
 """
 
-bp_snuffix = """
+bp_suffix = """
 [Data]
 Product Name: {product_name}
 Category: {category}
@@ -290,7 +294,7 @@ bp_prompt = FewShotPromptTemplate(
     examples=bp_examples,
     example_prompt=bp_example_prompt,
     prefix=bp_prefix,
-    suffix=bp_snuffix,
+    suffix=bp_suffix,
     input_variables=["product_name", "category", 'product_information', "bp_keyword"],
     )
 
@@ -316,11 +320,12 @@ description_examples = [
     {
         "description_keyword": "bissell little green machine, upholstery cleaner, little green clean machine, couch cleaner, upholstery cleaner machine, green machine carpet cleaner, couch cleaner machine, mattress cleaner, car detailing, green machine, portable carpet cleaner, little green machine, steam cleaner for furniture, wet vacuum cleaner, carpet cleaner, car seat cleaner, bissell carpet cleaner, rug cleaner, pet carpet cleaner, steam cleaner for car, carpet cleaner machine, carpet steam cleaner, carpet shampooer, cleaning tools, bissell steam cleaner, carpet shampooer machine, portable vacuum for car, bissell little green machine solution, mini foldable desktop mop, shark stain striker",
         "description": "Save on space without sacrificing on cleaning ability. Use BISSELL® Little Green® Mini portable upholstery and carpet cleaner to spray, scrub and lift away tough messes, like dirt and stains, from all types of surfaces. Easily access hard-to-clean spaces like staircases or car interiors with Little Green® Mini portable deep cleaner’s lightweight and compact design. Every purchase makes it possible for BISSELL to continue our support of BISSELL Pet Foundation® and its mission of saving pets in need. Since 2011, BISSELL has donated over $26 million in support of BISSELL Pet Foundation®. When you purchase a BISSELL® product, you help save pets, too. Our products are engineered to clean even the toughest messes so pets can stay at home and out of shelters."
-    }]
+    }
+]
 
 
 
-description_example_prompt = PromptTemplate.from_template('[Generated BP Context]\n{bp_context}\n[keyword]\n{description_keyword}\n[output]\nDescription: {description}')
+description_example_prompt = PromptTemplate.from_template('[keyword]\n{description_keyword}\n[output]\nDescription: {description}')
 
 description_prefix = """
 Generate high-quality product description by referring to the requirements, guidelines, and previously generated bullet points below. Ensure NO content duplication with the bullet points.
@@ -360,7 +365,7 @@ The product description, presented in paragraph form on the detail page, should 
 • Keep total length under 2000 bytes while maintaining comprehensive coverage
 """
 
-description_snuffix = """
+description_suffix = """
 [Generated Bullet Points]
 {bp_result}
 ---
@@ -380,7 +385,7 @@ description_prompt = FewShotPromptTemplate(
     examples=description_examples,
     example_prompt=description_example_prompt,
     prefix=description_prefix,
-    suffix=description_snuffix,
+    suffix=description_suffix,
     input_variables=["product_name", "category", "product_information", "description_keyword", "bp_result"],
 )
 

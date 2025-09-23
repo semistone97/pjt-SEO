@@ -4,7 +4,7 @@ from prompts.prompt_listing import keyword_prompt, title_prompt, bp_prompt, desc
 from langchain_openai import ChatOpenAI
 from utils.config_loader import config
 from dotenv import load_dotenv
-
+from datetime import datetime
 
 load_dotenv()
 
@@ -15,9 +15,9 @@ llm = ChatOpenAI(model=config['llm_listing']['model'], temperature=float(config[
 def keyword_distribute(state: State):
     
     if not state['data']:
-        print("\n데이터가 없어 키워드 분배를 종료합니다.")
+        print("\n[Skipped] 데이터가 없어 키워드 분배를 종료합니다.")
         return {}
-    
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f'\n--- 키워드 {len(state['data'])}개에 대해 분배를 시작합니다... ---')
     
     try:
@@ -33,10 +33,10 @@ def keyword_distribute(state: State):
         res = structured_llm.invoke(prompt)
         
         print('\n=== 키워드 분배 결과 ===')
-        print(f'Title Keyword: {len(res.title_keyword)}개')
-        print(f'BP Keyword: {len(res.bp_keyword)}개')
-        print(f'Description Keyword: {len(res.description_keyword)}개')
-        print(f'Leftover: {len(res.leftover)}개')
+        print(f' Title Keyword: {len(res.title_keyword)}개')
+        print(f' BP Keyword: {len(res.bp_keyword)}개')
+        print(f' Description Keyword: {len(res.description_keyword)}개')
+        print(f' Leftover: {len(res.leftover)}개')
         
         return {
             'title_keyword': res.title_keyword, 
@@ -46,15 +46,15 @@ def keyword_distribute(state: State):
         }    
 
     except Exception as e:
-        print(f"\n키워드 분배 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] 키워드 분배 중 에러가 발생했습니다: {e}")
         return {}
 
 # ====================================================================================================
 # Title 노드
 def generate_title(state: State):
     
-    if not state['title_keyword']:
-        print('\nTitle 작성용 키워드가 존재하지 않습니다.')
+    if not state.title_keyword:
+        print('\n[Skipped] Title 작성용 키워드가 존재하지 않습니다.')
         return {}
     
     print(f'\n--- Title 작성을 시작합니다... ---')
@@ -74,15 +74,15 @@ def generate_title(state: State):
         return {'title': res.title}
 
     except Exception as e:
-        print(f"\nTitle 작성 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] Title 작성 중 에러가 발생했습니다: {e}")
         return {}
 
 # ====================================================================================================
 # BP 노드
 def generate_bp(state: State):
     
-    if not state['bp_keyword']:
-        print('\nBullet Point 작성용 키워드가 존재하지 않습니다.')
+    if not state.bp_keyword:
+        print('\n[Skipped] Bullet Point 작성용 키워드가 존재하지 않습니다.')
         return {}
 
     print(f'\n--- Bullet Point 작성을 시작합니다... ---')
@@ -105,15 +105,15 @@ def generate_bp(state: State):
         return {'bp': res.bp}
     
     except Exception as e:
-        print(f"\nBullet Point 작성 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] Bullet Point 작성 중 에러가 발생했습니다: {e}")
         return {}
 
 # ====================================================================================================
 # Description 노드
 def generate_description(state: State):
     
-    if not state['description_keyword']:
-        print('\nDescription 작성용 키워드가 존재하지 않습니다.')
+    if not state.description_keyword:
+        print('\n[Skipped] Description 작성용 키워드가 존재하지 않습니다.')
         return {}
     
     print(f'\n--- Description 작성을 시작합니다... ---')
@@ -134,6 +134,92 @@ def generate_description(state: State):
         return {'description': res.description}
 
     except Exception as e:
-        print(f"\nDescription 작성 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] Description 작성 중 에러가 발생했습니다: {e}")
         return {}
     
+
+# ====================================================================================================
+# Listing 한번에 생성함
+def generate_listing(state: State):
+    
+    # Title 생성
+    if state.title_keyword:
+        print(f'\n--- Title 작성을 시작합니다... ---')
+        
+        try:
+            prompt = title_prompt.invoke(
+                {
+                    'product_name': state['product_name'], 
+                    'category': state['category'],
+                    'product_information': state['product_information'], 
+                    'title_keyword': state['title_keyword'],
+                }
+            )
+            structured_llm = llm.with_structured_output(TitleOutput)
+            title = structured_llm.invoke(prompt)
+            print(f'\n작성된 Title: 총 {len(title.title)}자')
+
+        except Exception as e:
+            print(f"\n[Error] Title 작성 중 에러가 발생했습니다: {e}")
+            
+
+    else:    
+        print('\n[Skipped] Title 작성용 키워드가 존재하지 않습니다.')
+        return {}
+    
+    # BP 생성
+    if state.bp_keyword:
+        print(f'\n--- Bullet Point 작성을 시작합니다... ---')
+    
+        try:
+            prompt = bp_prompt.invoke(
+                {
+                    'product_name': state['product_name'], 
+                    'category': state['category'],
+                    'product_information': state['product_information'], 
+                    'bp_keyword': state['bp_keyword'],
+                }
+            )
+            structured_llm = llm.with_structured_output(BPOutput)
+            bps = structured_llm.invoke(prompt)
+            bp_length = []
+            for bp in bps.bp:
+                bp_length.append(len(bp))    
+            print(f'\n작성된 Bullet Point: 각 {bp_length}자')
+        
+        except Exception as e:
+            print(f"\n[Error] Bullet Point 작성 중 에러가 발생했습니다: {e}")
+            return {}
+    
+    else:    
+        print('\n[Skipped] Bullet Point 작성용 키워드가 존재하지 않습니다.')
+        return {}
+    
+    # Description 생성
+
+    if state.description_keyword:
+        print(f'\n--- Description 작성을 시작합니다... ---')
+        
+        try:
+            prompt = description_prompt.invoke(
+                {
+                    'bp_result': state['bp'],
+                    'product_name': state['product_name'], 
+                    'category': state['category'],
+                    'product_information': state['product_information'], 
+                    'description_keyword': state['description_keyword'],
+                }
+            )
+            structured_llm = llm.with_structured_output(DescriptionOutput)
+            description = structured_llm.invoke(prompt)
+            print(f'\n작성된 Description: 총 {len(description.description)}자')
+
+        except Exception as e:
+            print(f"\n[Error] Description 작성 중 에러가 발생했습니다: {e}")
+            return {}
+        
+    else:
+        print('\n[Skipped] Description 작성용 키워드가 존재하지 않습니다.')
+        return {}
+    
+    return {'title': title.title, 'bp': bps.bp, 'description': description.description}

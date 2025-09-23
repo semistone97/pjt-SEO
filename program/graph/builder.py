@@ -8,9 +8,7 @@ from models.node_regenerate import regenerate_title, regenerate_bp, regenerate_d
 from models.node_info import information_extract, listing_verificate
 from graph.router import status_router, feedback_router
 
-
 load_dotenv()
-
 
 def build_graph():
     builder = StateGraph(State)
@@ -43,7 +41,7 @@ def build_graph():
         status_router,
         {
             'parse_user_feedback': 'parse_user_feedback',
-            'END': END
+            END: END
         }
     )
     

@@ -55,7 +55,7 @@ def information_extract(state: State) -> dict:
                 print(f'읽어온 PDF 파일 : {filename}')
 
             except Exception as e:
-                print(f"PDF 파일 {filename} 읽기 오류: {e}")
+                print(f"[Error] PDF 파일 {filename} 읽기 오류: {e}")
 
     # LLM을 사용하여 텍스트 요약
     if all_extracted_text:
@@ -137,7 +137,7 @@ def listing_verificate(state: State) -> dict:
         verified_bp = verified_listing.get("bullet_points", current_bp)
         verified_description = verified_listing.get("description", current_description)
     except json.JSONDecodeError as e:
-        print(f"LLM 응답 파싱 오류: {e}")
+        print(f"[Error] LLM 응답 파싱 오류: {e}")
         print(f"응답 내용: {response.content}")
         # 오류 발생 시 기존 값 유지
         verified_title = current_title

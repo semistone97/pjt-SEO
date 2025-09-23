@@ -14,7 +14,7 @@ llm = ChatOpenAI(model=config['llm_listing']['model'], temperature=float(config[
 def regenerate_title(state: State):
     
     if not state['title_keyword']:
-        print('\nTitle 재작성용 키워드가 존재하지 않습니다.')
+        print('\n[Skipped] Title 재작성용 키워드가 존재하지 않습니다.')
         return {'user_feedback_title': ''}
     
     print(f'\n--- Title 재작성을 시작합니다... ---')
@@ -42,7 +42,7 @@ def regenerate_title(state: State):
         return {'title': res.title, 'user_feedback_title': ''}
 
     except Exception as e:
-        print(f"\nTitle 재작성 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] Title 재작성 중 에러가 발생했습니다: {e}")
         return {'user_feedback_title': ''}
 
 # ====================================================================================================
@@ -50,7 +50,7 @@ def regenerate_title(state: State):
 def regenerate_bp(state: State):
     
     if not state['bp_keyword']:
-        print('\nBullet Point 재작성용 키워드가 존재하지 않습니다.')
+        print('\n[Skipped] Bullet Point 재작성용 키워드가 존재하지 않습니다.')
         return {'user_feedback_bp': ''}
 
     print(f'\n--- Bullet Point 재작성을 시작합니다... ---')
@@ -81,7 +81,7 @@ def regenerate_bp(state: State):
         return {'bp': res.bp, 'user_feedback_bp': ''}
     
     except Exception as e:
-        print(f"\nBullet Point 재작성 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] Bullet Point 재작성 중 에러가 발생했습니다: {e}")
         return {'user_feedback_bp': ''}
 
 # ====================================================================================================
@@ -89,7 +89,7 @@ def regenerate_bp(state: State):
 def regenerate_description(state: State):
     
     if not state['description_keyword']:
-        print('\nDescription 재작성용 키워드가 존재하지 않습니다.')
+        print('\n[Skipped] Description 재작성용 키워드가 존재하지 않습니다.')
         return {'user_feedback_description': ''}
     
     print(f'\n--- Description 재작성을 시작합니다... ---')
@@ -118,6 +118,6 @@ def regenerate_description(state: State):
         return {'description': res.description, 'user_feedback_description': ''}
 
     except Exception as e:
-        print(f"\nDescription 재작성 중 에러가 발생했습니다: {e}")
+        print(f"\n[Error] Description 재작성 중 에러가 발생했습니다: {e}")
         return {'user_feedback_description': ''}
     
