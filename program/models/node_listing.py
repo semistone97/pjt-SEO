@@ -53,7 +53,7 @@ def keyword_distribute(state: State):
 # Title 노드
 def generate_title(state: State):
     
-    if not state.title_keyword:
+    if not state['title_keyword']:
         print('\n[Skipped] Title 작성용 키워드가 존재하지 않습니다.')
         return {}
     
@@ -81,7 +81,7 @@ def generate_title(state: State):
 # BP 노드
 def generate_bp(state: State):
     
-    if not state.bp_keyword:
+    if not state['bp_keyword']:
         print('\n[Skipped] Bullet Point 작성용 키워드가 존재하지 않습니다.')
         return {}
 
@@ -112,7 +112,7 @@ def generate_bp(state: State):
 # Description 노드
 def generate_description(state: State):
     
-    if not state.description_keyword:
+    if not state['description_keyword']:
         print('\n[Skipped] Description 작성용 키워드가 존재하지 않습니다.')
         return {}
     
@@ -143,7 +143,7 @@ def generate_description(state: State):
 def generate_listing(state: State):
     
     # Title 생성
-    if state.title_keyword:
+    if state['title_keyword']:
         print(f'\n--- Title 작성을 시작합니다... ---')
         
         try:
@@ -168,7 +168,7 @@ def generate_listing(state: State):
         return {}
     
     # BP 생성
-    if state.bp_keyword:
+    if state['bp_keyword']:
         print(f'\n--- Bullet Point 작성을 시작합니다... ---')
     
         try:
@@ -197,7 +197,7 @@ def generate_listing(state: State):
     
     # Description 생성
 
-    if state.description_keyword:
+    if state['description_keyword']:
         print(f'\n--- Description 작성을 시작합니다... ---')
         
         try:

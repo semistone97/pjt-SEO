@@ -22,7 +22,7 @@ def main():
         'category': category,
         'data': raw_df, 
         # 'category': 'Home & Kitchen',
-        # 'product_information': 'good alarm clock'
+        'product_information': ''
     })
 
 if __name__ == "__main__":
