@@ -20,7 +20,7 @@ def build_graph():
 
     # 초안 작성
     builder.add_edge("select_keywords", "keyword_distribute")
-    builder.add_sequence([keyword_distribute, generate_title, generate_bp, generate_description, information_extract, listing_verificate])
+    builder.add_sequence([keyword_distribute, information_extract, generate_title, generate_bp, generate_description, listing_verificate])
 
     # 사용자 피드백
     builder.add_node('user_input', user_input)

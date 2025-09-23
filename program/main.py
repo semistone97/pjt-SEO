@@ -24,10 +24,8 @@ def main():
         'data': raw_df, 
         'product_name': 'iphone case',
         'category': 'smartphone case',
-        'product_information': ''
         # 'product_name': input('\n상품명: '),
         # 'category': input('상품의 카테고리를 적어주세요: '),
-        # 'product_information': input('상품의 크기, 소재 관련 데이터를 적어주세요: ')
     })
 
 if __name__ == "__main__":
