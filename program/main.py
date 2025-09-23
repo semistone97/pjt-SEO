@@ -21,7 +21,6 @@ def main():
         'product_name': product_name,
         'category': category,
         'data': raw_df, 
-        # 'category': 'Home & Kitchen',
         'product_information': ''
     })
 
