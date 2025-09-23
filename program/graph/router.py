@@ -1,12 +1,14 @@
+from langgraph.graph import END
+
 def status_router(state):
-    
-    current_status = state.get('status')
-    print(f"DEBUG: status_router received status: '{current_status}'")  # 디버깅 추가
 
     if state.get('status') == 'ONGOING':
         return 'parse_user_feedback'
     
-    return 'END'
+    if state.get('status') == 'FINISHED':
+        return END
+    
+    return END
 
 def feedback_router(state):
     

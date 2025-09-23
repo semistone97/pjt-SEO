@@ -1,10 +1,11 @@
 from dotenv import load_dotenv
-import json
+from datetime import datetime
 from langchain_openai import ChatOpenAI
 from schemas.global_state import State
 from schemas.schema import Feedback
 from prompts.prompt_feedback import feedback_prompt
 from utils.config_loader import config
+import os, sys
 
 load_dotenv()
 
@@ -14,24 +15,73 @@ llm = ChatOpenAI(model=config['llm_feedback']['model'], temperature=float(config
 # 사용자 피드백 입력
 def user_input(state: State):
     
+    title, bp_list, description = state.get('title'), state.get('bp'), state.get('description')
+    leftover = sorted(state.get('leftover') + state.get('backend_keywords'))
+    
     print("\n=== 결과물 출력 ===")
-    print(f'\nTitle:\n{state.get('title')}')
+    print(f'\nTitle:\n{title}')
     print('\nBP:')
-    for bp in state.get('bp'):
+    for bp in bp_list:
         print(bp)
-    print(f'\nDescription:\n{state.get('description')}')
+    print(f'\nDescription:\n{description}')
     
-    user_feedback = input('\n### 사용자 피드백을 입력해 주세요. 피드백이 없다면, 빈 칸으로 남겨주세요 ###\n')
+    user_feedback = input('\n### 사용자 피드백을 입력해 주세요. (/help: 도움말) ###\n').strip()
     
-    if not user_feedback.strip():
-        print('\n피드백이 없습니다. 결과물을 출력합니다.')
-        result = {'status': 'FINISHED'}
-        print(f"DEBUG: user_input returning: {result}")  # 디버깅 추가        
-        return {'status': 'FINISHED'}
+    while user_feedback[0] == '/':
+        if user_feedback in ['/finish']:
+            print('\n작동을 종료합니다.')
+            
+            save_dir = 'output'
+            
+            os.makedirs(save_dir, exist_ok=True)
+            filename = f'{"_".join(state.get('product_name').split())}_Keyword_Listing_Final.txt'
+            file_path = os.path.join(save_dir, filename)
+            
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(f'\n[Title]\n{state.get('title')}\n')
+                f.write('\n[Bullet Point]\n')
+                for bp in state.get('bp'):
+                    f.write(str(bp) + '\n')
+                f.write(f'\n[Description]\n{state.get('description')}\n')
+                f.write('\nLeftover Keywords: ' + ', '.join(map(str, sorted(state.get('leftover') + state.get('backend_keywords')))))
+                        
+                print(f'최종 결과물을 {filename} 파일에 저장합니다. ')
+            
+            return {'user_feedback': '', 'status': 'FINISHED'}
+        
+        if user_feedback in ['/q']:
+            print('\n작동을 종료합니다.')
+            sys.exit(1)
+        
+        elif user_feedback in ['/export']:
+            now = datetime.now().strftime("%Y_%m_%d_%H-%M-%S")
+            
+            save_dir = 'output'
+            os.makedirs(save_dir, exist_ok=True)
+            filename = f'{"_".join(state.get('product_name').split())}_Temp_Listing({now}).txt'
+            file_path = os.path.join(save_dir, filename)
+            
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(f'\n[Title]\n{title}\n')
+                f.write('\n[Bullet Point]\n')
+                for bp in bp_list:
+                    f.write(str(bp) + '\n')
+                f.write(f'\n[Description]\n{description}\n')
+                f.write('\nLeftover Keywords: ' + ', '.join(map(str, leftover)))
+                        
+            print(f'\n현재 초안을 {filename} 파일에 저장합니다. ')
+        
+        elif user_feedback in ['/help']:
+            print('=== 도움말 리스트 ===')
+            print('/help: 도움말')
+            print('/export: 현재 파일을 저장')
+            print('/finish: 현재 초안을 최종 파일로 저장 후 종료')
+            print('/q: 프로그램 강제종료(저장 안함)')
+        else:
+            print('[Warning] 명령어를 인식할 수 없습니다.')
 
+        user_feedback = input('\n### 사용자 피드백을 입력해 주세요 ###\n')
 
-    result = {'user_feedback': user_feedback, 'status': 'ONGOING'}
-    print(f"DEBUG: user_input returning: {result}")  # 디버깅 추가
 
     return {'user_feedback': user_feedback, 'status': 'ONGOING'}
 
@@ -73,6 +123,7 @@ def parse_user_feedback(state: State):
         'user_feedback_bp': feedback_bp,
         'user_feedback_description': feedback_description
     }     
+    
 # ====================================================================================================
 # 피드백 라우팅용 노드
 def feedback_check(state: State):
