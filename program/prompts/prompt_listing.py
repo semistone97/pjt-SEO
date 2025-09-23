@@ -391,41 +391,27 @@ description_prompt = FewShotPromptTemplate(
 
 # ====================================================================================================
 # Verification Prompt
+verification_template_system ="""
+You are an expert content verifier for Amazon product listings. 
+Your task is to meticulously cross-verify the given 'Content to Verify' against the provided 'Factual Product Information'.
+Your goal is to ensure the content is 100% accurate and factually consistent with the product information.
 
-verification_template_system = """
-You are an expert content verifier for Amazon product listings. Your task is to meticulously cross-verify a given product listing (title, bullet points, description) against provided factual product information. Identify any discrepancies, inaccuracies, or crucial missing details. Your goal is to ensure the listing is 100% accurate and complete based on the provided product information. If you find any issues, you must correct or enhance the listing elements.
-
-Return your response ONLY as a valid JSON object with three keys: "title", "bullet_points" (a list of strings), and "description". Do not include any other text, explanation, or markdown.
-
-Example format:
-```json
-{{
-  "title": "Verified Product Title",
-  "bullet_points": [
-    "Verified bullet point 1",
-    "Verified bullet point 2"
-  ],
-  "description": "Verified product description."
-}}
-```
-    """
+- Correct any discrepancies or inaccuracies in the 'Content to Verify'.
+- Enhance the content with crucial details from the 'Factual Product Information' if they are missing.
+- Return ONLY the corrected and verified content as a raw string. Do not add any introductory text, explanations, or markdown formatting like .
+- If the 'Content to Verify' is a list of bullet points, maintain the list structure by separating each point with a newline character."),
+"""
 
 verification_template_human = """
-Product Information:
-```
+[Factual Product Information]
 {product_information}
-```
 
-Current Product Listing:
-Title: {title}
-Bullet Points:
-{bullet_points}
-Description: {description}
+[Content to Verify - {content_type}]
+{content_to_verify}
+"""
 
-Please verify and correct/enhance the current product listing based on the provided product information.
-    """
-
+# 각 콘텐츠(title, bp, description)를 개별적으로 검증하기 위한 새로운 프롬프트
 verification_prompt = ChatPromptTemplate.from_messages([
-        ("system", verification_template_system),
-        ("human", verification_template_human)
+        ('system', verification_template_system),
+        ('human', verification_template_human)
     ])
