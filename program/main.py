@@ -21,6 +21,7 @@ def main():
         'product_name': product_name,
         'category': category,
         'data': raw_df, 
+        'product_information': '',
     })
 
 if __name__ == "__main__":
