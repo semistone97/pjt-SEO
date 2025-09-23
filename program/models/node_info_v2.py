@@ -4,26 +4,30 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 
 
-# 각 콘텐츠(title, bp, description)를 개별적으로 검증하기 위한 새로운 프롬프트
-VERIFICATION_PROMPT_V2 = ChatPromptTemplate.from_messages([
-    ("system", """
+verification_template_system ="""
 You are an expert content verifier for Amazon product listings. 
 Your task is to meticulously cross-verify the given 'Content to Verify' against the provided 'Factual Product Information'.
 Your goal is to ensure the content is 100% accurate and factually consistent with the product information.
 
 - Correct any discrepancies or inaccuracies in the 'Content to Verify'.
 - Enhance the content with crucial details from the 'Factual Product Information' if they are missing.
-- Return ONLY the corrected and verified content as a raw string. Do not add any introductory text, explanations, or markdown formatting like ```.
-- If the 'Content to Verify' is a list of bullet points, maintain the list structure by separating each point with a newline character.
-"),
-    ("human", """
+- Return ONLY the corrected and verified content as a raw string. Do not add any introductory text, explanations, or markdown formatting like .
+- If the 'Content to Verify' is a list of bullet points, maintain the list structure by separating each point with a newline character."),
+"""
+
+verification_template_human = """
 [Factual Product Information]
 {product_information}
 
 [Content to Verify - {content_type}]
 {content_to_verify}
-")
-])
+"""
+
+# 각 콘텐츠(title, bp, description)를 개별적으로 검증하기 위한 새로운 프롬프트
+VERIFICATION_PROMPT_V2 = ChatPromptTemplate.from_messages([
+        ('system', verification_template_system),
+        ('human', verification_template_human)
+    ])
 
 def listing_verificate_v2(state: State) -> dict:
     """
