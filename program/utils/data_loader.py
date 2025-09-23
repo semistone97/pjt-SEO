@@ -1,6 +1,7 @@
 from pathlib import Path
 import shlex
 import pandas as pd
+import sys
 
 def load_csv(product_name):
     print('키워드가 들어있는 CSV 파일들이 필요합니다')
@@ -17,42 +18,63 @@ def load_csv(product_name):
             p = 'C:' + p[2:]
         file_list.append(Path(p))
     
-    required_cols = ['Keywords', 'Search Volume', 'Competing Products']
+    # 들어올 csv 파일 형식들...(추가 가능)
+    required_cols_variants = [
+        ['Keywords', 'Search Volume', 'Competing Products'],
+        ['Phrase', 'Search Volume', 'Keyword Sales']
+    ]
+    
     dfs = []
     good_files = []
 
     # 입력 파일 존재 여부 확인
     for file_path in file_list:
+        
+        # 파일 없음
         if not file_path.exists():
             print(f"[Warning] 파일 없음: {file_path}")
             continue
+        
+        # csv 아님
         if file_path.suffix.lower() != '.csv':
             print(f"[Skipped] CSV 파일 아님: {file_path}")
             continue
-
+        
+        # 파일 에러
         try:
             df = pd.read_csv(file_path)
         except Exception as e:
             print(f"[Error] 파일 읽기 실패: {file_path} ({e})")
             continue
-
-        if set(required_cols).issubset(df.columns):
+        
+        # 다형식 지원
+        required_cols = None
+        for cols in required_cols_variants:
+            if set(cols).issubset(df.columns):
+                required_cols = cols
+                break
+        
+        # 컬럼 형식 맞추기
+        if required_cols:
             df_required = df[required_cols].copy()
             df_required.columns = ['keyword', 'search_volume', 'competing_products']
             df_required['competing_products'] = df_required['competing_products'].fillna(0).astype(str).str.replace('>', '').astype('Int64')
             dfs.append(df_required)
             good_files.append(file_path.name)
+            
+        # 컬럼 불일치
         else:
             print(f"[Skipped] 컬럼 형식 불일치: {file_path}")
 
+    # 형식 없으면 바로 종료
     if not good_files:
         print("\n[Warning] 형식에 맞는 CSV 파일이 없습니다.")
-        return None
+        sys.exit(1)
 
     combined_df = pd.concat(dfs, ignore_index=True)
     print("\n작업 완료:", good_files)
 
-    # output 경로 설정
+    # RawData 저장
     output_dir = Path('output')
     output_dir.mkdir(exist_ok=True)
     output_file = output_dir / f'{"_".join(product_name.split())}_keyword_raw_data.csv'

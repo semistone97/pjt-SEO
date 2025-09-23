@@ -5,7 +5,7 @@ from schemas.global_state import State
 from schemas.schema import Feedback
 from prompts.prompt_feedback import feedback_prompt
 from utils.config_loader import config
-import os
+import os, sys
 
 load_dotenv()
 
@@ -25,15 +25,36 @@ def user_input(state: State):
         print(bp)
     print(f'\nDescription:\n{description}')
     
-    user_feedback = input('\n### 사용자 피드백을 입력해 주세요. (/help: 도움말, /export: 현재 파일을 저장, /q: 종료) ###\n').strip()
+    user_feedback = input('\n### 사용자 피드백을 입력해 주세요. (/help: 도움말) ###\n').strip()
     
     while user_feedback[0] == '/':
-        if user_feedback in ['/q']:
+        if user_feedback in ['/finish']:
             print('\n작동을 종료합니다.')
+            
+            save_dir = 'output'
+            
+            os.makedirs(save_dir, exist_ok=True)
+            filename = f'{"_".join(state.get('product_name').split())}_Keyword_Listing_Final.txt'
+            file_path = os.path.join(save_dir, filename)
+            
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(f'\n[Title]\n{state.get('title')}\n')
+                f.write('\n[Bullet Point]\n')
+                for bp in state.get('bp'):
+                    f.write(str(bp) + '\n')
+                f.write(f'\n[Description]\n{state.get('description')}\n')
+                f.write('\nLeftover Keywords: ' + ', '.join(map(str, sorted(state.get('leftover') + state.get('backend_keywords')))))
+                        
+                print(f'최종 결과물을 {filename} 파일에 저장합니다. ')
+            
             return {'user_feedback': '', 'status': 'FINISHED'}
         
+        if user_feedback in ['/q']:
+            print('\n작동을 종료합니다.')
+            sys.exit(1)
+        
         elif user_feedback in ['/export']:
-            now = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+            now = datetime.now().strftime("%Y_%m_%d_%H-%M-%S")
             
             save_dir = 'output'
             os.makedirs(save_dir, exist_ok=True)
@@ -54,8 +75,8 @@ def user_input(state: State):
             print('=== 도움말 리스트 ===')
             print('/help: 도움말')
             print('/export: 현재 파일을 저장')
-            print('/q: 현재 초안을 최종 파일로 저장 후 종료')
-
+            print('/finish: 현재 초안을 최종 파일로 저장 후 종료')
+            print('/q: 프로그램 강제종료(저장 안함)')
         else:
             print('[Warning] 명령어를 인식할 수 없습니다.')
 
