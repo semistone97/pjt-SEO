@@ -85,11 +85,25 @@ keyword_prompt = PromptTemplate.from_template(keyword_template)
 # ====================================================================================================
 # Title Prompt
 title_examples = [
-    {
-        "title_keyword": "chicken, chicken shredder, tools, chicken shredder tool twist, meat shredder, shredder, pork, tool, hand tools, meat shredder tool twist, chicken shredder tool twist large, shredder kitchen, chicken shredder tool, food shredder, chicken breast, kitchen, food, meat, shredded chicken, cooked chicken, kitchen gadgets, meal prep, kitchen tools, amazon kitchen, cooking gifts, cooking gadgets",
+    {"title_keyword": "chicken, chicken shredder, tools, chicken shredder tool twist, meat shredder, shredder, pork, tool, hand tools, meat shredder tool twist, chicken shredder tool twist large, shredder kitchen, chicken shredder tool, food shredder, chicken breast, kitchen, food, meat, shredded chicken, cooked chicken, kitchen gadgets, meal prep, kitchen tools, amazon kitchen, cooking gifts, cooking gadgets",
         "title": "Chicken Shredder, 10'' Large Chicken Shredder Tool Twist with Transparent Lid, Ergonomic Handle and Anti-Slip Base, Dishwasher Safe, Ideal for Meal Prep"
     }
-]
+
+    {"title_keyword": "brown water bottle, water bottle simple modern, simple modern mesa, mesa loop, simple modern water bottle, simple modern, fall water bottle, sm water bottle, simple modern mesa loop, mesa loop simple modern, brown owala water bottle, simple modern 30 oz, simply modern, simple modern harvest collection, hot pink water bottle, simply modern water bottle, 30 oz water bottle, simple modern fall, owala orange, owala brown, simple modern water bottle kids, simple modern 30 oz tumbler, owala sway 30 oz, simply modern kids water bottle, owala down to earth, kids simple modern water bottle, simple modern halloween, ember cold tumbler, simple modern fall tumbler, blue owala water bottle 24 oz",
+     "title": "Simple Modern Mesa Loop Water Bottle with Straw | 24oz Cup Holder Friendly Insulated Stainless Steel Bottles for Travel, Sports and School | Midnight Black"
+    }
+
+    {"title_keyword": "water bottle, owala water bottle, owala water bottle 24 oz, owala water bottle 32oz, owala water bottle 40 oz, water bottles, kids water bottle, owala kids, insulated water bottle, water bottle insulated, owala kids water bottle, owala 40 oz, kids water bottle for school, stainless steel water bottles, water bottle for school, owala 24 oz, owala free sip, awalah water bottle, owala 32 oz, water bottle with straw, water bottle stainless steel, pink owala, owala 16 oz, back to school, owala free sip sway, water bottle kids, travel accessories, hydro flask water bottles, yeti kids water bottle, hydroflask 40 oz water bottle",
+     "title": "Owala FreeSip Insulated Stainless Steel Water Bottle with Straw, BPA-Free Sports Water Bottle, Great for Travel, 24 Oz, Denim"
+    }
+
+    {"title_keyword": "food storage containers with lids, lunch containers, food containers, food storage containers, containers with lids, lunch containers for adults, rubbermaid brilliance storage containers, tupperware set, rubbermaid brilliance, tupperware glass, rubbermaid food storage containers, tupperware sets with lids, glass tupperware, food storage, food containers with lids, food prep containers, containers for food, glass storage containers, meal prep containers, meal prep containers glass, glass food storage, glass meal prep containers with lids, glass tupperware sets with lids, small containers with lids, snack containers, organization and storage, snapware glass storage containers, pyrex glass storage containers with lids, meal prep, freezer storage containers",
+     "title": "Rubbermaid Brilliance Food Storage Containers BPA Free Airtight Lids Ideal for Lunch Meal Prep & Leftovers Set of 5 (3.2 Cup)"
+    }
+
+    {"title_keyword": "bissell little green machine, upholstery cleaner, little green clean machine, couch cleaner, upholstery cleaner machine, green machine carpet cleaner, couch cleaner machine, mattress cleaner, car detailing, green machine, portable carpet cleaner, little green machine, steam cleaner for furniture, wet vacuum cleaner, carpet cleaner, car seat cleaner, bissell carpet cleaner, rug cleaner, pet carpet cleaner, steam cleaner for car, carpet cleaner machine, carpet steam cleaner, carpet shampooer, cleaning tools, bissell steam cleaner, carpet shampooer machine, portable vacuum for car, bissell little green machine solution, mini foldable desktop mop, shark stain striker",
+     "title": "BISSELL Little Green Mini Portable Carpet and Upholstery Deep Cleaner, Car/Auto Detailer, with HydroRinse Self-Cleaning Tool and 4" Tough Stain Tool, Tea Green, 4075"
+    }]
 
 title_example_prompt = PromptTemplate.from_template('[keyword]\n{title_keyword}\n[output]\nTitle: {title}')
 
@@ -171,8 +185,49 @@ bp_examples = [
             'ERGONOMIC HANDLE DESIGN: Designed with a comfortable, easy-grip handle to reduce hand strain and improve control, making shredding tasks quick and effortless.',
             'DISHWASHER SAFE: Made for convenience, the shredder is dishwasher-safe and easy to clean, ensuring a hassle-free experience in busy kitchens.',
         ]
-    }
-]
+    },
+    {
+        "bp_keyword": "brown water bottle, water bottle simple modern, simple modern mesa, mesa loop, simple modern water bottle, simple modern, fall water bottle, sm water bottle, simple modern mesa loop, mesa loop simple modern, brown owala water bottle, simple modern 30 oz, simply modern, simple modern harvest collection, hot pink water bottle, simply modern water bottle, 30 oz water bottle, simple modern fall, owala orange, owala brown, simple modern water bottle kids, simple modern 30 oz tumbler, owala sway 30 oz, simply modern kids water bottle, owala down to earth, kids simple modern water bottle, simple modern halloween, ember cold tumbler, simple modern fall tumbler, blue owala water bottle 24 oz",
+        "bp": [
+            ' Cupholder Friendly: Both 30oz and 24oz fit most cupholders',
+            ' Folding Loop Handle: Comfort grip coating. Grab and go with just a finger',
+            ' Contoured Straw: Say goodbye to mouth wrinkles and hello to unmatched flow rate',
+            ' Clean-Lock Covered Lid: Click the button up/down to lock or unlock',
+            ' Soft Landings: Silicone base for quiet sitting. Dishwasher safe'
+        ]
+    },
+    {
+        "bp_keyword": "water bottle, owala water bottle, owala water bottle 24 oz, owala water bottle 32oz, owala water bottle 40 oz, water bottles, kids water bottle, owala kids, insulated water bottle, water bottle insulated, owala kids water bottle, owala 40 oz, kids water bottle for school, stainless steel water bottles, water bottle for school, owala 24 oz, owala free sip, awalah water bottle, owala 32 oz, water bottle with straw, water bottle stainless steel, pink owala, owala 16 oz, back to school, owala free sip sway, water bottle kids, travel accessories, hydro flask water bottles, yeti kids water bottle, hydroflask 40 oz water bottle",
+        "bp": [
+            ' 24-ounce insulated stainless-steel water bottle with a FreeSip spout and push-button lid with lock',
+            ' Patented FreeSip spout designed for either sipping upright through the built-in straw or tilting back to swig from the spout opening',
+            ' Protective push-to-open lid keeps spout clean; convenient carry loop doubles as a lock',
+            ' Double-wall insulation keeps drinks cold for up to 24 hours; wide opening for cleaning and adding ice; cup holder-friendly base',
+            ' BPA, lead, and phthalate-free; hand wash cup, dishwasher-safe lid; not for use with hot liquids'
+        ]
+    },
+    {
+        "bp_keyword": "food storage containers with lids, lunch containers, food containers, food storage containers, containers with lids, lunch containers for adults, rubbermaid brilliance storage containers, tupperware set, rubbermaid brilliance, tupperware glass, rubbermaid food storage containers, tupperware sets with lids, glass tupperware, food storage, food containers with lids, food prep containers, containers for food, glass storage containers, meal prep containers, meal prep containers glass, glass food storage, glass meal prep containers with lids, glass tupperware sets with lids, small containers with lids, snack containers, organization and storage, snapware glass storage containers, pyrex glass storage containers with lids, meal prep, freezer storage containers",
+        "bp": [
+            '100% Leak-proof: Guaranteed no-spill seal and secure latches',
+            ' Crystal-clear Tritan Built: Stain-resistant and odor-resistant material for a clear view of contents',
+            ' Lightweight & Sturdy: Easy to carry, yet durable for everyday use',
+            ' Built-in Vents: Convenient microwave heating without removing the lid',
+            ' Space-saving: Stackable design for organized fridge or pantry',
+            ' Dishwasher, Microwave & Freezer Safe: Easy and safe to use in various conditions',
+            ' Large Set: Includes five 3.2-cup containers and matching lids, totaling 10 pieces'
+        ]
+    },
+    {
+        "bp_keyword": "bissell little green machine, upholstery cleaner, little green clean machine, couch cleaner, upholstery cleaner machine, green machine carpet cleaner, couch cleaner machine, mattress cleaner, car detailing, green machine, portable carpet cleaner, little green machine, steam cleaner for furniture, wet vacuum cleaner, carpet cleaner, car seat cleaner, bissell carpet cleaner, rug cleaner, pet carpet cleaner, steam cleaner for car, carpet cleaner machine, carpet steam cleaner, carpet shampooer, cleaning tools, bissell steam cleaner, carpet shampooer machine, portable vacuum for car, bissell little green machine solution, mini foldable desktop mop, shark stain striker",
+        "bp": [
+            'EVERY PURCHASE SAVES PETS. Every purchase makes it possible for BISSELL to continue our support of BISSELL Pet Foundation and its mission of saving pets in need.'
+            'SAVE YOUR SANCTUARY: Tackle spills and pet stains while removing dander, dust, and pollen allergens.',
+            'CLEANS MORE THAN CARPET: Spray, scrub, and suction to remove embedded dirt and stains from upholstery, car interiors, pet beds, and more.',
+            'INCLUDES: 4" Tough Stain Tool with removeable lens, HydroRinse self-cleaning hose tool, and 8oz. BISSELL Little Green Formula.',
+            'EASY STORAGE: Conveniently stores in small spaces - perfect for cabinets, closets, and more.',
+            'LITTLE GREEN FORMULA: Instantly and permanently removes stains and eliminates everyday household odors.'
+]}]
 
 bp_example_prompt = PromptTemplate.from_template('[keyword]\n{bp_keyword}\n[output]\nBullet Point: {bp}')
 
@@ -243,11 +298,27 @@ bp_prompt = FewShotPromptTemplate(
 # Description Prompt
 description_examples = [
     {
-        "bp_context": "• HYDRATION SUPPORT: One-handed, spill-proof operation perfect for busy lifestyles\n• COMFORTABLE GRIP: Collapsible, soft-touch handle without added bulk\n• LEAK-PROOF DESIGN: Lockable lid with silicone base for quiet landings\n• INSULATION PERFORMANCE: Double-wall keeps drinks cold for 24 hours\n• CONVENIENT CARE: BPA-free and dishwasher safe construction",
-        "description_keyword": "water bottle, insulated, stainless steel, BPA-free, leak-proof, dishwasher safe, double-wall, hydration, travel, office, school, cupholder friendly, spill-proof, one-handed operation, comfort grip, minimalist design",
+        "description_keyword": "chicken, chicken shredder, tools, chicken shredder tool twist, meat shredder, shredder, pork, tool, hand tools, meat shredder tool twist, chicken shredder tool twist large, shredder kitchen, chicken shredder tool, food shredder, chicken breast, kitchen, food, meat, shredded chicken, cooked chicken, kitchen gadgets, meal prep, kitchen tools, amazon kitchen, cooking gifts, cooking gadgets",        
+        "description": "<p>[Why You'll Love It]<br />The 10'' Chicken Shredder Tool Twist is your ultimate kitchen companion for quick, safe, and efficient meal preparation. Whether you're making shredded chicken tacos, salads, or pulled pork sandwiches, this tool saves time and effort, delivering professional results in seconds.<br /> <br />[Key Features]<br /> &bull; Effortless Shredding: Quickly and evenly shred cooked chicken, pork, or beef for various dishes.<br /> &bull; Non-Slip Stability: The anti-slip base ensures safety and ease during use.<br /> &bull; Large Capacity: Perfect for family-sized meals with a 10-inch bowl and a transparent lid to monitor the process.<br /> &bull; Ergonomic Design: Comfortable handle reduces hand strain and ensures optimal control.<br /> &bull; Easy Maintenance: Dishwasher-safe design makes cleaning a breeze.</p><p>[Perfect for These People] <br />Crafted with durability in mind, this versatile shredder is ideal for home cooks, meal prep enthusiasts, BBQ lovers, and even pet owners needing a quick way to prepare shredded meat. Add this must-have gadget to your kitchen and transform your cooking experience.</p>"
+    },
+    {
+        "description_keyword": "brown water bottle, water bottle simple modern, simple modern mesa, mesa loop, simple modern water bottle, simple modern, fall water bottle, sm water bottle, simple modern mesa loop, mesa loop simple modern, brown owala water bottle, simple modern 30 oz, simply modern, simple modern harvest collection, hot pink water bottle, simply modern water bottle, 30 oz water bottle, simple modern fall, owala orange, owala brown, simple modern water bottle kids, simple modern 30 oz tumbler, owala sway 30 oz, simply modern kids water bottle, owala down to earth, kids simple modern water bottle, simple modern halloween, ember cold tumbler, simple modern fall tumbler, blue owala water bottle 24 oz",
         "description": "Simple Modern's Mesa Loop water bottle is designed to support your hydration needs no matter where the day takes you. The sleek, cupholder-friendly bottle delivers reliable hydration with a one-handed, spill-proof operation — perfect for juggling kids, meetings, errands, and life on the go. Its collapsible, soft-touch handle also offers a comfortable grip without adding bulk, making it easy to carry. A lockable, leak-proof lid is included while the silicone base ensures soft, quiet landings wherever you set it down. Double-wall insulation keeps drinks cold for 24 hours, and the BPA-free and dishwasher safe design was made for ultimate convenience. The sleek, minimalist, refined design blends seamlessly from driving, to the office, to school pickup, and so much more."
-    }
-]
+    },
+    {
+        "description_keyword": "water bottle, owala water bottle, owala water bottle 24 oz, owala water bottle 32oz, owala water bottle 40 oz, water bottles, kids water bottle, owala kids, insulated water bottle, water bottle insulated, owala kids water bottle, owala 40 oz, kids water bottle for school, stainless steel water bottles, water bottle for school, owala 24 oz, owala free sip, awalah water bottle, owala 32 oz, water bottle with straw, water bottle stainless steel, pink owala, owala 16 oz, back to school, owala free sip sway, water bottle kids, travel accessories, hydro flask water bottles, yeti kids water bottle, hydroflask 40 oz water bottle",    
+        "description": "The Owala FreeSip Insulated Stainless-Steel Water Bottle with Locking Push-Button Lid easily tackles every thirst. With a built-in, easy-clean straw and a wide-mouth opening, the FreeSip reusable bottle is designed for drinking two different ways: sipping upright through the straw or tilting back to swig from the wide-mouth spout opening. Add in a push-to-open lid and playful colors, and staying hydrated has never been simpler—or more fun. Additional features include double-wall insulated stainless steel that keeps drinks cold up to 24 hours, a carry loop that doubles as a lock, a cup holder-friendly base, and a wide opening for easy cleaning and adding ice. The Owala FreeSip Insulated Stainless-Steel Water Bottle with Locking Push-Button Lid is available in three sizes: 24-Ounce, 32-Ounce, and 40-Ounce. Lid is dishwasher safe; hand wash cup. Not for use with hot liquids. Manufacturer's limited lifetime warranty."
+    },
+    {
+        "description_keyword": "food storage containers with lids, lunch containers, food containers, food storage containers, containers with lids, lunch containers for adults, rubbermaid brilliance storage containers, tupperware set, rubbermaid brilliance, tupperware glass, rubbermaid food storage containers, tupperware sets with lids, glass tupperware, food storage, food containers with lids, food prep containers, containers for food, glass storage containers, meal prep containers, meal prep containers glass, glass food storage, glass meal prep containers with lids, glass tupperware sets with lids, small containers with lids, snack containers, organization and storage, snapware glass storage containers, pyrex glass storage containers with lids, meal prep, freezer storage containers",
+        "description": "Revolutionize your meal prep with the Rubbermaid Brilliance Food Storage Containers set. Made from BPA-free Tritan, these high-quality containers are visibly clear like glass, but are incredibly durable and easy to carry. They feature 100% leak-proof seals and secure latches to preserve freshness and prevent spills. Not only are they stain and odor-resistant, but they also have built-in vents under latches for mess-free microwaving with the lid on. With a stackable design, they ensure space-efficiency in your fridge or pantry, improving organization and accessibility. This pack comes with five 3.2-cup plastic containers and matching lids."
+    },
+    {
+        "description_keyword": "bissell little green machine, upholstery cleaner, little green clean machine, couch cleaner, upholstery cleaner machine, green machine carpet cleaner, couch cleaner machine, mattress cleaner, car detailing, green machine, portable carpet cleaner, little green machine, steam cleaner for furniture, wet vacuum cleaner, carpet cleaner, car seat cleaner, bissell carpet cleaner, rug cleaner, pet carpet cleaner, steam cleaner for car, carpet cleaner machine, carpet steam cleaner, carpet shampooer, cleaning tools, bissell steam cleaner, carpet shampooer machine, portable vacuum for car, bissell little green machine solution, mini foldable desktop mop, shark stain striker",
+        "description": "Save on space without sacrificing on cleaning ability. Use BISSELL® Little Green® Mini portable upholstery and carpet cleaner to spray, scrub and lift away tough messes, like dirt and stains, from all types of surfaces. Easily access hard-to-clean spaces like staircases or car interiors with Little Green® Mini portable deep cleaner’s lightweight and compact design. Every purchase makes it possible for BISSELL to continue our support of BISSELL Pet Foundation® and its mission of saving pets in need. Since 2011, BISSELL has donated over $26 million in support of BISSELL Pet Foundation®. When you purchase a BISSELL® product, you help save pets, too. Our products are engineered to clean even the toughest messes so pets can stay at home and out of shelters."
+    }]
+
+
 
 description_example_prompt = PromptTemplate.from_template('[Generated BP Context]\n{bp_context}\n[keyword]\n{description_keyword}\n[output]\nDescription: {description}')
 
