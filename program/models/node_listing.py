@@ -1,10 +1,8 @@
 import os
 from typing import List
 from langchain_core.documents import Document
-from pypdf import PdfReader # 이 라이브러리는 pip install pypdf 로 설치해야 합니다.
+from pypdf import PdfReader
 from langchain_core.prompts import ChatPromptTemplate
-import json
-
 from schemas.global_state import State
 from schemas.schema import KeywordDistribute, TitleOutput, BPOutput, DescriptionOutput
 from prompts.prompt_listing import keyword_prompt, title_prompt, bp_prompt, description_prompt, verification_prompt
@@ -12,7 +10,6 @@ from langchain_openai import ChatOpenAI
 from utils.config_loader import config
 from dotenv import load_dotenv
 from datetime import datetime
-
 
 load_dotenv()
 
@@ -147,7 +144,7 @@ def generate_description(state: State):
     
 
 # ====================================================================================================
-# Listing 한번에 생성함
+# Listing 한번에 생성하는 노드
 def generate_listing(state: State):
     
     # Title 생성
@@ -202,7 +199,35 @@ def generate_listing(state: State):
     else:    
         print('\n[Skipped] Bullet Point 작성용 키워드가 존재하지 않습니다.')
         return {}
+        # Description 생성
+
+    if state['description_keyword']:
+        print(f'\n--- Description 작성을 시작합니다... ---')
+        
+        try:
+            prompt = description_prompt.invoke(
+                {
+                    'bp_result': state['bp'],
+                    'product_name': state['product_name'], 
+                    'category': state['category'],
+                    'product_information': state['product_information'], 
+                    'description_keyword': state['description_keyword'],
+                }
+            )
+            structured_llm = llm.with_structured_output(DescriptionOutput)
+            description = structured_llm.invoke(prompt)
+            print(f'\n작성된 Description: 총 {len(description.description)}자')
+
+        except Exception as e:
+            print(f"\n[Error] Description 작성 중 에러가 발생했습니다: {e}")
+            return {}
+        
+    else:
+        print('\n[Skipped] Description 작성용 키워드가 존재하지 않습니다.')
+        return {}
     
+    return {'title': title.title, 'bp': bps.bp, 'description': description.description}
+
 # ====================================================================================================
 # Information Extract 노드
 INPUT_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "input_data")
@@ -342,31 +367,3 @@ def listing_verificate(state: State) -> dict:
     }
 
   
-    # Description 생성
-
-    if state['description_keyword']:
-        print(f'\n--- Description 작성을 시작합니다... ---')
-        
-        try:
-            prompt = description_prompt.invoke(
-                {
-                    'bp_result': state['bp'],
-                    'product_name': state['product_name'], 
-                    'category': state['category'],
-                    'product_information': state['product_information'], 
-                    'description_keyword': state['description_keyword'],
-                }
-            )
-            structured_llm = llm.with_structured_output(DescriptionOutput)
-            description = structured_llm.invoke(prompt)
-            print(f'\n작성된 Description: 총 {len(description.description)}자')
-
-        except Exception as e:
-            print(f"\n[Error] Description 작성 중 에러가 발생했습니다: {e}")
-            return {}
-        
-    else:
-        print('\n[Skipped] Description 작성용 키워드가 존재하지 않습니다.')
-        return {}
-    
-    return {'title': title.title, 'bp': bps.bp, 'description': description.description}

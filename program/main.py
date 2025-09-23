@@ -13,6 +13,12 @@ def main():
     # product_name = 'chicken shredder'
     product_name = input('\n상품명: ')
     category = input('\n상품의 카테고리를 적어주세요: ')
+
+    # 되돌리기
+    while category in ['/return']:
+        product_name = input('\n상품명: ')
+        category = input('\n상품의 카테고리를 적어주세요: ')
+    
     raw_df = load_csv(product_name)
 
     # 그래프 실행

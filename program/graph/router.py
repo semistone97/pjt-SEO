@@ -1,3 +1,4 @@
+import sys
 from langgraph.graph import END
 
 def status_router(state):
@@ -7,6 +8,9 @@ def status_router(state):
     
     if state.get('status') == 'FINISHED':
         return END
+    
+    if state.get('status') == 'ERROR':
+        sys.exit(1)
     
     return END
 
