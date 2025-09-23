@@ -3,7 +3,7 @@ import shlex
 import pandas as pd
 import sys
 
-def load_csv(product_name):
+def load_keywords_csv(product_name):
     print('키워드가 들어있는 CSV 파일들이 필요합니다')
     print('키워드 관련 파일 끌어오기')
     print('↓'*25)
@@ -81,3 +81,8 @@ def load_csv(product_name):
     combined_df.to_csv(output_file, index=False)
 
     return combined_df.to_dict(orient='records')
+
+def load_information_pdf(product_name):
+    
+    
+    return 
