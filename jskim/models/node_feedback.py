@@ -6,89 +6,48 @@ from schemas.schema import Feedback
 from prompts.prompt_feedback import feedback_prompt
 from utils.config_loader import config
 import os, sys
-
+import streamlit as st
 load_dotenv()
 
 llm = ChatOpenAI(model=config['llm_feedback']['model'], temperature=float(config['llm_feedback']['temperature']))
 
 # ====================================================================================================
 # 사용자 피드백 입력
+
 def user_input(state: State):
+    """
+    사용자 피드백 처리 노드
     
-    title, bp_list, description = state.get('title'), state.get('bp'), state.get('description')
-    leftover = sorted(state.get('leftover') + state.get('backend_keywords'))
+    LangGraph의 피드백 루프 구조를 유지하면서
+    Streamlit에서 UI는 별도로 처리
+    """
     
-    print("\n=== 결과물 출력 ===")
-    print(f'\nTitle:\n{title}')
-    print('\nBP:')
-    for bp in bp_list:
-        print(bp)
-    print(f'\nDescription:\n{description}')
+    # 이미 사용자 피드백이 있다면 (Streamlit에서 설정됨)
+    if 'user_feedback' in state and state.get('user_feedback'):
+        print(f"[user_input] 피드백 받음: {state['user_feedback'][:50]}...")
+        return {
+            'user_feedback': state['user_feedback'],
+            'status': 'ONGOING'
+        }
     
-    user_feedback = input('\n### 사용자 피드백을 입력해 주세요. (/help: 도움말) ###\n').strip()
+    # 피드백이 없다면 - 초기 결과 생성 완료 상태
+    print("[user_input] 초기 결과 생성 완료, 사용자 피드백 대기 중...")
     
-    while user_feedback[0] == '/':
-        if user_feedback in ['/finish']:
-            print('\n작동을 종료합니다.')
-            
-            save_dir = 'output'
-            
-            os.makedirs(save_dir, exist_ok=True)
-            filename = f'{"_".join(state.get('product_name').split())}_Keyword_Listing_Final.txt'
-            file_path = os.path.join(save_dir, filename)
-            
-            with open(file_path, 'w', encoding='utf-8') as f:
-                f.write(f'\n[Title]\n{state.get('title')}\n')
-                f.write('\n[Bullet Point]\n')
-                for bp in state.get('bp'):
-                    f.write(str(bp) + '\n')
-                f.write(f'\n[Description]\n{state.get('description')}\n')
-                f.write('\nLeftover Keywords: ' + ', '.join(map(str, sorted(state.get('leftover') + state.get('backend_keywords')))))
-                        
-                print(f'최종 결과물을 {filename} 파일에 저장합니다. ')
-            
-            return {'user_feedback': '', 'status': 'FINISHED'}
-        
-        if user_feedback in ['/q']:
-            print('\n작동을 종료합니다.')
-            sys.exit(1)
-        
-        elif user_feedback in ['/export']:
-            now = datetime.now().strftime("%Y_%m_%d_%H-%M-%S")
-            
-            save_dir = 'output'
-            os.makedirs(save_dir, exist_ok=True)
-            filename = f'{"_".join(state.get('product_name').split())}_Temp_Listing({now}).txt'
-            file_path = os.path.join(save_dir, filename)
-            
-            with open(file_path, 'w', encoding='utf-8') as f:
-                f.write(f'\n[Title]\n{title}\n')
-                f.write('\n[Bullet Point]\n')
-                for bp in bp_list:
-                    f.write(str(bp) + '\n')
-                f.write(f'\n[Description]\n{description}\n')
-                f.write('\nLeftover Keywords: ' + ', '.join(map(str, leftover)))
-                        
-            print(f'\n현재 초안을 {filename} 파일에 저장합니다. ')
-        
-        elif user_feedback in ['/help']:
-            print('=== 도움말 리스트 ===')
-            print('/help: 도움말')
-            print('/export: 현재 파일을 저장')
-            print('/finish: 현재 초안을 최종 파일로 저장 후 종료')
-            print('/q: 프로그램 강제종료(저장 안함)')
-        else:
-            print('[Warning] 명령어를 인식할 수 없습니다.')
-
-        user_feedback = input('\n### 사용자 피드백을 입력해 주세요 ###\n')
-
-
-    return {'user_feedback': user_feedback, 'status': 'ONGOING'}
+    # 현재 결과를 그대로 유지하면서 사용자 입력 대기
+    # Streamlit UI에서 이 상태를 감지하고 피드백 UI를 표시
+    return {
+        'title': state.get('title'),
+        'bp': state.get('bp'),
+        'description': state.get('description'),
+        'status': 'WAITING_FOR_FEEDBACK'  # 사용자 입력 대기 상태
+    }
 
 # ====================================================================================================
 # 피드백 분류
 def parse_user_feedback(state: State):
-    print('\n--- 피드백 내용을 정리합니다... ---')
+    
+    
+    st.write('\n--- 피드백 내용을 정리합니다... ---')
     
     structured_llm = llm.with_structured_output(Feedback)
     prompt = feedback_prompt.invoke(
@@ -108,15 +67,15 @@ def parse_user_feedback(state: State):
         
     feedback_description = res.description or ''
     
-    print()
+    st.write()
     if feedback_title:
-        print('Title: ', feedback_title) 
+        st.write('Title: ', feedback_title) 
     
     if feedback_bp:
-        print('BP: ', feedback_bp)
+        st.write('BP: ', feedback_bp)
 
     if feedback_description:
-        print('Description: ', feedback_description)
+        st.write('Description: ', feedback_description)
     
     return {
         'user_feedback_title': feedback_title,
@@ -128,21 +87,21 @@ def parse_user_feedback(state: State):
 # 피드백 라우팅용 노드
 def feedback_check(state: State):
     
-    print('\n--- 남은 피드백이 있는지 확인합니다...')
+    st.write('\n--- 남은 피드백이 있는지 확인합니다...')
     
     if state['user_feedback_title']:
-        print('\nTitle 피드백이 존재합니다') 
+        st.write('\nTitle 피드백이 존재합니다') 
         return {}
     
     elif state['user_feedback_bp']:
-        print('\nBP 피드백이 존재합니다') 
+        st.write('\nBP 피드백이 존재합니다') 
         return {}
     
     elif state['user_feedback_description']:
-        print('\nDescription 피드백이 존재합니다') 
+        st.write('\nDescription 피드백이 존재합니다') 
         return {}
     
     else:
-        print('\n모든 피드백이 처리되었습니다')
+        st.write('\n모든 피드백이 처리되었습니다')
         return {}
 

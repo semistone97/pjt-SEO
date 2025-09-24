@@ -1,5 +1,4 @@
 import pandas as pd
-from pathlib import Path
 from typing import List
 from langchain_core.documents import Document
 from pypdf import PdfReader
@@ -53,12 +52,6 @@ def load_keywords_csv_streamlit(uploaded_files, product_name):
         return None, messages, []
     
     combined_df = pd.concat(dfs, ignore_index=True)
-    
-    # RawData 저장
-    output_dir = Path('output')
-    output_dir.mkdir(exist_ok=True)
-    output_file = output_dir / f'{"_".join(product_name.split())}_keyword_raw_data.csv'
-    combined_df.to_csv(output_file, index=False)
     
     return combined_df.to_dict(orient='records'), messages, good_files
 
