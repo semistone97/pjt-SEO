@@ -1,4 +1,4 @@
-import json, sys
+import json, sys, re
 import pandas as pd
 from typing import Dict
 from dotenv import load_dotenv
@@ -37,9 +37,12 @@ def keyword_preprocess(state: State):
         ]
         parser = StructuredOutputParser.from_response_schemas(response_schemas)
         
-        # 1. 사전 필터링
-        filtered_series = preprocess_keywords(df['keyword'])
-
+        # 1. keyword 사전 필터링
+        series = df['keyword']
+        """영어 알파벳/숫자/특수문자만 허용"""
+        series = series[series.apply(lambda x: bool(re.fullmatch(r"[A-Za-z0-9 &'().-]+", str(x))))]
+        filtered_series = series.drop_duplicates().reset_index(drop=True)
+        
         # 2. 프롬프트 생성
         keyword_prompt = filter_prompt.format(
             data=filtered_series.tolist(),
@@ -197,14 +200,14 @@ def select_keywords(state: State) -> Dict:
                 break
 
     # LLM 호출이 최종 실패했을 때 실행되는 대체 로직
-    print("\n에러 발생으로 인해, value_score 기준 상위 30개를 대신 선택합니다.")
+    print("\n에러 발생으로 인해, value_score 기준 상위 40개를 대신 선택합니다.")
     
     data_copy = [d for d in data if d.get('relevance_category') in ['직접', '중간']]
     if not data_copy:
         data_copy = data
 
     sorted_data = sorted(data_copy, key=lambda x: x.get('value_score', 0), reverse=True)
-    final_data = sorted_data[:30]
+    final_data = sorted_data[:40]
 
     top_keywords_set = {row.get("keyword") for row in final_data}
     all_keywords_set = {row.get("keyword") for row in data}
