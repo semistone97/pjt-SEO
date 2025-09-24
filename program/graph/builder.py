@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from langgraph.graph import START, END, StateGraph
 from schemas.global_state import State
 from models.node_preprocess import keyword_preprocess, relevance_categorize, select_keywords, information_refine
-from models.node_listing import keyword_distribute, generate_title, generate_bp, generate_description, listing_verificate, generate_listing
+from models.node_listing import keyword_distribute, generate_title, generate_bp, generate_description, listing_verificate
 from models.node_feedback import user_input, parse_user_feedback, feedback_check
 from models.node_regenerate import regenerate_title, regenerate_bp, regenerate_description
 
