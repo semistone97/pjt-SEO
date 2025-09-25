@@ -9,8 +9,7 @@ from prompts.prompt_preprocess import filter_prompt, relevance_prompt, select_pr
 from schemas.global_state import State
 from utils.preprocess_func import clean_keyword_column, filter_by_llm, clean_cp_column, clean_sv_column, scaler_and_score
 from utils.config_loader import config
-from langchain_core.prompts import ChatPromptTemplate
-
+import streamlit as st
 
 load_dotenv()
 
@@ -56,7 +55,6 @@ def relevance_categorize(state: State) -> Dict:
     LLM을 사용하여 각 키워드의 연관성을 4가지 카테고리(직접, 중간, 간접, 없음)로 분류합니다.
     """
     print("\n--- 연관성 분류를 시작합니다... ---\n")
-    
     product_name = state.get("product_name")
     product_information = state.get("product_information")
     data = state.get("data", [])
@@ -126,7 +124,7 @@ def select_keywords(state: State) -> Dict:
         {
             "keyword": row.get("keyword"),
             "relevance_category": row.get("relevance_category"),
-            "value_score": row.get("value_score")
+            "value_score": row.get("value_score")  # If문 걸기
         }
         for row in data
     ]
