@@ -1,5 +1,64 @@
+
+import streamlit as st
+from dotenv import load_dotenv
+from graph.builder_st import build_initial_graph, build_feedback_graph
+
+from utils.data_loader_st import load_information_pdf_streamlit, load_keywords_csv_streamlit
+
+# 환경 변수 로드
+load_dotenv()
+
+def main():
+    # Streamlit 페이지 설정
+    st.set_page_config(
+        page_title="아마존 리스팅 최적화 에이전트",
+        page_icon="📊",
+        layout="wide"
+    )
+    
+    st.title("📊 아마존 리스팅 최적화 에이전트")
+    
+    # Session state 초기화
+    if 'analysis_started' not in st.session_state:
+        st.session_state.analysis_started = False
+    if 'initial_result' not in st.session_state:
+        st.session_state.initial_result = None
+    if 'current_step' not in st.session_state:
+        st.session_state.current_step = 'input'  # input, analysis, feedback, complete
+    if 'feedback_count' not in st.session_state:
+        st.session_state.feedback_count = 0
+    if 'feedback_history' not in st.session_state:
+        st.session_state.feedback_history = []
+    if 'current_feedback' not in st.session_state:
+        st.session_state.current_feedback = ""
+    
+    # 프로그램 설명 및 약관
+    with st.expander("📋 프로그램 사용 방법", expanded=False):
+        st.markdown("""
+        ### 프로그램 사용 방법
+        이 도구는 상품명과 카테고리를 입력받아 키워드 데이터와 상품 정보를 분석합니다.
+        
+        ### 사용 약관
+        - 정확한 상품명을 입력해주세요
+        - 카테고리는 구체적으로 작성해주세요
+        - 분석 결과는 참고용으로만 사용하시기 바랍니다
+        """)
+    
+    # 사이드바 - 모든 단계에서 공통으로 표시
+    show_sidebar()
+    
+    # 현재 단계에 따른 화면 표시
+    if st.session_state.current_step == 'input':
+        show_input_form()
+    elif st.session_state.current_step == 'analysis':
+        show_analysis_progress()
+    elif st.session_state.current_step == 'feedback':
+        show_feedback_form()
+    elif st.session_state.current_step == 'complete':
+        show_final_results()
+
 def show_input_form():
-    """초기 입력 폼 표시 (메인 영역만)"""
+    """초기 입력 폼 표시 """
     # 메인 컨텐츠 영역
     if (not hasattr(st.session_state, 'product_name') or 
         not st.session_state.product_name or 
@@ -48,65 +107,9 @@ def show_input_form():
             st.info("파일이 업로드되지 않았습니다.")
     
     else:
-        st.success("모든 정보가 입력되었습니다. '분석 시작' 버튼을 클릭해주세요.")# claude2.py - 수정된 버전
+        st.success("모든 정보가 입력되었습니다. '분석 시작' 버튼을 클릭해주세요.")
 
-import streamlit as st
-from dotenv import load_dotenv
-from graph.builder_st import build_initial_graph, build_feedback_graph
 
-from utils.data_loader_st import load_information_pdf_streamlit, load_keywords_csv_streamlit
-
-# 환경 변수 로드
-load_dotenv()
-
-def main():
-    # Streamlit 페이지 설정
-    st.set_page_config(
-        page_title="상품 분석 도구",
-        page_icon="📊",
-        layout="wide"
-    )
-    
-    st.title("📊 상품 분석 도구")
-    
-    # Session state 초기화
-    if 'analysis_started' not in st.session_state:
-        st.session_state.analysis_started = False
-    if 'initial_result' not in st.session_state:
-        st.session_state.initial_result = None
-    if 'current_step' not in st.session_state:
-        st.session_state.current_step = 'input'  # input, analysis, feedback, complete
-    if 'feedback_count' not in st.session_state:
-        st.session_state.feedback_count = 0
-    if 'feedback_history' not in st.session_state:
-        st.session_state.feedback_history = []
-    if 'current_feedback' not in st.session_state:
-        st.session_state.current_feedback = ""
-    
-    # 프로그램 설명 및 약관
-    with st.expander("📋 프로그램 설명 및 약관", expanded=False):
-        st.markdown("""
-        ### 프로그램 설명
-        이 도구는 상품명과 카테고리를 입력받아 키워드 데이터와 상품 정보를 분석합니다.
-        
-        ### 사용 약관
-        - 정확한 상품명을 입력해주세요
-        - 카테고리는 구체적으로 작성해주세요
-        - 분석 결과는 참고용으로만 사용하시기 바랍니다
-        """)
-    
-    # 사이드바 - 모든 단계에서 공통으로 표시
-    show_sidebar()
-    
-    # 현재 단계에 따른 화면 표시
-    if st.session_state.current_step == 'input':
-        show_input_form()
-    elif st.session_state.current_step == 'analysis':
-        show_analysis_progress()
-    elif st.session_state.current_step == 'feedback':
-        show_feedback_form()
-    elif st.session_state.current_step == 'complete':
-        show_final_results()
 
 def show_sidebar():
     """모든 단계에서 공통으로 표시되는 사이드바"""
@@ -216,48 +219,6 @@ def show_sidebar():
             for key in list(st.session_state.keys()):
                 del st.session_state[key]
             st.rerun()
-
-def show_input_form2():
-    """초기 입력 폼 표시 (메인 영역만)"""
-    # 메인 컨텐츠 영역
-    if not hasattr(st.session_state, 'product_name') or not hasattr(st.session_state, 'category') or not hasattr(st.session_state, 'csv_files'):
-        # 요구사항 체크
-        requirements = []
-        if not hasattr(st.session_state, 'product_name'):
-            requirements.append("✗ 상품명")
-        else:
-            requirements.append("✓ 상품명")
-            
-        if not hasattr(st.session_state, 'category'):
-            requirements.append("✗ 카테고리")
-        else:
-            requirements.append("✓ 카테고리")
-            
-        if not hasattr(st.session_state, 'csv_files'):
-            requirements.append("✗ CSV 파일")
-        else:
-            requirements.append("✓ CSV 파일")
-        
-        st.info("👈 다음 항목들을 완성하고 '분석 시작' 버튼을 클릭하세요:")
-        for req in requirements:
-            st.write(req)
-        
-        st.divider()
-        
-        # 업로드된 파일 표시
-        st.subheader("📋 업로드된 파일")
-        if hasattr(st.session_state, 'csv_files'):
-            st.write("**CSV 파일:**")
-            for file in st.session_state.csv_files:
-                st.write(f"- {file.name}")
-        
-        if hasattr(st.session_state, 'pdf_files') and st.session_state.pdf_files:
-            st.write("**PDF 파일:**")
-            for file in st.session_state.pdf_files:
-                st.write(f"- {file.name}")
-        
-        if not hasattr(st.session_state, 'csv_files') and not hasattr(st.session_state, 'pdf_files'):
-            st.info("파일이 업로드되지 않았습니다.")
 
 def show_analysis_progress():
     """분석 진행 상황 표시"""
@@ -447,7 +408,7 @@ def show_feedback_form():
 Title:
 {st.session_state.initial_result.get('title', 'N/A')}
 
-BP:
+Bullet Point:
 {chr(10).join(f'{i}. {bp}' for i, bp in enumerate(st.session_state.initial_result.get('bp', []), 1))}
 
 Description:
@@ -456,7 +417,7 @@ Description:
             st.download_button(
                 "결과 다운로드",
                 result_text,
-                file_name="product_analysis_result.txt",
+                file_name=f"temp_{'_'.join(st.session_state.initial_result.get('title', 'N/A').split())}_product_listing.txt",
                 mime="text/plain"
             )
 
@@ -535,7 +496,7 @@ Description:
             st.download_button(
                 "결과 다운로드",
                 result_text,
-                file_name="product_analysis_result.txt",
+                file_name=f"{'_'.join(st.session_state.initial_result.get('title', 'N/A').split())}_product_listing_final.txt",
                 mime="text/plain"
             )
 
