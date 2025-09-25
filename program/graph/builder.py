@@ -1,10 +1,8 @@
 from dotenv import load_dotenv
 from langgraph.graph import START, END, StateGraph
 from schemas.global_state import State
-from models.node_preprocess import relevance_categorize, select_keywords, information_refine
-# need to fix
-from models.neo_preprocess import preprocess_data
-from models.node_listing import keyword_distribute, generate_title, generate_bp, generate_description, listing_verificate, generate_listing
+from models.node_preprocess import preprocess_data, relevance_categorize, select_keywords, information_refine
+from models.node_listing import generate_listing, keyword_distribute, listing_verificate
 from models.node_feedback import user_input, parse_user_feedback, feedback_check
 from models.node_regenerate import regenerate_title, regenerate_bp, regenerate_description
 
@@ -21,7 +19,7 @@ def build_graph():
     
     # 초안 작성
     builder.add_edge("select_keywords", "keyword_distribute")
-    builder.add_sequence([keyword_distribute, generate_title, generate_bp, generate_description])
+    builder.add_sequence([keyword_distribute, generate_listing])
     builder.add_node('listing_verificate', listing_verificate)
 
     # 사용자 피드백
@@ -49,7 +47,7 @@ def build_graph():
     builder.add_edge('information_refine', 'preprocess_data')
     
     builder.add_conditional_edges(
-        'generate_description',
+        'generate_listing',
         no_pdf_router,
         {
             'yes_pdf': 'listing_verificate',

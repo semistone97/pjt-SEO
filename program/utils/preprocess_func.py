@@ -126,31 +126,32 @@ def scaler_and_score(df: pd.DataFrame) -> pd.DataFrame:
     
     return df_copy
 
-def preprocess_data(state: State):
-    if not state['data']:
-        print("\n[Skipped] 데이터가 없어 키워드 정제를 종료합니다.")
-        return sys.exit(1)
+# 삭제 예정.
+# def preprocess_data(state: State):
+#     if not state['data']:
+#         print("\n[Skipped] 데이터가 없어 키워드 정제를 종료합니다.")
+#         return sys.exit(1)
     
-    try:
-        """
-        데이터프레임 전체에 대해 정제, 스케일링, 점수 계산을 순차적으로 수행합니다.
-        """
-        print("\n--- 데이터 정제 및 스케일링 시작... ---")
-        df = pd.DataFrame(state["data"])
-        df = clean_keyword_column(df)
-        df = filter_by_llm(df)
-        df, sv_imputed_mask = clean_sv_column(df)
-        df, cp_imputed_mask = clean_cp_column(df)
+#     try:
+#         """
+#         데이터프레임 전체에 대해 정제, 스케일링, 점수 계산을 순차적으로 수행합니다.
+#         """
+#         print("\n--- 데이터 정제 및 스케일링 시작... ---")
+#         df = pd.DataFrame(state["data"])
+#         df = clean_keyword_column(df)
+#         df = filter_by_llm(df)
+#         df, sv_imputed_mask = clean_sv_column(df)
+#         df, cp_imputed_mask = clean_cp_column(df)
 
-        df['is_imputed'] = sv_imputed_mask | cp_imputed_mask
+#         df['is_imputed'] = sv_imputed_mask | cp_imputed_mask
 
-        df = scaler_and_score(df)
+#         df = scaler_and_score(df)
 
-        df.drop(columns=['is_imputed'], inplace=True, errors='ignore')
-        processed_df = df.to_dict(orient='records')
+#         df.drop(columns=['is_imputed'], inplace=True, errors='ignore')
+#         processed_df = df.to_dict(orient='records')
 
-        print(f"\n최종 {len(processed_df)}개 키워드 정제 및 점수 계산 완료.")
-        return {'data': processed_df}
-    except Exception as e:
-        print(f"\n[Error] 키워드 정제 중 에러가 발생했습니다: {e}")
-        return {}
+#         print(f"\n최종 {len(processed_df)}개 키워드 정제 및 점수 계산 완료.")
+#         return {'data': processed_df}
+#     except Exception as e:
+#         print(f"\n[Error] 키워드 정제 중 에러가 발생했습니다: {e}")
+#         return {}
