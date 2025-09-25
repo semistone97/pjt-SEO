@@ -4,7 +4,7 @@ from langchain_core.documents import Document
 from pypdf import PdfReader
 
 
-def load_keywords_csv_streamlit(uploaded_files, product_name):
+def load_keywords_csv_streamlit(uploaded_files):
     """Streamlit용 키워드 CSV 로더"""
     if not uploaded_files:
         return None
@@ -66,11 +66,7 @@ def load_information_pdf_streamlit(uploaded_files):
 
     # 업로드된 파일들 처리
     for uploaded_file in uploaded_files:
-        # PDF 파일인지 확인
-        if not uploaded_file.name.lower().endswith('.pdf'):
-            messages.append(f"[Skipped] PDF 파일 아님: {uploaded_file.name}")
-            continue
-        
+
         # 파일 읽기 시도
         try:
             reader = PdfReader(uploaded_file)
@@ -87,6 +83,6 @@ def load_information_pdf_streamlit(uploaded_files):
             continue
     
     if not product_docs:
-        return None, 'Product information not found', ["주어진 파일 중 PDF 파일을 읽을 수 없습니다. 리스팅 검증 과정을 생략합니다."]
+        return None, 'Product information not found', ["PDF 파일을 읽을 수 없습니다. 리스팅 검증 과정을 생략합니다."]
 
     return product_docs, product_information, messages

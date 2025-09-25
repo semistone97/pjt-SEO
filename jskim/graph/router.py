@@ -19,7 +19,7 @@ def feedback_router(state):
     if str(state.get("user_feedback_description") or "").strip():
         return "regenerate_description"
     
-    return 'user_input'
+    return 'None'
 
 def no_pdf_router(state):
     

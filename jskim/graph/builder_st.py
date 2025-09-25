@@ -4,8 +4,7 @@ from langgraph.graph import START, END, StateGraph
 from schemas.global_state import State
 from models.node_preprocess import keyword_preprocess, relevance_categorize, select_keywords, information_refine
 from models.node_listing import keyword_distribute, generate_title, generate_bp, generate_description, listing_verificate
-from models.node_feedback import parse_user_feedback, feedback_check
-from models.node_regenerate import regenerate_title, regenerate_bp, regenerate_description
+from models.node_regenerate import parse_user_feedback, feedback_check, regenerate_title, regenerate_bp, regenerate_description
 
 from graph.router import feedback_router, no_pdf_router
 
@@ -77,7 +76,7 @@ def build_feedback_graph():
             'regenerate_title': 'regenerate_title',
             'regenerate_bp': 'regenerate_bp',
             'regenerate_description': 'regenerate_description',
-            'user_input': END  # 모든 피드백 처리 완료
+            'None': END  # 모든 피드백 처리 완료 시
         }
     )
     
@@ -86,10 +85,3 @@ def build_feedback_graph():
     builder.add_edge('regenerate_description', 'feedback_check')    
     
     return builder.compile()
-
-# 기존 함수는 호환성을 위해 유지 (deprecated)
-def build_graph():
-    """
-    레거시 호환성을 위한 함수 - 사용 권장하지 않음
-    """
-    return build_initial_graph()
