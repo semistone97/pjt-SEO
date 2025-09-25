@@ -26,7 +26,7 @@ def load_keywords_csv_streamlit(uploaded_files):
         try:
             df = pd.read_csv(uploaded_file)
         except Exception as e:
-            messages.append(f"[Error] 파일 읽기 실패: {uploaded_file.name} ({e})")
+            messages.append(f"파일 읽기 실패: {uploaded_file.name} ({e})")
             continue
         
         # 다형식 지원
@@ -43,9 +43,9 @@ def load_keywords_csv_streamlit(uploaded_files):
             df_required['competing_products'] = df_required['competing_products'].fillna(0).astype(str).str.replace('>', '').astype('Int64')
             dfs.append(df_required)
             good_files.append(uploaded_file.name)
-            messages.append(f"[Success] 파일 처리 완료: {uploaded_file.name}")
+            messages.append(f"파일 처리 완료: {uploaded_file.name}")
         else:
-            messages.append(f"[Skipped] 컬럼 형식 불일치: {uploaded_file.name}")
+            messages.append(f"컬럼 형식 불일치: {uploaded_file.name}")
     
     # 결과 반환
     if not good_files:
@@ -76,10 +76,10 @@ def load_information_pdf_streamlit(uploaded_files):
 
             product_docs.append(Document(page_content=text, metadata={"source": uploaded_file.name}))
             product_information.append(text)
-            messages.append(f"[Success] 읽어온 PDF 파일: {uploaded_file.name}")
+            messages.append(f"읽어온 PDF 파일: {uploaded_file.name}")
 
         except Exception as e:
-            messages.append(f"[Error] 파일 읽기 실패: {uploaded_file.name} ({e})")
+            messages.append(f"파일 읽기 실패: {uploaded_file.name} ({e})")
             continue
     
     if not product_docs:

@@ -17,13 +17,14 @@ llm = ChatOpenAI(model=config['llm_listing']['model'], temperature=float(config[
 def generate_title(state: State):
     
     with st.status("Title 작성 중...", expanded=True) as status:
-
+        st.info('키워드를 기반으로 Title을 작성합니다.')
         if not state['title_keyword']:
-            st.write('\n[Skipped] Title 작성용 키워드가 존재하지 않습니다.')
-            return {}
-        
-        st.write(f'\n--- Title 작성을 시작합니다... ---')
-        
+            st.warning('Title 작성용 키워드가 존재하지 않습니다.')
+            if st.button("처음으로"):
+                st.session_state.current_step = 'input'
+                st.rerun()
+            return
+                
         try:
             prompt = title_prompt.invoke(
                 {
@@ -38,27 +39,31 @@ def generate_title(state: State):
             
             st.success('Title 작성 성공')
             st.write(res.title)
-            st.write(f'\n작성된 Title: 총 {len(res.title)}자')
+            st.info(f'작성된 Title: 총 {len(res.title)}자')
             status.update(label="Title 작성 완료", state="complete", expanded=False)
 
             return {'title': res.title}
 
         except Exception as e:
-            st.write(f"\n[Error] Title 작성 중 에러가 발생했습니다: {e}")
-            return {}
+            st.error(f"Title 작성 중 에러가 발생했습니다: {e}")
+            if st.button("처음으로"):
+                st.session_state.current_step = 'input'
+                st.rerun()
+            return
 
 
 # ====================================================================================================
 # BP 노드
 def generate_bp(state: State):
     
-    with st.status("BP 작성 중...", expanded=True) as status:
-            
+    with st.status("Bullet Point 작성 중...", expanded=True) as status:
+        st.info('키워드를 기반으로 Bullet Points를 작성합니다.')
         if not state['bp_keyword']:
-            st.write('\n[Skipped] Bullet Point 작성용 키워드가 존재하지 않습니다.')
-            return {}
-
-        st.write(f'\n--- Bullet Point 작성을 시작합니다... ---')
+            st.warning('Bullet Point 작성용 키워드가 존재하지 않습니다.')
+            if st.button("처음으로"):
+                st.session_state.current_step = 'input'
+                st.rerun()
+            return
         
         try:
             prompt = bp_prompt.invoke(
@@ -74,33 +79,38 @@ def generate_bp(state: State):
             bp_length = []
             bps = res.bp
 
-            st.success('BP 작성 성공')
+            st.success('Bullet Point 작성 성공')
 
             for bp in bps:
                 st.write(bp)
-                bp_length.append(len(bp))    
-                
-            st.write(f'\n작성된 Bullet Point: 각 {bp_length}자')
-            status.update(label="BP 작성 완료", state="complete", expanded=False)
+                bp_length.append(str(len(bp)))    
+
+            st.info(f'작성된 Bullet Point: 각 {','.join(bp_length)}자')
+            status.update(label="Bullet Point 작성 완료", state="complete", expanded=False)
 
             return {'bp': bps}
         
         except Exception as e:
-            st.write(f"\n[Error] Bullet Point 작성 중 에러가 발생했습니다: {e}")
-            return {}
+            st.error(f"Bullet Point 작성 중 에러가 발생했습니다: {e}")
+            if st.button("처음으로"):
+                st.session_state.current_step = 'input'
+                st.rerun()
+            return
 
 
 # ====================================================================================================
 # Description 노드
 def generate_description(state: State):
     with st.status("Description 작성 중...", expanded=True) as status:
-
+        st.info('키워드를 기반으로 Description을 작성합니다.')
+        
         if not state['description_keyword']:
-            st.write('\n[Skipped] Description 작성용 키워드가 존재하지 않습니다.')
-            return {}
-        
-        st.write(f'\n--- Description 작성을 시작합니다... ---')
-        
+            st.warning('Description 작성용 키워드가 존재하지 않습니다.')
+            if st.button("처음으로"):
+                st.session_state.current_step = 'input'
+                st.rerun()
+            return
+                
         try:
             prompt = description_prompt.invoke(
                 {
@@ -116,13 +126,15 @@ def generate_description(state: State):
             
             st.success('Description 작성 성공')
             st.write(res.description)
-            st.write(f'\n작성된 Description: 총 {len(res.description)}자')
+            st.info(f'\n작성된 Description: 총 {len(res.description)}자')
             
             status.update(label="Description 작성 완료", state="complete", expanded=False)
 
             return {'description': res.description}
 
         except Exception as e:
-            st.write(f"\n[Error] Description 작성 중 에러가 발생했습니다: {e}")
-            return {}
-        
+            st.error(f"Description 작성 중 에러가 발생했습니다: {e}")
+            if st.button("처음으로"):
+                st.session_state.current_step = 'input'
+                st.rerun()
+            return      

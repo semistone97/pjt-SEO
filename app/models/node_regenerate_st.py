@@ -15,46 +15,47 @@ llm = ChatOpenAI(model=config['llm_listing']['model'], temperature=float(config[
 # 피드백 분류
 def parse_user_feedback(state: State):
     
-    with st.status("피드백 내용 정리 중...", expanded=True) as status:
-        
-        llm = ChatOpenAI(model=config['llm_feedback']['model'], temperature=float(config['llm_feedback']['temperature']))
-        
-        structured_llm = llm.with_structured_output(Feedback)
-        prompt = feedback_prompt.invoke(
-            {
-                'user_feedback': state['user_feedback'],
-            }
-        )
-        res = structured_llm.invoke(prompt)
-        
-        feedback_title = res.title or ''
-        
-        bp_raw = res.bp or ''
-        if isinstance(bp_raw, (list, tuple)):
-            feedback_bp = '\n'.join(bp_raw).strip()
-        else:
-            feedback_bp = bp_raw or ''
+    # st.status를 전체 폭으로 표시하기 위해 명시적으로 설정
+    with st.container():
+        with st.status("피드백 내용 정리 중...", expanded=True) as status:
             
-        feedback_description = res.description or ''
-        
-        st.write()
-        if feedback_title:
-            st.write('Title: ', feedback_title) 
-        
-        if feedback_bp:
-            st.write('BP: ', feedback_bp)
+            llm = ChatOpenAI(model=config['llm_feedback']['model'], temperature=float(config['llm_feedback']['temperature']))
+            
+            structured_llm = llm.with_structured_output(Feedback)
+            prompt = feedback_prompt.invoke(
+                {
+                    'user_feedback': state['user_feedback'],
+                }
+            )
+            res = structured_llm.invoke(prompt)
+            
+            feedback_title = res.title or ''
+            
+            bp_raw = res.bp or ''
+            if isinstance(bp_raw, (list, tuple)):
+                feedback_bp = '\n'.join(bp_raw).strip()
+            else:
+                feedback_bp = bp_raw or ''
+                
+            feedback_description = res.description or ''
+            
+            if feedback_title:
+                st.write('Title: ', feedback_title) 
+            
+            if feedback_bp:
+                st.write('BP: ', feedback_bp)
 
-        if feedback_description:
-            st.write('Description: ', feedback_description)
-        
-        status.update(label="피드백 정리 완료", state="complete", expanded=False)
+            if feedback_description:
+                st.write('Description: ', feedback_description)
+            
+            status.update(label="피드백 정리 완료", state="complete", expanded=False)
         
         return {
             'user_feedback_title': feedback_title,
             'user_feedback_bp': feedback_bp,
             'user_feedback_description': feedback_description
-        }     
-    
+        }
+            
 # ====================================================================================================
 # 피드백 라우팅용 노드
 def feedback_check(state: State):
@@ -66,11 +67,6 @@ def feedback_check(state: State):
 def regenerate_title(state: State):
     
     with st.status("Title 재작성중...", expanded=True) as status:
-
-        
-        if not state['title_keyword']:
-            st.warning('\n[Skipped] Title 재작성용 키워드가 존재하지 않습니다.')
-            return {'user_feedback_title': ''}
                 
         try:
             base_prompt = str(title_prompt.invoke(
@@ -91,28 +87,24 @@ def regenerate_title(state: State):
             
             structured_llm = llm.with_structured_output(TitleOutput)
             res = structured_llm.invoke(prompt)
-            st.write(f'\n재작성된 Title: 총 {len(res.title)}자')
+            st.success('Title 재작성 성공')
+            st.write(res.title)
+            st.info(f'재작성된 Title: 총 {len(res.title)}자')
             
             status.update(label="Title 재작성 완료", state="complete", expanded=False)
             
             return {'title': res.title, 'user_feedback_title': ''}
 
         except Exception as e:
-            st.write(f"\n[Error] Title 재작성 중 에러가 발생했습니다: {e}")
+            st.warning(f"Title 재작성 중 에러가 발생했습니다: {e}")
             return {'user_feedback_title': ''}
 
 # ====================================================================================================
 # BP 노드
 def regenerate_bp(state: State):
     
-    with st.status("BP 재작성중...", expanded=True) as status:
+    with st.status("Bullet Points 재작성중...", expanded=True) as status:
 
-        if not state['bp_keyword']:
-            st.write('\n[Skipped] Bullet Point 재작성용 키워드가 존재하지 않습니다.')
-            return {'user_feedback_bp': ''}
-
-        st.write(f'\n--- Bullet Point 재작성을 시작합니다... ---')
-        
         try:
             base_prompt = str(bp_prompt.invoke(
                 {
@@ -132,17 +124,21 @@ def regenerate_bp(state: State):
             
             structured_llm = llm.with_structured_output(BPOutput)
             res = structured_llm.invoke(prompt)
+            st.success('Bullet Point 재작성 성공')
+            bps = res.bp
             bp_length = []
-            for bp in res.bp:
+            
+            for bp in bps:
+                st.write(bp)
                 bp_length.append(len(bp))    
-            st.write(f'\n재작성된 Bullet Point: 각 {bp_length}자')
 
-            status.update(label="BP 재작성 완료", state="complete", expanded=False)
+            st.info(f'재작성된 Bullet Point: 각 {','.join(bp_length)}자')
+            status.update(label="Bullet Points 재작성 완료", state="complete", expanded=False)
 
             return {'bp': res.bp, 'user_feedback_bp': ''}
         
         except Exception as e:
-            st.write(f"\n[Error] Bullet Point 재작성 중 에러가 발생했습니다: {e}")
+            st.warning(f"Bullet Point 재작성 중 에러가 발생했습니다: {e}")
             return {'user_feedback_bp': ''}
 
 # ====================================================================================================
@@ -150,12 +146,6 @@ def regenerate_bp(state: State):
 def regenerate_description(state: State):
     with st.status("Description 재작성중...", expanded=True) as status:
 
-        if not state['description_keyword']:
-            st.write('\n[Skipped] Description 재작성용 키워드가 존재하지 않습니다.')
-            return {'user_feedback_description': ''}
-        
-        st.write(f'\n--- Description 재작성을 시작합니다... ---')
-        
         try:
             base_prompt = str(description_prompt.invoke(
                 {
@@ -176,13 +166,16 @@ def regenerate_description(state: State):
 
             structured_llm = llm.with_structured_output(DescriptionOutput)
             res = structured_llm.invoke(prompt)
-            st.write(f'\n재작성된 Description: 총 {len(res.description)}자')
-
+            
+            st.success('Description 재작성 성공')
+            st.write(res.description)
+            st.info(f'재작성된 Description: 총 {len(res.description)}자')
+            
             status.update(label="Description 재작성 완료", state="complete", expanded=False)
 
             return {'description': res.description, 'user_feedback_description': ''}
 
         except Exception as e:
-            st.write(f"\n[Error] Description 재작성 중 에러가 발생했습니다: {e}")
+            st.warning(f"Description 재작성 중 에러가 발생했습니다: {e}")
             return {'user_feedback_description': ''}
         
