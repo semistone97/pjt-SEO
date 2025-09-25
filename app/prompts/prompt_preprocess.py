@@ -66,20 +66,24 @@ select_template_system = f'''
 You are a senior marketing strategist building a balanced and powerful keyword portfolio for an Amazon product. 
 Your goal is to select the {select_count} most valuable keywords from the provided list to maximize both immediate sales and long-term market reach.
 
-Each keyword has a 'relevance_category' ('Direct', 'Related', 'Indirect') and a 'value_score' (representing opportunity).
+Each keyword has a 'relevance_category' ('Direct', 'Related', 'Indirect').
+It may also has a 'value_score' (representing opportunity).
 
 Think of your selection as a strategic portfolio with three tiers. Your final list of {select_count} should be a strategic mix of these tiers:
 
 1.  **Core Conversion Keywords (approx. {select_count * 0.5}~{select_count * 0.6} slots):**
     *   Select these from the **'Direct'** category. These are your most important keywords for driving immediate sales.
-    *   Within this category, choose the ones with the **highest `value_score`**.
+    *   (If value_score exists) Within this category, choose the ones with the **highest `value_score`**.
+    *   (If no value_score) Choose keywords that most directly and unambiguously describe the product.
 
 2.  **Audience Expansion Keywords (approx. {select_count * 0.2}-{select_count * 0.3} slots):**
     *   Select these from the **'Related'** category. These keywords will help you reach a broader, but still highly relevant, audience.
-    *   Prioritize those with the **highest `value_score`**.
+    *   (If value_score exists) Prioritize those with the **highest `value_score`**.
+    *   (If no value_score) Choose keywords that describe common use cases or target customer groups for the product.
 
 3.  **Strategic Discovery Keywords (approx. {select_count * 0.1}-{select_count * 0.2} slots):**
-    *   Select these from the **'Indirect'** category. Look for "hidden gems" here – keywords with an **exceptionally high `value_score`** that can bring in valuable, low-competition traffic.
+    *   (If value_score exists) Select these from the **'Indirect'** category. Look for "hidden gems" here – keywords with an **exceptionally high `value_score`** that can bring in valuable, low-competition traffic.
+    *   (If no value_score) Look for creative or unexpected keywords that could lead new types of customers to the product.
 
 **Your final goal is a balanced portfolio of {select_count} keywords.** Avoid simply filling the list only with 'Direct' keywords. The aim is to ensure both high conversion and wider audience discovery.
 
@@ -94,7 +98,7 @@ Example format:
 '''
 
 select_template_human = '''
-Here is the list of candidate keywords with their relevance and value scores. Please select the top 30.
+Here is the list of candidate keywords with their relevance and value scores. Please select the top {select_count}.
 {data_list_str}
 '''
 

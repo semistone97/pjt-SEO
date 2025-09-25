@@ -64,20 +64,16 @@ def generate_listing(state: State):
     """
     print("\n--- 통합 리스팅 생성을 시작합니다... ---")
     
-    # 1. Title 생성 함수 호출
     title_update = generate_title(state)
-    
-    # 2. BP 생성 함수 호출
     bp_update = generate_bp(state)
     
-    # 3. Description 생성을 위해 state를 임시로 업데이트
-    # (generate_description 함수는 state에서 'bp' 결과를 필요로 함)
+    # Description에서 bp가 필요해서 임시로 업데이트
     temp_state = state.copy()
-    temp_state.update(bp_update) # bp_update 딕셔너리 {'bp': [...]} 를 추가
+    temp_state.update(bp_update)
         
     description_update = generate_description(temp_state)
     
-    # 4. 모든 결과를 취합하여 최종 업데이트 딕셔너리 생xw성
+    # 모든 결과를 취합하여 최종 업데이트 딕셔너리 생성
     final_update = {}
     final_update.update(title_update)
     final_update.update(bp_update)

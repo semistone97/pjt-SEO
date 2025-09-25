@@ -4,7 +4,7 @@ from langchain_core.documents import Document
 from pypdf import PdfReader
 
 
-def load_keywords_csv_streamlit(uploaded_files, product_name):
+def load_keywords_csv_streamlit(uploaded_files):
     """Streamlit용 키워드 CSV 로더"""
     if not uploaded_files:
         return None
@@ -26,7 +26,7 @@ def load_keywords_csv_streamlit(uploaded_files, product_name):
         try:
             df = pd.read_csv(uploaded_file)
         except Exception as e:
-            messages.append(f"[Error] 파일 읽기 실패: {uploaded_file.name} ({e})")
+            messages.append(f"파일 읽기 실패: {uploaded_file.name} ({e})")
             continue
         
         # 다형식 지원
@@ -43,9 +43,9 @@ def load_keywords_csv_streamlit(uploaded_files, product_name):
             df_required['competing_products'] = df_required['competing_products'].fillna(0).astype(str).str.replace('>', '').astype('Int64')
             dfs.append(df_required)
             good_files.append(uploaded_file.name)
-            messages.append(f"[Success] 파일 처리 완료: {uploaded_file.name}")
+            messages.append(f"파일 처리 완료: {uploaded_file.name}")
         else:
-            messages.append(f"[Skipped] 컬럼 형식 불일치: {uploaded_file.name}")
+            messages.append(f"컬럼 형식 불일치: {uploaded_file.name}")
     
     # 결과 반환
     if not good_files:
@@ -66,11 +66,7 @@ def load_information_pdf_streamlit(uploaded_files):
 
     # 업로드된 파일들 처리
     for uploaded_file in uploaded_files:
-        # PDF 파일인지 확인
-        if not uploaded_file.name.lower().endswith('.pdf'):
-            messages.append(f"[Skipped] PDF 파일 아님: {uploaded_file.name}")
-            continue
-        
+
         # 파일 읽기 시도
         try:
             reader = PdfReader(uploaded_file)
@@ -80,13 +76,13 @@ def load_information_pdf_streamlit(uploaded_files):
 
             product_docs.append(Document(page_content=text, metadata={"source": uploaded_file.name}))
             product_information.append(text)
-            messages.append(f"[Success] 읽어온 PDF 파일: {uploaded_file.name}")
+            messages.append(f"읽어온 PDF 파일: {uploaded_file.name}")
 
         except Exception as e:
-            messages.append(f"[Error] 파일 읽기 실패: {uploaded_file.name} ({e})")
+            messages.append(f"파일 읽기 실패: {uploaded_file.name} ({e})")
             continue
     
     if not product_docs:
-        return None, 'Product information not found', ["주어진 파일 중 PDF 파일을 읽을 수 없습니다. 리스팅 검증 과정을 생략합니다."]
+        return None, 'Product information not found', ["PDF 파일을 읽을 수 없습니다. 리스팅 검증 과정을 생략합니다."]
 
     return product_docs, product_information, messages
