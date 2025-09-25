@@ -1,13 +1,13 @@
-import json, sys
+import json, sys, re
 import pandas as pd
 from typing import Dict
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
-from prompts.prompt_preprocess import filter_prompt, relevance_prompt, select_prompt, summarization_prompt
+from prompts.prompt_preprocess import filter_prompt, relevance_prompt, select_prompt, summarization_prompt, select_count
 from schemas.global_state import State
-from utils.func import preprocess_keywords, scaler
+from utils.preprocess_func import clean_keyword_column, filter_by_llm, clean_cp_column, clean_sv_column, scaler_and_score
 from utils.config_loader import config
 import streamlit as st
 
@@ -15,63 +15,34 @@ load_dotenv()
 
 # ====================================================================================================
 # 키워드 정제
-def keyword_preprocess(state: State):
-        
+def preprocess_data(state: State):
     if not state['data']:
         print("\n[Skipped] 데이터가 없어 키워드 정제를 종료합니다.")
         return sys.exit(1)
     
     try:
-        print(f'\n--- 키워드 {len(state['data'])}개에 대해 정제를 시작합니다... ---')
-        
-        llm = ChatOpenAI(model=config['llm_keyword']['model'], temperature=float(config['llm_keyword']['temperature']))
-       
+        """
+        데이터프레임 전체에 대해 정제, 스케일링, 점수 계산을 순차적으로 수행합니다.
+        """
+        print("\n--- 데이터 정제 및 스케일링 시작... ---")
         df = pd.DataFrame(state["data"])
-            
-        response_schemas = [
-            ResponseSchema(
-                name="keywords",
-                description="조건을 적용한 키워드 리스트, 문자열 리스트 또는 dict 리스트 가능"
-            )
-        ]
-        parser = StructuredOutputParser.from_response_schemas(response_schemas)
-        
-        # 1. 사전 필터링
-        filtered_series = preprocess_keywords(df['keyword'])
+        df = clean_keyword_column(df)
+        df = filter_by_llm(df)
+        df, sv_imputed_mask = clean_sv_column(df)
+        df, cp_imputed_mask = clean_cp_column(df)
 
-        # 2. 프롬프트 생성
-        keyword_prompt = filter_prompt.format(
-            data=filtered_series.tolist(),
-            format_instructions=parser.get_format_instructions()
-        )
+        df['is_imputed'] = sv_imputed_mask | cp_imputed_mask
 
-        # 3. LLM 호출
-        res = llm.invoke([{"role": "user", "content": keyword_prompt}])
-        structured = parser.parse(res.content)
+        df = scaler_and_score(df)
 
-        # 4. 파싱 처리
-        raw_keywords = structured.get("keywords", [])
-        if len(raw_keywords) > 0 and isinstance(raw_keywords[0], dict):
-            cleaned_keywords = [k.get('keyword') for k in raw_keywords if 'keyword' in k]
-        else:
-            cleaned_keywords = raw_keywords
+        df.drop(columns=['is_imputed'], inplace=True, errors='ignore')
+        processed_df = df.to_dict(orient='records')
 
-        # 5. 원본 DF 필터
-        cleaned_data = df[df['keyword'].isin(cleaned_keywords)].reset_index(drop=True)
-        
-        processed_df = scaler(cleaned_data)
-        
-        processed_df = processed_df.to_dict(orient='records')
-        
-        print(f'\n키워드 {len(processed_df)}개를 정제하였습니다')
-        
-        return {"data": processed_df}
-
+        print(f"\n최종 {len(processed_df)}개 키워드 정제 및 점수 계산 완료.")
+        return {'data': processed_df}
     except Exception as e:
         print(f"\n[Error] 키워드 정제 중 에러가 발생했습니다: {e}")
         return {}
-
-
 
 
 # ====================================================================================================
@@ -168,6 +139,7 @@ def select_keywords(state: State) -> Dict:
             print(f"\n--- {len(simplified_data)}개 후보 중 상위 키워드 선별을 요청합니다... --- (시도 {retries + 1}/{max_retries})")
             
             response_str = chain.invoke({
+                'select_count': select_count,
                 "data_list_str": json.dumps(simplified_data, ensure_ascii=False)
             })
             
@@ -195,14 +167,14 @@ def select_keywords(state: State) -> Dict:
                 break
 
     # LLM 호출이 최종 실패했을 때 실행되는 대체 로직
-    print("\n에러 발생으로 인해, value_score 기준 상위 30개를 대신 선택합니다.")
+    print("\n에러 발생으로 인해, value_score 기준 상위 40개를 대신 선택합니다.")
     
     data_copy = [d for d in data if d.get('relevance_category') in ['직접', '중간']]
     if not data_copy:
         data_copy = data
 
-    sorted_data = sorted(data_copy, key=lambda x: x.get('value_score', 0), reverse=True)  # value_score 처리하기!
-    final_data = sorted_data[:30]
+    sorted_data = sorted(data_copy, key=lambda x: x.get('value_score', 0), reverse=True)
+    final_data = sorted_data[:40]
 
     top_keywords_set = {row.get("keyword") for row in final_data}
     all_keywords_set = {row.get("keyword") for row in data}
