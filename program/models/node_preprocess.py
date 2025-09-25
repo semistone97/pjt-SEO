@@ -9,15 +9,14 @@ from prompts.prompt_preprocess import filter_prompt, relevance_prompt, select_pr
 from schemas.global_state import State
 from utils.func import preprocess_keywords, scaler
 from utils.config_loader import config
-from langchain_core.prompts import ChatPromptTemplate
-
+import streamlit as st
 
 load_dotenv()
 
 # ====================================================================================================
 # 키워드 정제
 def keyword_preprocess(state: State):
-    
+        
     if not state['data']:
         print("\n[Skipped] 데이터가 없어 키워드 정제를 종료합니다.")
         return sys.exit(1)
@@ -85,7 +84,6 @@ def relevance_categorize(state: State) -> Dict:
     LLM을 사용하여 각 키워드의 연관성을 4가지 카테고리(직접, 중간, 간접, 없음)로 분류합니다.
     """
     print("\n--- 연관성 분류를 시작합니다... ---\n")
-    
     product_name = state.get("product_name")
     product_information = state.get("product_information")
     data = state.get("data", [])
@@ -155,7 +153,7 @@ def select_keywords(state: State) -> Dict:
         {
             "keyword": row.get("keyword"),
             "relevance_category": row.get("relevance_category"),
-            "value_score": row.get("value_score")
+            "value_score": row.get("value_score")  # If문 걸기
         }
         for row in data
     ]
@@ -203,7 +201,7 @@ def select_keywords(state: State) -> Dict:
     if not data_copy:
         data_copy = data
 
-    sorted_data = sorted(data_copy, key=lambda x: x.get('value_score', 0), reverse=True)
+    sorted_data = sorted(data_copy, key=lambda x: x.get('value_score', 0), reverse=True)  # value_score 처리하기!
     final_data = sorted_data[:30]
 
     top_keywords_set = {row.get("keyword") for row in final_data}
