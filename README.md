@@ -30,7 +30,7 @@ SeSAC 최종 프로젝트. **키워드 분석과 사용자 피드백에 기반�
 - **UI**: Streamlit
 
 ## 웹 애플리케이션 (Frontend)
-![스크린샷](/docs/Diagrams/mockup.png "스크린샷")
+![스크린샷](/docs/Diagrams/screenshot.png "스크린샷")
 사용자가 에이전트와 상호작용할 수 있도록 Streamlit을 사용하여 웹 UI를 구현했습니다.
 
 - **직관적인 UI/UX**: 사이드바에서 상품명, 카테고리, 키워드(`CSV`), 상품 정보(`PDF`) 파일을 업로드하고 '분석 시작' 버튼을 누르면, 메인 화면에서 분석 과정을 실시간으로 확인할 수 있습니다. `st.status`와 `st.spinner`를 활용하여 사용자에게 현재 작업 상태를 명확히 보여줍니다.
