@@ -1,5 +1,6 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.prompts import PromptTemplate
+from utils.config_loader import config
 
 # ====================================================================================================
 # filter_prompt
@@ -59,7 +60,7 @@ relevance_prompt = ChatPromptTemplate.from_messages([
 # ====================================================================================================
 # select_keywords_prompt
 
-select_count = 50
+select_count = int(config['select_keywords']['select_count'])
 
 select_template_system = f'''
 You are a senior marketing strategist building a balanced and powerful keyword portfolio for an Amazon product. 

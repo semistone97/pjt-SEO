@@ -187,14 +187,14 @@ def select_keywords(state: State) -> Dict:
                     break
 
         # LLM 호출이 최종 실패했을 때 실행되는 대체 로직
-        st.write("에러 발생으로 인해, value_score 기준 상위 40개를 대신 선택합니다.")
+        st.write(f"에러 발생으로 인해, value_score 기준 상위 {int(config['select_keywords']['select_count'])}개를 대신 선택합니다.")
         
         data_copy = [d for d in data if d.get('relevance_category') in ['직접', '중간']]
         if not data_copy:
             data_copy = data
 
         sorted_data = sorted(data_copy, key=lambda x: x.get('value_score', 0), reverse=True)
-        final_data = sorted_data[:40]
+        final_data = sorted_data[:int(config['select_keywords']['select_count'])]
 
         top_keywords_set = {row.get("keyword") for row in final_data}
         all_keywords_set = {row.get("keyword") for row in data}
