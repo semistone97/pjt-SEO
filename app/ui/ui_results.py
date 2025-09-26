@@ -54,6 +54,6 @@ def show_final_results():
             st.download_button(
                 "최종 결과 다운로드",
                 result_text,
-                file_name=f"{'_'.join(st.session_state.initial_result.get('title', 'N/A').split())}_product_listing_final.txt",
+                file_name=f"{'_'.join(st.session_state.initial_result.get('product_name', 'N/A').split())}_product_listing_final.txt",
                 mime="text/plain"
             )

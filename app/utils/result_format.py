@@ -47,7 +47,7 @@ def result_format():
         title_length=len(title),
         title=title,
         
-        bp=chr(10).join(f'{i}. {bp}' for i, bp in enumerate(bp, 1)),
+        bp=chr(10).join(f'{i}. {bp}' for i, bp in enumerate(bps, 1)),
         bp_length=', '.join(bp_length),
         
         description_length=len(description),

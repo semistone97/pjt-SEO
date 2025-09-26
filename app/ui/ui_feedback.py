@@ -91,7 +91,7 @@ def show_feedback_form():
                 st.download_button(
                     "임시저장",
                     result_text,
-                    file_name=f"temp_{'_'.join(st.session_state.initial_result.get('title', 'N/A').split())}_product_listing.txt",
+                    file_name=f"temp_{'_'.join(st.session_state.initial_result.get('product_name', 'N/A').split())}_product_listing.txt",
                     mime="text/plain"
                 )
 
