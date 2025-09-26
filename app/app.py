@@ -1,12 +1,27 @@
 import streamlit as st
 from dotenv import load_dotenv
-from ui.ui_input import show_sidebar, show_input_form
+from ui.ui_sidebar import show_sidebar
+from ui.ui_input import show_input_form
 from ui.ui_preprocessing import show_analysis_progress
 from ui.ui_feedback import show_feedback_form
 from ui.ui_results import show_final_results
 
-# 환경 변수 로드
 load_dotenv()
+
+def init_session_state():
+    defaults = {
+        'analysis_started': False,
+        'initial_result': None,
+        'current_step': '데이터 입력',
+        'feedback_count': 0,
+        'feedback_history': [],
+        'current_feedback': "",
+        'processing_feedback': False,
+        'current_feedback_text': ""
+    }
+    for key, val in defaults.items():
+        if key not in st.session_state:
+            st.session_state[key] = val
 
 def main():
     # Streamlit 페이지 설정
@@ -48,7 +63,7 @@ def main():
         리스팅 결과는 AI가 생성한 문서입니다. 책임감 있는 사용을 위해서는 인간의 감독이 필수적입니다. 결과는 참고용으로만 사용하시기 바랍니다.
         """)
     
-    # 사이드바 - 모든 단계에서 공통으로 표시
+    # 사이드바
     show_sidebar()
     
     # 현재 단계에 따른 화면 표시
@@ -61,21 +76,6 @@ def main():
         show_feedback_form()
     elif step == '완료':
         show_final_results()
-
-def init_session_state():
-    defaults = {
-        'analysis_started': False,
-        'initial_result': None,
-        'current_step': '데이터 입력',
-        'feedback_count': 0,
-        'feedback_history': [],
-        'current_feedback': "",
-        'processing_feedback': False,
-        'current_feedback_text': ""
-    }
-    for key, val in defaults.items():
-        if key not in st.session_state:
-            st.session_state[key] = val
 
 if __name__ == "__main__":
     main()

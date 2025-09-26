@@ -68,7 +68,7 @@ def show_feedback_form():
         )
         
         # 버튼들을 나란히 배치
-        col1, col2, col3 = st.columns([5, 1, 1])
+        col1, col2, col3 = st.columns([10, 1, 1])
         
         with col1:
             # 피드백 제출 버튼
@@ -82,12 +82,8 @@ def show_feedback_form():
                 else:
                     st.warning('피드백을 입력해주세요.')
         
-        with col2:
-            if st.button('완료'):
-                st.session_state.current_step = 'complete'
-                st.rerun()
         
-        with col3:
+        with col2:
             if 'initial_result' in st.session_state:
             
                 result_text = result_format()
@@ -99,6 +95,10 @@ def show_feedback_form():
                     mime="text/plain"
                 )
 
+        with col3:
+            if st.button('완료'):
+                st.session_state.current_step = '완료'
+                st.rerun()
 
 def show_feedback_processing():
     """피드백 처리 중 화면 표시"""
