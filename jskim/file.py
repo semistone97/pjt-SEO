@@ -1,4 +1,8 @@
-{
+import pandas as pd
+import json
+
+# JSON 데이터
+data = {
   "data": [
     {
       "keyword": "desk fan",
@@ -385,3 +389,14 @@
     "fan table"
   ]
 }
+
+# 데이터프레임으로 변환
+df_data = pd.DataFrame(data["data"])
+df_backend = pd.DataFrame(data["backend_keywords"], columns=["backend_keywords"])
+
+# CSV 파일로 저장
+data_csv_path = "json_data.csv"
+backend_csv_path = "json_backend_keywords.csv"
+
+df_data.to_csv(data_csv_path, index=False)
+df_backend.to_csv(backend_csv_path, index=False)
