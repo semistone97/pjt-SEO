@@ -20,7 +20,7 @@ def keyword_distribute(state: State):
         if not state['data']:
             st.warning("데이터가 없어 키워드 분배를 종료합니다.")
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
         
@@ -57,7 +57,7 @@ def keyword_distribute(state: State):
         except Exception as e:
             st.error(f"키워드 분배 중 에러가 발생했습니다: {e}")
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
 
@@ -139,6 +139,6 @@ def listing_verificate(state: State) -> dict:
         except Exception as e:
             st.error(f'리스팅 검증 중 에러가 발생했습니다: {e}')
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
