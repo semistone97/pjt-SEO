@@ -3,7 +3,6 @@ from utils.result_format import result_format
 
 def show_final_results():
     """최종 결과 표시"""
-    st.success("분석이 완료되었습니다!")
     
     if 'initial_result' in st.session_state:
         result = st.session_state.initial_result
@@ -11,32 +10,44 @@ def show_final_results():
         # 반영된 피드백 내역 표시
         if st.session_state.feedback_history:
             with st.expander("=== 반영된 피드백 내역 ===", expanded=False):
+                st.info(f"총 {st.session_state.feedback_count}번의 피드백이 반영되었습니다.")
                 for i, feedback in enumerate(st.session_state.feedback_history, 1):
                     st.info(f"피드백 {i}: {feedback}")
-        
-        # 최종 결과 표시 (일반 텍스트로)
-        
-        if 'title' in result:
-            st.write("Title:")
-            st.write(result["title"])
-            st.write("")
-        
-        if 'bp' in result:
-            st.write("BP:")
-            for i, bp in enumerate(result['bp'], 1):
-                st.write(f"{i}. {bp}")
-            st.write("")
-        
-        if 'description' in result:
-            st.write("Description:")
-            st.write(result["description"])
-        
-        if st.session_state.feedback_count > 0:
-            st.info(f"총 {st.session_state.feedback_count}번의 피드백이 반영되었습니다.")
+
+        # 최종 결과 표시
+        with st.expander("결과물 출력", expanded=True):
+            with st.expander('Output Informations', expanded=False):
+                st.write(f'Title 길이: {len(result['title'])}자')
+                st.write(f'Title Keywords: {', '.join(result['title_keyword'])}')
+                
+                bps = []
+                for bp in result['bp']:
+                    bps.append(str(len(bp)))
+
+                st.write(f'Bullet Points 길이: 각 {', '.join(bps)}자')
+                st.write(f'Bullet Point Keywords: {', '.join(result['bp_keyword'])}')
+                st.write(f'Description 길이: {len(result['description'])}자')
+                st.write(f'Description Keywords: {', '.join(result['description_keyword'])}')
+            
+            if 'title' in result:
+                st.write("Title:")
+                st.write(result["title"])
+                st.write("")
+            
+            if 'bp' in result:
+                st.write("BP:")
+                for i, bp in enumerate(result['bp'], 1):
+                    st.write(f"{i}. {bp}")
+                st.write("")
+            
+            if 'description' in result:
+                st.write("Description:")
+                st.write(result["description"])
+
     
     st.divider()
     
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns([15,2])
     
     with col1:
         if st.button('새로운 분석 시작', type="primary"):
