@@ -131,7 +131,7 @@ def show_sidebar():
             else:
                 # 다른 단계에서는 현재 설정 정보만 표시
                 if hasattr(st.session_state, 'product_name'):
-                    st.subheader("📋 현재 설정")
+                    st.subheader("현재 설정")
                     st.write(f"상품명: {st.session_state.product_name}")
                     st.write(f"카테고리: {st.session_state.category}")
                     

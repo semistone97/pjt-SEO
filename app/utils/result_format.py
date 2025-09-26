@@ -3,30 +3,34 @@ import streamlit as st
 def result_format():
 
     result_template_1 = '''
-    [AI 기반 아마존 리스팅 최적화 결과]
+[AI 기반 아마존 리스팅 최적화 결과]
 
-    상품명: {product_name}
-    카테고리: {category}
+상품명: {product_name}
+카테고리: {category}
     '''
 
     result_template_2 = '''
-    피드백 반영 횟수: {feedback_count}
-    {feedback_history}
+피드백 반영 횟수: {feedback_count}
+{feedback_history}
     '''
 
     result_template_3 = '''
 
-    [Title] - {title_length}자
-    {title}
+[Title] - {title_length}자
 
-    [Bullet Points] - {bp_length}자
-    {bp}
+{title}
 
-    [Description] - {description_length}자
-    {description}
+[Bullet Points] - {bp_length}자
 
-    미사용 키워드:
-    {leftovers}
+{bp}
+
+[Description] - {description_length}자
+
+{description}
+
+[미사용 키워드]
+
+{leftovers}
     '''
 
     title = st.session_state.initial_result.get('title', 'N/A')

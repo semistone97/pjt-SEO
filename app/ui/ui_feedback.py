@@ -68,7 +68,7 @@ def show_feedback_form():
         )
         
         # 버튼들을 나란히 배치
-        col1, col2, col3 = st.columns([10, 1, 1])
+        col1, col2, col3 = st.columns([15, 1, 1])
         
         with col1:
             # 피드백 제출 버튼
