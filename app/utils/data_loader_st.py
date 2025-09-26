@@ -31,8 +31,10 @@ def load_keywords_csv_streamlit(uploaded_files):
         
         # 다형식 지원
         required_cols = None
+        df_cols_lower = set(col.lower() for col in df.columns)
+
         for cols in required_cols_variants:
-            if set(cols).issubset(df.columns):
+            if set(col.lower() for col in cols).issubset(df_cols_lower):
                 required_cols = cols
                 break
         

@@ -20,7 +20,7 @@ def preprocess_data(state: State):
         if not state['data']:
             st.warning("데이터가 없어 키워드 정제를 종료합니다.")
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
 
@@ -49,7 +49,7 @@ def preprocess_data(state: State):
         except Exception as e:
             st.error(f"키워드 정제 중 에러가 발생했습니다: {e}")
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
 
@@ -73,7 +73,7 @@ def relevance_categorize(state: State) -> Dict:
         if not data:
             st.warning("데이터가 없어 연관성 분류를 건너뜁니다.")
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
         
@@ -85,7 +85,7 @@ def relevance_categorize(state: State) -> Dict:
         if not keywords:
             st.warning("키워드가 없어 연관성 분류를 건너뜁니다.")
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
         
@@ -115,7 +115,7 @@ def relevance_categorize(state: State) -> Dict:
         except Exception as e:
             st.error(f"연관성 분류 중 에러가 발생했습니다: {e}")
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
 
@@ -135,7 +135,7 @@ def select_keywords(state: State) -> Dict:
         if not data:
             st.warning("데이터가 없어 키워드 선별을 건너뜁니다.")
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
 
@@ -187,14 +187,14 @@ def select_keywords(state: State) -> Dict:
                     break
 
         # LLM 호출이 최종 실패했을 때 실행되는 대체 로직
-        st.write("에러 발생으로 인해, value_score 기준 상위 40개를 대신 선택합니다.")
+        st.write(f"에러 발생으로 인해, value_score 기준 상위 {int(config['select_keywords']['select_count'])}개를 대신 선택합니다.")
         
         data_copy = [d for d in data if d.get('relevance_category') in ['직접', '중간']]
         if not data_copy:
             data_copy = data
 
         sorted_data = sorted(data_copy, key=lambda x: x.get('value_score', 0), reverse=True)
-        final_data = sorted_data[:40]
+        final_data = sorted_data[:int(config['select_keywords']['select_count'])]
 
         top_keywords_set = {row.get("keyword") for row in final_data}
         all_keywords_set = {row.get("keyword") for row in data}
@@ -235,6 +235,6 @@ def information_refine(state: State):
         except Exception as e:
             st.error(f"PDF 요약 중 에러가 발생했습니다: {e}")
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return

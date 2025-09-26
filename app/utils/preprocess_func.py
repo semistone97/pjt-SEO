@@ -7,11 +7,10 @@ from sklearn.preprocessing import StandardScaler
 from langchain_openai import ChatOpenAI
 from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 from prompts.prompt_preprocess import filter_prompt
+from schemas.schema import FilteredKeywords
 from utils.config_loader import config
 
 def clean_keyword_column(df: pd.DataFrame) -> pd.DataFrame:
-    
-    # st.info('키워드 컬럼의 유효성을 검사하고 중복을 제거하여 행을 필터링합니다.')
     
     if 'keyword' not in df.columns:
         return df.copy()
@@ -25,7 +24,6 @@ def clean_keyword_column(df: pd.DataFrame) -> pd.DataFrame:
     return df_copy
 
 def filter_by_llm(df: pd.DataFrame) -> pd.DataFrame:
-    # st.info("LLM을 사용하여 의미적으로 부적절한 키워드를 필터링합니다.")
     
     if df.empty:
         return df
@@ -33,22 +31,16 @@ def filter_by_llm(df: pd.DataFrame) -> pd.DataFrame:
     try:
         llm = ChatOpenAI(model=config['llm_keyword']['model'], temperature=float(config['llm_keyword']['temperature']))
         
-        response_schemas = [ResponseSchema(name="keywords", description="조건을 적용한 키워드 리스트")]
-        parser = StructuredOutputParser.from_response_schemas(response_schemas)
-
-        keyword_prompt = filter_prompt.format(
-            data=df['keyword'].tolist(),
-            format_instructions=parser.get_format_instructions()
+        prompt = filter_prompt.invoke(
+            {
+                'data': df['keyword'].tolist()
+            }
         )
-
-        res = llm.invoke([{"role": "user", "content": keyword_prompt}])
-        structured = parser.parse(res.content)
         
-        raw_keywords = structured.get("keywords", [])
-        if raw_keywords and isinstance(raw_keywords[0], dict):
-            cleaned_keywords = {k.get('keyword') for k in raw_keywords if 'keyword' in k}
-        else:
-            cleaned_keywords = set(raw_keywords)
+        structured_llm = llm.with_structured_output(FilteredKeywords)
+        res = structured_llm.invoke(prompt)
+
+        cleaned_keywords = set(res.keywords)
 
         filtered_df = df[df['keyword'].isin(cleaned_keywords)].copy()
         st.write(f"LLM 필터링 후 {len(filtered_df)}개 키워드 남음.")
@@ -60,7 +52,6 @@ def filter_by_llm(df: pd.DataFrame) -> pd.DataFrame:
         return df
 
 def clean_sv_column(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
-    # st.info("Search Volume 컬럼을 정제하고, 결측치는 하위 10% 값으로 채웁니다.")
     
     df_copy = df.copy()
     col_name = 'search_volume'
@@ -84,7 +75,6 @@ def clean_sv_column(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
     return df_copy, imputed_mask
 
 def clean_cp_column(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
-    # st.info("Competing Products 컬럼을 정제하고, 결측치는 평균값으로 채웁니다.")
     
     df_copy = df.copy()
     col_name = 'competing_products'
@@ -108,8 +98,6 @@ def clean_cp_column(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
     return df_copy, imputed_mask
 
 def scaler_and_score(df: pd.DataFrame) -> pd.DataFrame:
-
-    # st.info('is_imputed가 False인 행을 기준으로 Scaler를 학습시키고,전체 행에 적용하여 value_score를 계산합니다.')
 
     df_copy = df.copy()
     scale_cols = ['search_volume', 'competing_products']

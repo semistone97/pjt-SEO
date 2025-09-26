@@ -21,7 +21,7 @@ def generate_title(state: State):
         if not state['title_keyword']:
             st.warning('Title 작성용 키워드가 존재하지 않습니다.')
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
                 
@@ -47,7 +47,7 @@ def generate_title(state: State):
         except Exception as e:
             st.error(f"Title 작성 중 에러가 발생했습니다: {e}")
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
 
@@ -61,7 +61,7 @@ def generate_bp(state: State):
         if not state['bp_keyword']:
             st.warning('Bullet Point 작성용 키워드가 존재하지 않습니다.')
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
         
@@ -93,7 +93,7 @@ def generate_bp(state: State):
         except Exception as e:
             st.error(f"Bullet Point 작성 중 에러가 발생했습니다: {e}")
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
 
@@ -107,7 +107,7 @@ def generate_description(state: State):
         if not state['description_keyword']:
             st.warning('Description 작성용 키워드가 존재하지 않습니다.')
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return
                 
@@ -135,6 +135,6 @@ def generate_description(state: State):
         except Exception as e:
             st.error(f"Description 작성 중 에러가 발생했습니다: {e}")
             if st.button("처음으로"):
-                st.session_state.current_step = 'input'
+                st.session_state.current_step = '데이터 입력'
                 st.rerun()
             return      

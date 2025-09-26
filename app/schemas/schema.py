@@ -2,6 +2,10 @@ from typing_extensions import List, Annotated
 from pydantic import Field, BaseModel
 from pydantic.types import StringConstraints
 
+class FilteredKeywords(BaseModel):
+    keywords: List[str] = Field(..., description='조건을 통과하고 남은 키워드들')
+
+
 class KeywordDistribute(BaseModel):
     title_keyword: List[str] = Field(..., description='Title에 들어갈 키워드들')
     bp_keyword: List[str] = Field(..., description='Bullet Point에 들어갈 키워드들')
