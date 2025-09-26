@@ -16,7 +16,6 @@ filter_template = """
 {data}
 
 [출력]
-{format_instructions}
 """
 
 filter_prompt = PromptTemplate.from_template(filter_template)
