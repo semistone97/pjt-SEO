@@ -1,4 +1,5 @@
 import streamlit as st
+from utils.result_format import result_format
 
 def show_final_results():
     """최종 결과 표시"""
@@ -47,38 +48,9 @@ def show_final_results():
     with col2:
         # 결과 다운로드 기능
         if 'initial_result' in st.session_state:
-            # 피드백 히스토리 포함한 결과 텍스트
-            feedback_history_text = ""
-            if st.session_state.feedback_history:
-                feedback_history_text = "\n반영된 피드백 내역:\n"
-                for i, feedback in enumerate(st.session_state.feedback_history, 1):
-                    feedback_history_text += f"{i}. {feedback}\n"
-            
-            result_text = f"""
-[키워드 기반 리스팅 결과]
+        
+            result_text = result_format()
 
-상품명: {st.session_state.get('product_name', 'N/A')}
-카테고리: {st.session_state.get('category', 'N/A')}
-피드백 반영 횟수: {st.session_state.get('feedback_count', 0)}
-{feedback_history_text}
-
-[Title] - {len(st.session_state.initial_result.get('title', 'N/A'))}자
-{st.session_state.initial_result.get('title', 'N/A')}
-
-[Bullet Points]
-{chr(10).join(f'{i}. {bp}' for i, bp in enumerate(st.session_state.initial_result.get('bp', []), 1))}
-
-[Description] - {(st.session_state.initial_result.get('description', 'N/A'))}자
-{st.session_state.initial_result.get('description', 'N/A')}
-
-미사용 키워드:
-{", ".join(
-    st.session_state.initial_result.get('leftover', []) + 
-    st.session_state.initial_result.get('backend_keywords', [])
-    )
-}
-
-            """
             st.download_button(
                 "최종 결과 다운로드",
                 result_text,

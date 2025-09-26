@@ -1,5 +1,7 @@
 import streamlit as st
 from graph.builder_st import build_feedback_graph
+from utils.result_format import result_format
+
 
 def show_feedback_form():
     """피드백 입력 폼 표시"""
@@ -28,6 +30,18 @@ def show_feedback_form():
         
         # 결과 표시 (일반 텍스트로)
         with st.expander("결과물 출력", expanded=True):
+            with st.expander('Output Informations', expanded=False):
+                st.write(f'Title 길이: {len(result['title'])}자')
+                st.write(f'Title Keywords: {', '.join(result['title_keyword'])}')
+                
+                bps = []
+                for bp in result['bp']:
+                    bps.append(str(len(bp)))
+
+                st.write(f'Bullet Points 길이: 각 {', '.join(bps)}자')
+                st.write(f'Bullet Point Keywords: {', '.join(result['bp_keyword'])}')
+                st.write(f'Description 길이: {len(result['description'])}자')
+                st.write(f'Description Keywords: {', '.join(result['description_keyword'])}')
             
             if 'title' in result:
                 st.write("Title:")
@@ -54,7 +68,7 @@ def show_feedback_form():
         )
         
         # 버튼들을 나란히 배치
-        col1, col2, col3 = st.columns([1, 1, 1])
+        col1, col2, col3 = st.columns([5, 1, 1])
         
         with col1:
             # 피드백 제출 버튼
@@ -70,36 +84,14 @@ def show_feedback_form():
         
         with col2:
             if st.button('완료'):
-                st.session_state.current_step = '완료'
+                st.session_state.current_step = 'complete'
                 st.rerun()
         
         with col3:
-            # 결과 다운로드 기능
-            if st.session_state.initial_result:
-                # 피드백 히스토리 포함한 결과 텍스트
-                feedback_history_text = ""
-                if st.session_state.feedback_history:
-                    feedback_history_text = "\n피드백 내역:\n"
-                    for i, feedback in enumerate(st.session_state.feedback_history, 1):
-                        feedback_history_text += f"{i}. {feedback}\n"
+            if 'initial_result' in st.session_state:
+            
+                result_text = result_format()
                 
-                result_text = f"""
-[키워드 기반 리스팅 결과]
-
-상품명: {st.session_state.get('product_name', 'N/A')}
-카테고리: {st.session_state.get('category', 'N/A')}
-피드백 반영 횟수: {st.session_state.get('feedback_count', 0)}
-{feedback_history_text}
-
-[Title]
-{st.session_state.initial_result.get('title', 'N/A')}
-
-[Bullet Points]
-{chr(10).join(f'{i}. {bp}' for i, bp in enumerate(st.session_state.initial_result.get('bp', []), 1))}
-
-[Description]
-{st.session_state.initial_result.get('description', 'N/A')}
-                """
                 st.download_button(
                     "임시저장",
                     result_text,
