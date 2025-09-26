@@ -1,0 +1,402 @@
+import pandas as pd
+import json
+
+# JSON 데이터
+data = {
+  "data": [
+    {
+      "keyword": "desk fan",
+      "search_volume": 11.616494034263114,
+      "competing_products": 0.6707029565471925,
+      "value_score": 5.559997454645809,
+      "relevance_category": "Direct"
+    },
+    {
+      "keyword": "bedside fan",
+      "search_volume": 0.4592902122166873,
+      "competing_products": -0.5288247630529709,
+      "value_score": 1.469957877172884,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "table fan",
+      "search_volume": 1.6093305219841296,
+      "competing_products": 0.34650627557417535,
+      "value_score": 1.4006786845261325,
+      "relevance_category": "Direct"
+    },
+    {
+      "keyword": "tabletop fan",
+      "search_volume": 0.3851295043979127,
+      "competing_products": -0.3667264225664623,
+      "value_score": 1.2218643224808723,
+      "relevance_category": "Direct"
+    },
+    {
+      "keyword": "vornado 660",
+      "search_volume": 0.014051296015821795,
+      "competing_products": -0.6226148628584648,
+      "value_score": 1.163649013174487,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "table top fan",
+      "search_volume": 0.16402072738267717,
+      "competing_products": -0.39914609066376405,
+      "value_score": 1.0739380303228045,
+      "relevance_category": "Direct"
+    },
+    {
+      "keyword": "nightstand fan for bedroom",
+      "search_volume": -0.06972283689057178,
+      "competing_products": -0.5936640992475744,
+      "value_score": 1.0498748726359481,
+      "relevance_category": "Direct"
+    },
+    {
+      "keyword": "best fans for cooling bedroom",
+      "search_volume": 0.08491597237598424,
+      "competing_products": -0.43156575876106573,
+      "value_score": 1.0368619542918835,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "fan 660",
+      "search_volume": -0.11380725764951004,
+      "competing_products": -0.622971479207535,
+      "value_score": 1.0366008462745464,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "duracraft fan",
+      "search_volume": -0.1146312655141631,
+      "competing_products": -0.621674692483643,
+      "value_score": 1.0344421062408835,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "countertop fan",
+      "search_volume": -0.09966178930629932,
+      "competing_products": -0.6071831008441492,
+      "value_score": 1.0344212638063113,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "intertek fan",
+      "search_volume": -0.1068031907999591,
+      "competing_products": -0.6138939721402906,
+      "value_score": 1.0342241332610231,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "vornado 660 large air circulator fan",
+      "search_volume": -0.11696595446401341,
+      "competing_products": -0.622420344849881,
+      "value_score": 1.032884457819554,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "high performance fan",
+      "search_volume": -0.11380725764951004,
+      "competing_products": -0.61726561762241,
+      "value_score": 1.030737846139692,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "vornado 660 large air circulator",
+      "search_volume": -0.11930064341386372,
+      "competing_products": -0.6224851841860756,
+      "value_score": 1.030624871720795,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "tabletop fan for bedroom",
+      "search_volume": -0.09224571852442186,
+      "competing_products": -0.5936640992475744,
+      "value_score": 1.0280592463651326,
+      "relevance_category": "Direct"
+    },
+    {
+      "keyword": "counter fan",
+      "search_volume": -0.09265772245674839,
+      "competing_products": -0.5936640992475744,
+      "value_score": 1.0276601800309104,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "mini fan for room",
+      "search_volume": -0.1041938325618911,
+      "competing_products": -0.6043301700515866,
+      "value_score": 1.027097408474253,
+      "relevance_category": "Direct"
+    },
+    {
+      "keyword": "fan for nightstand",
+      "search_volume": -0.09361906496551028,
+      "competing_products": -0.5936640992475744,
+      "value_score": 1.0267290252510586,
+      "relevance_category": "Direct"
+    },
+    {
+      "keyword": "vornado 660 fan",
+      "search_volume": -0.12493136382232624,
+      "competing_products": -0.6227769611989512,
+      "value_score": 1.0253124311698623,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "table fan climate keeper",
+      "search_volume": -0.12520603311054393,
+      "competing_products": -0.6222906661774917,
+      "value_score": 1.0245420795724698,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "bedside fan for sleeping",
+      "search_volume": -0.09966178930629932,
+      "competing_products": -0.5963873513677477,
+      "value_score": 1.0235759771336195,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "fan xing",
+      "search_volume": -0.12177266700782287,
+      "competing_products": -0.6178815913162586,
+      "value_score": 1.023466981094834,
+      "relevance_category": "NotRelated"
+    },
+    {
+      "keyword": "vornado 660 large whole room air circulator fan",
+      "search_volume": -0.12671671419574118,
+      "competing_products": -0.6222258268412971,
+      "value_score": 1.0229710288790328,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "fan overnight delivery",
+      "search_volume": -0.12561803704287045,
+      "competing_products": -0.6187569223548859,
+      "value_score": 1.0205389368020061,
+      "relevance_category": "Related"
+    },
+    {
+      "keyword": "vornado large",
+      "search_volume": -0.12520603311054393,
+      "competing_products": -0.6169090012733396,
+      "value_score": 1.019078464807382,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "polar wind fan",
+      "search_volume": -0.1297380763661357,
+      "competing_products": -0.620280646755459,
+      "value_score": 1.0179887167927244,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "torpedo fan",
+      "search_volume": -0.13262210389242138,
+      "competing_products": -0.6221285678370052,
+      "value_score": 1.0169898029803952,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "small fan for room",
+      "search_volume": -0.11586727731114267,
+      "competing_products": -0.6054000190987975,
+      "value_score": 1.016737093064535,
+      "relevance_category": "Direct"
+    },
+    {
+      "keyword": "12 inch desk fan",
+      "search_volume": -0.1205366552108433,
+      "competing_products": -0.6093552186066683,
+      "value_score": 1.016099774627493,
+      "relevance_category": "Related"
+    },
+    {
+      "keyword": "small bedside fan for sleeping",
+      "search_volume": -0.11449393087005426,
+      "competing_products": -0.6027091866467215,
+      "value_score": 1.0154056912984002,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "grow room fan",
+      "search_volume": -0.11875130483742835,
+      "competing_products": -0.6063401894736192,
+      "value_score": 1.0148463026008883,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "12 inch clip on fan",
+      "search_volume": -0.13344611175707444,
+      "competing_products": -0.6203454860916536,
+      "value_score": 1.0143674668650096,
+      "relevance_category": "Related"
+    },
+    {
+      "keyword": "baby safe fan",
+      "search_volume": -0.12589270633108812,
+      "competing_products": -0.6126296050844958,
+      "value_score": 1.0140977622685368,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "kitchen counter fan",
+      "search_volume": -0.11600461195525151,
+      "competing_products": -0.6022877309614566,
+      "value_score": 1.0135121211752987,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "arctic wind fan",
+      "search_volume": -0.1352314621304894,
+      "competing_products": -0.6204103254278482,
+      "value_score": 1.012657588301519,
+      "relevance_category": "Indirect"
+    },
+    {
+      "keyword": "b001r1rxug",
+      "search_volume": -0.14099951718306075,
+      "competing_products": -0.6260513476767787,
+      "value_score": 1.0126019590385869,
+      "relevance_category": "NotRelated"
+    },
+    {
+      "keyword": "outlet fan plug in",
+      "search_volume": -0.12603004097519696,
+      "competing_products": -0.6110734610158254,
+      "value_score": 1.0124077135555152,
+      "relevance_category": "Related"
+    },
+    {
+      "keyword": "12 inch fans electric 3 speed",
+      "search_volume": -0.12273400951658477,
+      "competing_products": -0.6075072975251221,
+      "value_score": 1.0120990671489951,
+      "relevance_category": "Related"
+    },
+    {
+      "keyword": "honeywell 11 fan",
+      "search_volume": -0.14168619040360494,
+      "competing_products": -0.626083767344876,
+      "value_score": 1.0119481140374693,
+      "relevance_category": "Direct"
+    }
+  ],
+  "backend_keywords": [
+    "small fan for bedroom",
+    "cheap fan",
+    "black small fan",
+    "small fan bedroom",
+    "white noise fan",
+    "dorm room essentials fan",
+    "fans for small rooms",
+    "small fan electric white noise",
+    "fan small",
+    "bedroom desk fan",
+    "small fan for dorm room",
+    "kid safe fan",
+    "small loud fan for sleeping",
+    "fan tabletop",
+    "10 inch portable fan",
+    "vornado 733",
+    "small counter fan",
+    "fan under 20",
+    "fan same day delivery",
+    "on fan electric",
+    "mini fan for bedroom",
+    "small circulating fan",
+    "room circulation fan",
+    "small bedroom fan quiet",
+    "little fan",
+    "small fan dorm",
+    "fan for white noise",
+    "table & desk fan",
+    "amazon mini fan",
+    "small fan for desk",
+    "small electric fans for bedroom",
+    "fan white noise",
+    "rv fan",
+    "table top fan for desk",
+    "portable fan electric",
+    "small table fan for bedroom",
+    "desk fan for dorm",
+    "small personal fans",
+    "small kitchen fan",
+    "vornado fan vornado 660 large air circulator",
+    "bedside table fan",
+    "electric table fan",
+    "amazon small fan",
+    "small indoor fan",
+    "electric desk fan",
+    "fan noise",
+    "small round fan",
+    "desk electric fans",
+    "small room fan",
+    "fan deals",
+    "black desk fan",
+    "brushless fan",
+    "portable fan plug in",
+    "small fan with plug",
+    "small house fan",
+    "small bedroom fan",
+    "small black fan",
+    "strong cooling fan",
+    "climate keeper fan",
+    "desk fan for bedroom",
+    "desk fan electric",
+    "bedroom table fan",
+    "fan plug in",
+    "fan small room",
+    "small fan for kitchen",
+    "small fan for dorm",
+    "desk & table fan",
+    "fan with long cord",
+    "household fan",
+    "counter fan for kitchen",
+    "table fan quiet",
+    "counter top fan",
+    "fans for bathroom",
+    "black amazon",
+    "6 in fan",
+    "fans for office",
+    "side table fan for bedroom",
+    "fan for table",
+    "easy home fan",
+    "vornado large fan",
+    "small loud fan",
+    "desk top fan",
+    "desk & table small fan",
+    "dorm desk fan",
+    "corded fan",
+    "small fan desk",
+    "fan bathroom",
+    "vornado fan 660",
+    "fans that blow cold air portable",
+    "small quiet fan for bedroom",
+    "child safe fan",
+    "mini room fan",
+    "spot fan",
+    "fan for small bedroom",
+    "12 portable fan",
+    "table fan small",
+    "fan office",
+    "side table fan",
+    "fan bedside",
+    "fan for bedroom small",
+    "fan table"
+  ]
+}
+
+# 데이터프레임으로 변환
+df_data = pd.DataFrame(data["data"])
+df_backend = pd.DataFrame(data["backend_keywords"], columns=["backend_keywords"])
+
+# CSV 파일로 저장
+data_csv_path = "json_data.csv"
+backend_csv_path = "json_backend_keywords.csv"
+
+df_data.to_csv(data_csv_path, index=False)
+df_backend.to_csv(backend_csv_path, index=False)

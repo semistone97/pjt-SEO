@@ -12,7 +12,9 @@ def load_keywords_csv_streamlit(uploaded_files):
     # 들어올 csv 파일 형식들...(추가 가능)
     required_cols_variants = [
         ['Keywords', 'Search Volume', 'Competing Products'],
-        ['Phrase', 'Search Volume', 'Keyword Sales']
+        ['Phrase', 'Search Volume', 'Keyword Sales'],
+        ['Keyword Phrase', 'Search Volume', 'Keyword Sales']
+
     ]
     
     dfs = []
