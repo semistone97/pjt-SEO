@@ -1,0 +1,518 @@
+
+[     UTC     ] Logs for amazon-listing.streamlit.app/
+────────────────────────────────────────────────────────────────────────────────────────
+[08:15:08] 🖥 Provisioning machine...
+[08:15:08] 🎛 Preparing system...
+[08:15:08] ⛓ Spinning up manager process...
+[08:15:08] 🚀 Starting up repository: 'pjt-seo', branch: 'main', main module: 'app/app.py'
+[08:15:08] 🐙 Cloning repository...
+[08:15:10] 🐙 Cloning into '/mount/src/pjt-seo'...
+
+[08:15:10] 🐙 Cloned repository!
+[08:15:10] 🐙 Pulling code changes from Github...
+[08:15:11] 📦 Processing dependencies...
+
+──────────────────────────────────────── uv ───────────────────────────────────────────
+
+Using uv pip install.
+Using Python 3.13.7 environment at /home/adminuser/venv
+  × No solution found when resolving dependencies:
+  ╰─▶ Because pywin32==310 has no wheels with a matching Python ABI tag and
+      you require pywin32==310, we can conclude that your requirements are
+      unsatisfiable.
+Checking if Streamlit is installed
+Installing rich for an improved exception logging
+Using uv pip install.
+Using Python 3.13.7 environment at /home/adminuser/venv
+Resolved 4 packages in 3ms
+Prepared 4 packages in 212ms
+Installed 4 packages in 19ms
+ + markdown-it-py==4.0.0[2025-09-26 08:15:14.444915] 
+ + mdurl==0.1.2
+ + pygments==2.19.2
+ + rich==14.1.0
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+
+──────────────────────────────────────── pip ───────────────────────────────────────────
+
+Using standard pip install.
+Collecting aiohappyeyeballs==2.6.1 (from -r /mount/src/pjt-seo/requirements.txt (line 1))
+  Downloading aiohappyeyeballs-2.6.1-py3-none-any.whl.metadata (5.9 kB)
+Collecting aiohttp==3.12.15 (from -r /mount/src/pjt-seo/requirements.txt (line 2))
+  Downloading aiohttp-3.12.15-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.7 kB)
+Collecting aiohttp-retry==2.9.1 (from -r /mount/src/pjt-seo/requirements.txt (line 3))
+  Downloading aiohttp_retry-2.9.1-py3-none-any.whl.metadata (8.8 kB)
+Collecting aiosignal==1.4.0 (from -r /mount/src/pjt-seo/requirements.txt (line 4))
+  Downloading aiosignal-1.4.0-py3-none-any.whl.metadata (3.7 kB)
+Collecting altair==5.5.0 (from -r /mount/src/pjt-seo/requirements.txt (line 5))
+  Downloading altair-5.5.0-py3-none-any.whl.metadata (11 kB)
+Collecting annotated-types==0.7.0 (from -r /mount/src/pjt-seo/requirements.txt (line 6))
+  Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+Collecting anyio==4.10.0 (from -r /mount/src/pjt-seo/requirements.txt (line 7))
+  Downloading anyio-4.10.0-py3-none-any.whl.metadata (4.0 kB)
+Collecting appnope==0.1.4 (from -r /mount/src/pjt-seo/requirements.txt (line 8))
+  Downloading appnope-0.1.4-py2.py3-none-any.whl.metadata (908 bytes)
+Collecting argon2-cffi==25.1.0 (from -r /mount/src/pjt-seo/requirements.txt (line 9))
+  Downloading argon2_cffi-25.1.0-py3-none-any.whl.metadata (4.1 kB)
+Collecting argon2-cffi-bindings==21.2.0 (from -r /mount/src/pjt-seo/requirements.txt (line 10))
+  Downloading argon2_cffi_bindings-21.2.0-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.7 kB)
+Collecting arrow==1.3.0 (from -r /mount/src/pjt-seo/requirements.txt (line 11))
+  Downloading arrow-1.3.0-py3-none-any.whl.metadata (7.5 kB)
+Collecting arxiv==2.2.0 (from -r /mount/src/pjt-seo/requirements.txt (line 12))
+  Downloading arxiv-2.2.0-py3-none-any.whl.metadata (6.3 kB)
+Collecting asgiref==3.9.1 (from -r /mount/src/pjt-seo/requirements.txt (line 13))
+  Downloading asgiref-3.9.1-py3-none-any.whl.metadata (9.3 kB)
+Collecting asttokens==3.0.0 (from -r /mount/src/pjt-seo/requirements.txt (line 14))
+  Downloading asttokens-3.0.0-py3-none-any.whl.metadata (4.7 kB)
+Collecting async-lru==2.0.5 (from -r /mount/src/pjt-seo/requirements.txt (line 15))
+  Downloading async_lru-2.0.5-py3-none-any.whl.metadata (4.5 kB)
+Collecting attrs==25.3.0 (from -r /mount/src/pjt-seo/requirements.txt (line 16))
+  Downloading attrs-25.3.0-py3-none-any.whl.metadata (10 kB)
+Collecting babel==2.17.0 (from -r /mount/src/pjt-seo/requirements.txt (line 17))
+  Downloading babel-2.17.0-py3-none-any.whl.metadata (2.0 kB)
+Collecting backoff==2.2.1 (from -r /mount/src/pjt-seo/requirements.txt (line 18))
+  Downloading backoff-2.2.1-py3-none-any.whl.metadata (14 kB)
+Collecting bcrypt==4.3.0 (from -r /mount/src/pjt-seo/requirements.txt (line 19))
+  Downloading bcrypt-4.3.0-cp39-abi3-manylinux_2_34_x86_64.whl.metadata (10 kB)
+Collecting beautifulsoup4==4.13.4 (from -r /mount/src/pjt-seo/requirements.txt (line 20))
+  Downloading beautifulsoup4-4.13.4-py3-none-any.whl.metadata (3.8 kB)
+Collecting bleach==6.2.0 (from -r /mount/src/pjt-seo/requirements.txt (line 21))
+  Downloading bleach-6.2.0-py3-none-any.whl.metadata (30 kB)
+Collecting blinker==1.9.0 (from -r /mount/src/pjt-seo/requirements.txt (line 22))
+  Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+Collecting blockbuster==1.5.25 (from -r /mount/src/pjt-seo/requirements.txt (line 23))
+  Downloading blockbuster-1.5.25-py3-none-any.whl.metadata (10 kB)
+Collecting build==1.3.0 (from -r /mount/src/pjt-seo/requirements.txt (line 24))
+  Downloading build-1.3.0-py3-none-any.whl.metadata (5.6 kB)
+Collecting cachetools==5.5.2 (from -r /mount/src/pjt-seo/requirements.txt (line 25))
+  Downloading cachetools-5.5.2-py3-none-any.whl.metadata (5.4 kB)
+Collecting catboost==1.2.8 (from -r /mount/src/pjt-seo/requirements.txt (line 26))
+  Downloading catboost-1.2.8-cp313-cp313-manylinux2014_x86_64.whl.metadata (1.4 kB)
+Collecting certifi==2025.8.3 (from -r /mount/src/pjt-seo/requirements.txt (line 27))
+  Downloading certifi-2025.8.3-py3-none-any.whl.metadata (2.4 kB)
+Collecting cffi==1.17.1 (from -r /mount/src/pjt-seo/requirements.txt (line 28))
+  Downloading cffi-1.17.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.5 kB)
+Collecting charset-normalizer==3.4.3 (from -r /mount/src/pjt-seo/requirements.txt (line 29))
+  Downloading charset_normalizer-3.4.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (36 kB)
+Collecting chroma-hnswlib==0.7.6 (from -r /mount/src/pjt-seo/requirements.txt (line 30))
+  Downloading chroma_hnswlib-0.7.6.tar.gz (32 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting chromadb==1.0.20 (from -r /mount/src/pjt-seo/requirements.txt (line 31))
+  Downloading chromadb-1.0.20-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.3 kB)
+Collecting click==8.2.1 (from -r /mount/src/pjt-seo/requirements.txt (line 32))
+  Downloading click-8.2.1-py3-none-any.whl.metadata (2.5 kB)
+Collecting cloudpickle==3.1.1 (from -r /mount/src/pjt-seo/requirements.txt (line 33))
+  Downloading cloudpickle-3.1.1-py3-none-any.whl.metadata (7.1 kB)
+Collecting colorama==0.4.6 (from -r /mount/src/pjt-seo/requirements.txt (line 34))
+  Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Collecting coloredlogs==15.0.1 (from -r /mount/src/pjt-seo/requirements.txt (line 35))
+  Downloading coloredlogs-15.0.1-py2.py3-none-any.whl.metadata (12 kB)
+Collecting comm==0.2.3 (from -r /mount/src/pjt-seo/requirements.txt (line 36))
+  Downloading comm-0.2.3-py3-none-any.whl.metadata (3.7 kB)
+Collecting contourpy==1.3.3 (from -r /mount/src/pjt-seo/requirements.txt (line 37))
+  Downloading contourpy-1.3.3-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.5 kB)
+Collecting cryptography==44.0.3 (from -r /mount/src/pjt-seo/requirements.txt (line 38))
+  Downloading cryptography-44.0.3-cp39-abi3-manylinux_2_34_x86_64.whl.metadata (5.7 kB)
+Collecting cycler==0.12.1 (from -r /mount/src/pjt-seo/requirements.txt (line 39))
+  Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+Collecting dataclasses-json==0.6.7 (from -r /mount/src/pjt-seo/requirements.txt (line 40))
+  Downloading dataclasses_json-0.6.7-py3-none-any.whl.metadata (25 kB)
+Collecting debugpy==1.8.16 (from -r /mount/src/pjt-seo/requirements.txt (line 41))
+  Downloading debugpy-1.8.16-cp313-cp313-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.3 kB)
+Collecting decorator==5.2.1 (from -r /mount/src/pjt-seo/requirements.txt (line 42))
+  Downloading decorator-5.2.1-py3-none-any.whl.metadata (3.9 kB)
+Collecting defusedxml==0.7.1 (from -r /mount/src/pjt-seo/requirements.txt (line 43))
+  Downloading defusedxml-0.7.1-py2.py3-none-any.whl.metadata (32 kB)
+Collecting distro==1.9.0 (from -r /mount/src/pjt-seo/requirements.txt (line 44))
+  Downloading distro-1.9.0-py3-none-any.whl.metadata (6.8 kB)
+Collecting dotenv==0.9.9 (from -r /mount/src/pjt-seo/requirements.txt (line 45))
+  Downloading dotenv-0.9.9-py2.py3-none-any.whl.metadata (279 bytes)
+Collecting durationpy==0.10 (from -r /mount/src/pjt-seo/requirements.txt (line 46))
+  Downloading durationpy-0.10-py3-none-any.whl.metadata (340 bytes)
+Collecting executing==2.2.1 (from -r /mount/src/pjt-seo/requirements.txt (line 47))
+  Downloading executing-2.2.1-py2.py3-none-any.whl.metadata (8.9 kB)
+Collecting faiss-cpu==1.12.0 (from -r /mount/src/pjt-seo/requirements.txt (line 48))
+  Downloading faiss_cpu-1.12.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.1 kB)
+Collecting fastapi==0.116.1 (from -r /mount/src/pjt-seo/requirements.txt (line 49))
+  Downloading fastapi-0.116.1-py3-none-any.whl.metadata (28 kB)
+Collecting fastjsonschema==2.21.1 (from -r /mount/src/pjt-seo/requirements.txt (line 50))
+  Downloading fastjsonschema-2.21.1-py3-none-any.whl.metadata (2.2 kB)
+Collecting feedparser==6.0.12 (from -r /mount/src/pjt-seo/requirements.txt (line 51))
+  Downloading feedparser-6.0.12-py3-none-any.whl.metadata (2.7 kB)
+Collecting filelock==3.19.1 (from -r /mount/src/pjt-seo/requirements.txt (line 52))
+  Downloading filelock-3.19.1-py3-none-any.whl.metadata (2.1 kB)
+Collecting flatbuffers==25.2.10 (from -r /mount/src/pjt-seo/requirements.txt (line 53))
+  Downloading flatbuffers-25.2.10-py2.py3-none-any.whl.metadata (875 bytes)
+Collecting fonttools==4.59.0 (from -r /mount/src/pjt-seo/requirements.txt (line 54))
+  Downloading fonttools-4.59.0-cp313-cp313-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl.metadata (107 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 107.9/107.9 kB 15.7 MB/s eta 0:00:00[2025-09-26 08:15:24.645759] 
+Collecting forbiddenfruit==0.1.4 (from -r /mount/src/pjt-seo/requirements.txt (line 55))
+  Downloading forbiddenfruit-0.1.4.tar.gz (43 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.8/43.8 kB 155.5 MB/s eta 0:00:00[2025-09-26 08:15:24.682876] 
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting fqdn==1.5.1 (from -r /mount/src/pjt-seo/requirements.txt (line 56))
+  Downloading fqdn-1.5.1-py3-none-any.whl.metadata (1.4 kB)
+Collecting frozenlist==1.7.0 (from -r /mount/src/pjt-seo/requirements.txt (line 57))
+  Downloading frozenlist-1.7.0-cp313-cp313-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (18 kB)
+Collecting fsspec==2025.9.0 (from -r /mount/src/pjt-seo/requirements.txt (line 58))
+  Downloading fsspec-2025.9.0-py3-none-any.whl.metadata (10 kB)
+Collecting gitdb==4.0.12 (from -r /mount/src/pjt-seo/requirements.txt (line 59))
+  Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+Collecting GitPython==3.1.45 (from -r /mount/src/pjt-seo/requirements.txt (line 60))
+  Downloading gitpython-3.1.45-py3-none-any.whl.metadata (13 kB)
+Collecting google-auth==2.40.3 (from -r /mount/src/pjt-seo/requirements.txt (line 61))
+  Downloading google_auth-2.40.3-py2.py3-none-any.whl.metadata (6.2 kB)
+Collecting googleapis-common-protos==1.70.0 (from -r /mount/src/pjt-seo/requirements.txt (line 62))
+  Downloading googleapis_common_protos-1.70.0-py3-none-any.whl.metadata (9.3 kB)
+Collecting graphviz==0.21 (from -r /mount/src/pjt-seo/requirements.txt (line 63))
+  Downloading graphviz-0.21-py3-none-any.whl.metadata (12 kB)
+Collecting greenlet==3.2.4 (from -r /mount/src/pjt-seo/requirements.txt (line 64))
+  Downloading greenlet-3.2.4-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (4.1 kB)
+Collecting grpcio==1.74.0 (from -r /mount/src/pjt-seo/requirements.txt (line 65))
+  Downloading grpcio-1.74.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.8 kB)
+Collecting h11==0.16.0 (from -r /mount/src/pjt-seo/requirements.txt (line 66))
+  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting httpcore==1.0.9 (from -r /mount/src/pjt-seo/requirements.txt (line 67))
+  Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+Collecting httptools==0.6.4 (from -r /mount/src/pjt-seo/requirements.txt (line 68))
+  Downloading httptools-0.6.4-cp313-cp313-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.6 kB)
+Collecting httpx==0.28.1 (from -r /mount/src/pjt-seo/requirements.txt (line 69))
+  Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+Collecting httpx-sse==0.4.1 (from -r /mount/src/pjt-seo/requirements.txt (line 70))
+  Downloading httpx_sse-0.4.1-py3-none-any.whl.metadata (9.4 kB)
+Collecting huggingface-hub==0.34.4 (from -r /mount/src/pjt-seo/requirements.txt (line 71))
+  Downloading huggingface_hub-0.34.4-py3-none-any.whl.metadata (14 kB)
+Collecting humanfriendly==10.0 (from -r /mount/src/pjt-seo/requirements.txt (line 72))
+  Downloading humanfriendly-10.0-py2.py3-none-any.whl.metadata (9.2 kB)
+Collecting idna==3.10 (from -r /mount/src/pjt-seo/requirements.txt (line 73))
+  Downloading idna-3.10-py3-none-any.whl.metadata (10 kB)
+Collecting importlib_metadata==8.7.0 (from -r /mount/src/pjt-seo/requirements.txt (line 74))
+  Downloading importlib_metadata-8.7.0-py3-none-any.whl.metadata (4.8 kB)
+Collecting importlib_resources==6.5.2 (from -r /mount/src/pjt-seo/requirements.txt (line 75))
+  Downloading importlib_resources-6.5.2-py3-none-any.whl.metadata (3.9 kB)
+Collecting ipykernel==6.30.1 (from -r /mount/src/pjt-seo/requirements.txt (line 76))
+  Downloading ipykernel-6.30.1-py3-none-any.whl.metadata (6.2 kB)
+Collecting ipython==9.5.0 (from -r /mount/src/pjt-seo/requirements.txt (line 77))
+  Downloading ipython-9.5.0-py3-none-any.whl.metadata (4.4 kB)
+Collecting ipython_pygments_lexers==1.1.1 (from -r /mount/src/pjt-seo/requirements.txt (line 78))
+  Downloading ipython_pygments_lexers-1.1.1-py3-none-any.whl.metadata (1.1 kB)
+Collecting ipywidgets==8.1.7 (from -r /mount/src/pjt-seo/requirements.txt (line 79))
+  Downloading ipywidgets-8.1.7-py3-none-any.whl.metadata (2.4 kB)
+Collecting isoduration==20.11.0 (from -r /mount/src/pjt-seo/requirements.txt (line 80))
+  Downloading isoduration-20.11.0-py3-none-any.whl.metadata (5.7 kB)
+Collecting jedi==0.19.2 (from -r /mount/src/pjt-seo/requirements.txt (line 81))
+  Downloading jedi-0.19.2-py2.py3-none-any.whl.metadata (22 kB)
+Collecting Jinja2==3.1.6 (from -r /mount/src/pjt-seo/requirements.txt (line 82))
+  Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting jiter==0.11.0 (from -r /mount/src/pjt-seo/requirements.txt (line 83))
+  Downloading jiter-0.11.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.2 kB)
+Collecting joblib==1.5.2 (from -r /mount/src/pjt-seo/requirements.txt (line 84))
+  Downloading joblib-1.5.2-py3-none-any.whl.metadata (5.6 kB)
+Collecting json5==0.12.0 (from -r /mount/src/pjt-seo/requirements.txt (line 85))
+  Downloading json5-0.12.0-py3-none-any.whl.metadata (36 kB)
+Collecting jsonpatch==1.33 (from -r /mount/src/pjt-seo/requirements.txt (line 86))
+  Downloading jsonpatch-1.33-py2.py3-none-any.whl.metadata (3.0 kB)
+Collecting jsonpointer==3.0.0 (from -r /mount/src/pjt-seo/requirements.txt (line 87))
+  Downloading jsonpointer-3.0.0-py2.py3-none-any.whl.metadata (2.3 kB)
+Collecting jsonschema==4.24.0 (from -r /mount/src/pjt-seo/requirements.txt (line 88))
+  Downloading jsonschema-4.24.0-py3-none-any.whl.metadata (7.8 kB)
+Collecting jsonschema-specifications==2025.4.1 (from -r /mount/src/pjt-seo/requirements.txt (line 89))
+  Downloading jsonschema_specifications-2025.4.1-py3-none-any.whl.metadata (2.9 kB)
+Collecting jsonschema_rs==0.29.1 (from -r /mount/src/pjt-seo/requirements.txt (line 90))
+  Downloading jsonschema_rs-0.29.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (14 kB)
+Collecting jupyter==1.1.1 (from -r /mount/src/pjt-seo/requirements.txt (line 91))
+  Downloading jupyter-1.1.1-py2.py3-none-any.whl.metadata (2.0 kB)
+Collecting jupyter-console==6.6.3 (from -r /mount/src/pjt-seo/requirements.txt (line 92))
+  Downloading jupyter_console-6.6.3-py3-none-any.whl.metadata (5.8 kB)
+Collecting jupyter-events==0.12.0 (from -r /mount/src/pjt-seo/requirements.txt (line 93))
+  Downloading jupyter_events-0.12.0-py3-none-any.whl.metadata (5.8 kB)
+Collecting jupyter-lsp==2.2.5 (from -r /mount/src/pjt-seo/requirements.txt (line 94))
+  Downloading jupyter_lsp-2.2.5-py3-none-any.whl.metadata (1.8 kB)
+Collecting jupyter_client==8.6.3 (from -r /mount/src/pjt-seo/requirements.txt (line 95))
+  Downloading jupyter_client-8.6.3-py3-none-any.whl.metadata (8.3 kB)
+Collecting jupyter_core==5.8.1 (from -r /mount/src/pjt-seo/requirements.txt (line 96))
+  Downloading jupyter_core-5.8.1-py3-none-any.whl.metadata (1.6 kB)
+Collecting jupyter_server==2.16.0 (from -r /mount/src/pjt-seo/requirements.txt (line 97))
+  Downloading jupyter_server-2.16.0-py3-none-any.whl.metadata (8.5 kB)
+Collecting jupyter_server_terminals==0.5.3 (from -r /mount/src/pjt-seo/requirements.txt (line 98))
+  Downloading jupyter_server_terminals-0.5.3-py3-none-any.whl.metadata (5.6 kB)
+Collecting jupyterlab==4.4.4 (from -r /mount/src/pjt-seo/requirements.txt (line 99))
+  Downloading jupyterlab-4.4.4-py3-none-any.whl.metadata (16 kB)
+Collecting jupyterlab_pygments==0.3.0 (from -r /mount/src/pjt-seo/requirements.txt (line 100))
+  Downloading jupyterlab_pygments-0.3.0-py3-none-any.whl.metadata (4.4 kB)
+Collecting jupyterlab_server==2.27.3 (from -r /mount/src/pjt-seo/requirements.txt (line 101))
+  Downloading jupyterlab_server-2.27.3-py3-none-any.whl.metadata (5.9 kB)
+Collecting jupyterlab_widgets==3.0.15 (from -r /mount/src/pjt-seo/requirements.txt (line 102))
+  Downloading jupyterlab_widgets-3.0.15-py3-none-any.whl.metadata (20 kB)
+Collecting kagglehub==0.3.12 (from -r /mount/src/pjt-seo/requirements.txt (line 103))
+  Downloading kagglehub-0.3.12-py3-none-any.whl.metadata (38 kB)
+Collecting kiwisolver==1.4.9 (from -r /mount/src/pjt-seo/requirements.txt (line 104))
+  Downloading kiwisolver-1.4.9-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.3 kB)
+Collecting kubernetes==33.1.0 (from -r /mount/src/pjt-seo/requirements.txt (line 105))
+  Downloading kubernetes-33.1.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Collecting langchain==0.3.27 (from -r /mount/src/pjt-seo/requirements.txt (line 106))
+  Downloading langchain-0.3.27-py3-none-any.whl.metadata (7.8 kB)
+Collecting langchain-chroma==0.2.5 (from -r /mount/src/pjt-seo/requirements.txt (line 107))
+  Downloading langchain_chroma-0.2.5-py3-none-any.whl.metadata (1.1 kB)
+Collecting langchain-community==0.3.29 (from -r /mount/src/pjt-seo/requirements.txt (line 108))
+  Downloading langchain_community-0.3.29-py3-none-any.whl.metadata (2.9 kB)
+Collecting langchain-core==0.3.76 (from -r /mount/src/pjt-seo/requirements.txt (line 109))
+  Downloading langchain_core-0.3.76-py3-none-any.whl.metadata (3.7 kB)
+Collecting langchain-experimental==0.3.4 (from -r /mount/src/pjt-seo/requirements.txt (line 110))
+  Downloading langchain_experimental-0.3.4-py3-none-any.whl.metadata (1.7 kB)
+Collecting langchain-openai==0.3.33 (from -r /mount/src/pjt-seo/requirements.txt (line 111))
+  Downloading langchain_openai-0.3.33-py3-none-any.whl.metadata (2.4 kB)
+Collecting langchain-pinecone==0.2.12 (from -r /mount/src/pjt-seo/requirements.txt (line 112))
+  Downloading langchain_pinecone-0.2.12-py3-none-any.whl.metadata (8.6 kB)
+Collecting langchain-tavily==0.2.11 (from -r /mount/src/pjt-seo/requirements.txt (line 113))
+  Downloading langchain_tavily-0.2.11-py3-none-any.whl.metadata (22 kB)
+Collecting langchain-text-splitters==0.3.11 (from -r /mount/src/pjt-seo/requirements.txt (line 114))
+  Downloading langchain_text_splitters-0.3.11-py3-none-any.whl.metadata (1.8 kB)
+Collecting langgraph==0.6.7 (from -r /mount/src/pjt-seo/requirements.txt (line 115))
+  Downloading langgraph-0.6.7-py3-none-any.whl.metadata (6.8 kB)
+Collecting langgraph-api==0.4.20 (from -r /mount/src/pjt-seo/requirements.txt (line 116))
+  Downloading langgraph_api-0.4.20-py3-none-any.whl.metadata (3.9 kB)
+Collecting langgraph-checkpoint==2.1.1 (from -r /mount/src/pjt-seo/requirements.txt (line 117))
+  Downloading langgraph_checkpoint-2.1.1-py3-none-any.whl.metadata (4.2 kB)
+Collecting langgraph-cli==0.4.2 (from -r /mount/src/pjt-seo/requirements.txt (line 118))
+  Downloading langgraph_cli-0.4.2-py3-none-any.whl.metadata (3.8 kB)
+Collecting langgraph-prebuilt==0.6.4 (from -r /mount/src/pjt-seo/requirements.txt (line 119))
+  Downloading langgraph_prebuilt-0.6.4-py3-none-any.whl.metadata (4.5 kB)
+Collecting langgraph-runtime-inmem==0.12.0 (from -r /mount/src/pjt-seo/requirements.txt (line 120))
+  Downloading langgraph_runtime_inmem-0.12.0-py3-none-any.whl.metadata (566 bytes)
+Collecting langgraph-sdk==0.2.6 (from -r /mount/src/pjt-seo/requirements.txt (line 121))
+  Downloading langgraph_sdk-0.2.6-py3-none-any.whl.metadata (1.5 kB)
+Collecting langsmith==0.4.28 (from -r /mount/src/pjt-seo/requirements.txt (line 122))
+  Downloading langsmith-0.4.28-py3-none-any.whl.metadata (14 kB)
+Collecting lightgbm==4.6.0 (from -r /mount/src/pjt-seo/requirements.txt (line 123))
+  Downloading lightgbm-4.6.0-py3-none-manylinux_2_28_x86_64.whl.metadata (17 kB)
+Collecting markdown-it-py==4.0.0 (from -r /mount/src/pjt-seo/requirements.txt (line 124))
+  Downloading markdown_it_py-4.0.0-py3-none-any.whl.metadata (7.3 kB)
+Collecting MarkupSafe==3.0.2 (from -r /mount/src/pjt-seo/requirements.txt (line 125))
+  Downloading MarkupSafe-3.0.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.0 kB)
+Collecting marshmallow==3.26.1 (from -r /mount/src/pjt-seo/requirements.txt (line 126))
+  Downloading marshmallow-3.26.1-py3-none-any.whl.metadata (7.3 kB)
+Collecting matplotlib==3.10.5 (from -r /mount/src/pjt-seo/requirements.txt (line 127))
+  Downloading matplotlib-3.10.5-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (11 kB)
+Collecting matplotlib-inline==0.1.7 (from -r /mount/src/pjt-seo/requirements.txt (line 128))
+  Downloading matplotlib_inline-0.1.7-py3-none-any.whl.metadata (3.9 kB)
+Collecting mdurl==0.1.2 (from -r /mount/src/pjt-seo/requirements.txt (line 129))
+  Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+Collecting mistune==3.1.3 (from -r /mount/src/pjt-seo/requirements.txt (line 130))
+  Downloading mistune-3.1.3-py3-none-any.whl.metadata (1.8 kB)
+Collecting mmh3==5.2.0 (from -r /mount/src/pjt-seo/requirements.txt (line 131))
+  Downloading mmh3-5.2.0-cp313-cp313-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (14 kB)
+Collecting mpmath==1.3.0 (from -r /mount/src/pjt-seo/requirements.txt (line 132))
+  Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Collecting multidict==6.6.4 (from -r /mount/src/pjt-seo/requirements.txt (line 133))
+  Downloading multidict-6.6.4-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+Collecting mypy_extensions==1.1.0 (from -r /mount/src/pjt-seo/requirements.txt (line 134))
+  Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+Collecting narwhals==2.2.0 (from -r /mount/src/pjt-seo/requirements.txt (line 135))
+  Downloading narwhals-2.2.0-py3-none-any.whl.metadata (11 kB)
+Collecting nbclient==0.10.2 (from -r /mount/src/pjt-seo/requirements.txt (line 136))
+  Downloading nbclient-0.10.2-py3-none-any.whl.metadata (8.3 kB)
+Collecting nbconvert==7.16.6 (from -r /mount/src/pjt-seo/requirements.txt (line 137))
+  Downloading nbconvert-7.16.6-py3-none-any.whl.metadata (8.5 kB)
+Collecting nbformat==5.10.4 (from -r /mount/src/pjt-seo/requirements.txt (line 138))
+  Downloading nbformat-5.10.4-py3-none-any.whl.metadata (3.6 kB)
+Collecting nest-asyncio==1.6.0 (from -r /mount/src/pjt-seo/requirements.txt (line 139))
+  Downloading nest_asyncio-1.6.0-py3-none-any.whl.metadata (2.8 kB)
+Collecting notebook==7.4.4 (from -r /mount/src/pjt-seo/requirements.txt (line 140))
+  Downloading notebook-7.4.4-py3-none-any.whl.metadata (10 kB)
+Collecting notebook_shim==0.2.4 (from -r /mount/src/pjt-seo/requirements.txt (line 141))
+  Downloading notebook_shim-0.2.4-py3-none-any.whl.metadata (4.0 kB)
+Collecting numpy==2.3.3 (from -r /mount/src/pjt-seo/requirements.txt (line 142))
+  Downloading numpy-2.3.3-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.1/62.1 kB 190.7 MB/s eta 0:00:00[2025-09-26 08:15:33.823237] 
+Collecting oauthlib==3.3.1 (from -r /mount/src/pjt-seo/requirements.txt (line 143))
+  Downloading oauthlib-3.3.1-py3-none-any.whl.metadata (7.9 kB)
+Collecting onnxruntime==1.22.1 (from -r /mount/src/pjt-seo/requirements.txt (line 144))
+  Downloading onnxruntime-1.22.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (4.9 kB)
+Collecting openai==1.107.3 (from -r /mount/src/pjt-seo/requirements.txt (line 145))
+  Downloading openai-1.107.3-py3-none-any.whl.metadata (29 kB)
+Collecting opentelemetry-api==1.36.0 (from -r /mount/src/pjt-seo/requirements.txt (line 146))
+  Downloading opentelemetry_api-1.36.0-py3-none-any.whl.metadata (1.5 kB)
+Collecting opentelemetry-exporter-otlp-proto-common==1.36.0 (from -r /mount/src/pjt-seo/requirements.txt (line 147))
+  Downloading opentelemetry_exporter_otlp_proto_common-1.36.0-py3-none-any.whl.metadata (1.8 kB)
+Collecting opentelemetry-exporter-otlp-proto-grpc==1.36.0 (from -r /mount/src/pjt-seo/requirements.txt (line 148))
+  Downloading opentelemetry_exporter_otlp_proto_grpc-1.36.0-py3-none-any.whl.metadata (2.4 kB)
+Collecting opentelemetry-instrumentation==0.57b0 (from -r /mount/src/pjt-seo/requirements.txt (line 149))
+  Downloading opentelemetry_instrumentation-0.57b0-py3-none-any.whl.metadata (6.7 kB)
+Collecting opentelemetry-instrumentation-asgi==0.57b0 (from -r /mount/src/pjt-seo/requirements.txt (line 150))
+  Downloading opentelemetry_instrumentation_asgi-0.57b0-py3-none-any.whl.metadata (2.0 kB)
+Collecting opentelemetry-instrumentation-fastapi==0.57b0 (from -r /mount/src/pjt-seo/requirements.txt (line 151))
+  Downloading opentelemetry_instrumentation_fastapi-0.57b0-py3-none-any.whl.metadata (2.2 kB)
+Collecting opentelemetry-proto==1.36.0 (from -r /mount/src/pjt-seo/requirements.txt (line 152))
+  Downloading opentelemetry_proto-1.36.0-py3-none-any.whl.metadata (2.3 kB)
+Collecting opentelemetry-sdk==1.36.0 (from -r /mount/src/pjt-seo/requirements.txt (line 153))
+  Downloading opentelemetry_sdk-1.36.0-py3-none-any.whl.metadata (1.5 kB)
+Collecting opentelemetry-semantic-conventions==0.57b0 (from -r /mount/src/pjt-seo/requirements.txt (line 154))
+  Downloading opentelemetry_semantic_conventions-0.57b0-py3-none-any.whl.metadata (2.4 kB)
+Collecting opentelemetry-util-http==0.57b0 (from -r /mount/src/pjt-seo/requirements.txt (line 155))
+  Downloading opentelemetry_util_http-0.57b0-py3-none-any.whl.metadata (2.6 kB)
+Collecting orjson==3.11.3 (from -r /mount/src/pjt-seo/requirements.txt (line 156))
+  Downloading orjson-3.11.3-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (41 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 41.9/41.9 kB 120.9 MB/s eta 0:00:00[2025-09-26 08:15:34.818313] 
+Collecting ormsgpack==1.10.0 (from -r /mount/src/pjt-seo/requirements.txt (line 157))
+  Downloading ormsgpack-1.10.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (43 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.7/43.7 kB 155.4 MB/s eta 0:00:00[2025-09-26 08:15:34.893994] 
+Collecting overrides==7.7.0 (from -r /mount/src/pjt-seo/requirements.txt (line 158))
+  Downloading overrides-7.7.0-py3-none-any.whl.metadata (5.8 kB)
+Collecting packaging==24.2 (from -r /mount/src/pjt-seo/requirements.txt (line 159))
+  Downloading packaging-24.2-py3-none-any.whl.metadata (3.2 kB)
+Collecting pandas==2.3.2 (from -r /mount/src/pjt-seo/requirements.txt (line 160))
+  Downloading pandas-2.3.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (91 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.2/91.2 kB 180.5 MB/s eta 0:00:00[2025-09-26 08:15:35.128635] 
+Collecting pandocfilters==1.5.1 (from -r /mount/src/pjt-seo/requirements.txt (line 161))
+  Downloading pandocfilters-1.5.1-py2.py3-none-any.whl.metadata (9.0 kB)
+Collecting parso==0.8.5 (from -r /mount/src/pjt-seo/requirements.txt (line 162))
+  Downloading parso-0.8.5-py2.py3-none-any.whl.metadata (8.3 kB)
+Collecting patsy==1.0.1 (from -r /mount/src/pjt-seo/requirements.txt (line 163))
+  Downloading patsy-1.0.1-py2.py3-none-any.whl.metadata (3.3 kB)
+Collecting pexpect==4.9.0 (from -r /mount/src/pjt-seo/requirements.txt (line 164))
+  Downloading pexpect-4.9.0-py2.py3-none-any.whl.metadata (2.5 kB)
+Collecting pillow==11.3.0 (from -r /mount/src/pjt-seo/requirements.txt (line 165))
+  Downloading pillow-11.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.0 kB)
+Collecting pinecone==7.3.0 (from -r /mount/src/pjt-seo/requirements.txt (line 166))
+  Downloading pinecone-7.3.0-py3-none-any.whl.metadata (9.5 kB)
+Collecting pinecone-plugin-assistant==1.8.0 (from -r /mount/src/pjt-seo/requirements.txt (line 167))
+  Downloading pinecone_plugin_assistant-1.8.0-py3-none-any.whl.metadata (30 kB)
+Collecting pinecone-plugin-interface==0.0.7 (from -r /mount/src/pjt-seo/requirements.txt (line 168))
+  Downloading pinecone_plugin_interface-0.0.7-py3-none-any.whl.metadata (1.2 kB)
+Collecting platformdirs==4.4.0 (from -r /mount/src/pjt-seo/requirements.txt (line 169))
+  Downloading platformdirs-4.4.0-py3-none-any.whl.metadata (12 kB)
+Collecting plotly==6.3.0 (from -r /mount/src/pjt-seo/requirements.txt (line 170))
+  Downloading plotly-6.3.0-py3-none-any.whl.metadata (8.5 kB)
+Collecting posthog==5.4.0 (from -r /mount/src/pjt-seo/requirements.txt (line 171))
+  Downloading posthog-5.4.0-py3-none-any.whl.metadata (5.7 kB)
+Collecting prometheus_client==0.22.1 (from -r /mount/src/pjt-seo/requirements.txt (line 172))
+  Downloading prometheus_client-0.22.1-py3-none-any.whl.metadata (1.9 kB)
+Collecting prompt_toolkit==3.0.52 (from -r /mount/src/pjt-seo/requirements.txt (line 173))
+  Downloading prompt_toolkit-3.0.52-py3-none-any.whl.metadata (6.4 kB)
+Collecting propcache==0.3.2 (from -r /mount/src/pjt-seo/requirements.txt (line 174))
+  Downloading propcache-0.3.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (12 kB)
+Collecting protobuf==6.32.0 (from -r /mount/src/pjt-seo/requirements.txt (line 175))
+  Downloading protobuf-6.32.0-cp39-abi3-manylinux2014_x86_64.whl.metadata (593 bytes)
+Collecting psutil==7.0.0 (from -r /mount/src/pjt-seo/requirements.txt (line 176))
+  Downloading psutil-7.0.0-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (22 kB)
+Collecting psycopg2-binary==2.9.10 (from -r /mount/src/pjt-seo/requirements.txt (line 177))
+  Downloading psycopg2_binary-2.9.10-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+Collecting ptyprocess==0.7.0 (from -r /mount/src/pjt-seo/requirements.txt (line 178))
+  Downloading ptyprocess-0.7.0-py2.py3-none-any.whl.metadata (1.3 kB)
+Collecting pure_eval==0.2.3 (from -r /mount/src/pjt-seo/requirements.txt (line 179))
+  Downloading pure_eval-0.2.3-py3-none-any.whl.metadata (6.3 kB)
+Collecting pyarrow==21.0.0 (from -r /mount/src/pjt-seo/requirements.txt (line 180))
+  Downloading pyarrow-21.0.0-cp313-cp313-manylinux_2_28_x86_64.whl.metadata (3.3 kB)
+Collecting pyasn1==0.6.1 (from -r /mount/src/pjt-seo/requirements.txt (line 181))
+  Downloading pyasn1-0.6.1-py3-none-any.whl.metadata (8.4 kB)
+Collecting pyasn1_modules==0.4.2 (from -r /mount/src/pjt-seo/requirements.txt (line 182))
+  Downloading pyasn1_modules-0.4.2-py3-none-any.whl.metadata (3.5 kB)
+Collecting pybase64==1.4.2 (from -r /mount/src/pjt-seo/requirements.txt (line 183))
+  Downloading pybase64-1.4.2-cp313-cp313-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl.metadata (8.7 kB)
+Collecting pycparser==2.22 (from -r /mount/src/pjt-seo/requirements.txt (line 184))
+  Downloading pycparser-2.22-py3-none-any.whl.metadata (943 bytes)
+Collecting pydantic==2.11.9 (from -r /mount/src/pjt-seo/requirements.txt (line 185))
+  Downloading pydantic-2.11.9-py3-none-any.whl.metadata (68 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.4/68.4 kB 183.4 MB/s eta 0:00:00[2025-09-26 08:15:37.207423] 
+Collecting pydantic-settings==2.10.1 (from -r /mount/src/pjt-seo/requirements.txt (line 186))
+  Downloading pydantic_settings-2.10.1-py3-none-any.whl.metadata (3.4 kB)
+Collecting pydantic_core==2.33.2 (from -r /mount/src/pjt-seo/requirements.txt (line 187))
+  Downloading pydantic_core-2.33.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+Collecting pydeck==0.9.1 (from -r /mount/src/pjt-seo/requirements.txt (line 188))
+  Downloading pydeck-0.9.1-py2.py3-none-any.whl.metadata (4.1 kB)
+Collecting Pygments==2.19.2 (from -r /mount/src/pjt-seo/requirements.txt (line 189))
+  Downloading pygments-2.19.2-py3-none-any.whl.metadata (2.5 kB)
+Collecting PyJWT==2.10.1 (from -r /mount/src/pjt-seo/requirements.txt (line 190))
+  Downloading PyJWT-2.10.1-py3-none-any.whl.metadata (4.0 kB)
+Collecting PyMuPDF==1.26.4 (from -r /mount/src/pjt-seo/requirements.txt (line 191))
+  Downloading pymupdf-1.26.4-cp39-abi3-manylinux_2_28_x86_64.whl.metadata (3.4 kB)
+Collecting pypandoc==1.15 (from -r /mount/src/pjt-seo/requirements.txt (line 192))
+  Downloading pypandoc-1.15-py3-none-any.whl.metadata (16 kB)
+Collecting pyparsing==3.2.3 (from -r /mount/src/pjt-seo/requirements.txt (line 193))
+  Downloading pyparsing-3.2.3-py3-none-any.whl.metadata (5.0 kB)
+Collecting pypdf==6.0.0 (from -r /mount/src/pjt-seo/requirements.txt (line 194))
+  Downloading pypdf-6.0.0-py3-none-any.whl.metadata (7.1 kB)
+Collecting PyPika==0.48.9 (from -r /mount/src/pjt-seo/requirements.txt (line 195))
+  Downloading PyPika-0.48.9.tar.gz (67 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.3/67.3 kB 176.8 MB/s eta 0:00:00[2025-09-26 08:15:38.528280] 
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting pyproject_hooks==1.2.0 (from -r /mount/src/pjt-seo/requirements.txt (line 196))
+  Downloading pyproject_hooks-1.2.0-py3-none-any.whl.metadata (1.3 kB)
+Collecting pyreadline3==3.5.4 (from -r /mount/src/pjt-seo/requirements.txt (line 197))
+  Downloading pyreadline3-3.5.4-py3-none-any.whl.metadata (4.7 kB)
+Collecting python-dateutil==2.9.0.post0 (from -r /mount/src/pjt-seo/requirements.txt (line 198))
+  Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+Collecting python-dotenv==1.1.1 (from -r /mount/src/pjt-seo/requirements.txt (line 199))
+  Downloading python_dotenv-1.1.1-py3-none-any.whl.metadata (24 kB)
+Collecting python-json-logger==3.3.0 (from -r /mount/src/pjt-seo/requirements.txt (line 200))
+  Downloading python_json_logger-3.3.0-py3-none-any.whl.metadata (4.0 kB)
+Collecting pytz==2025.2 (from -r /mount/src/pjt-seo/requirements.txt (line 201))
+  Downloading pytz-2025.2-py2.py3-none-any.whl.metadata (22 kB)
+ERROR: Ignored the following versions that require a different python version: 0.0.2 Requires-Python >=3.8.1,<3.13; 0.0.2rc0 Requires-Python >=3.8.1,<3.13; 0.0.3 Requires-Python >=3.8.1,<3.13; 0.1.0 Requires-Python <3.12,>=3.9.0; 0.1.0 Requires-Python <3.13,>=3.8.1; 0.1.0rc1 Requires-Python <3.13,>=3.8.1; 0.1.1 Requires-Python <3.12,>=3.9.0; 0.1.1 Requires-Python <3.13,>=3.8.1; 0.1.2 Requires-Python <3.12,>=3.9.0; 0.1.2 Requires-Python <3.13,>=3.8.1; 0.1.3 Requires-Python <3.12,>=3.9.0; 0.1.3 Requires-Python <3.13,>=3.8.1; 0.1.3 Requires-Python <3.13,>=3.9.0; 0.1.4 Requires-Python <3.12,>=3.9.0; 0.1.5 Requires-Python <3.12,>=3.9.0; 0.1.6 Requires-Python <3.12,>=3.9.0; 0.1.7 Requires-Python <3.12,>=3.9.0; 0.1.8 Requires-Python <3.13,>=3.9.0; 0.2.0 Requires-Python <3.13,>=3.9; 0.2.0.dev1 Requires-Python <3.13,>=3.9; 0.2.1 Requires-Python <3.13,>=3.9; 0.2.2 Requires-Python <3.13,>=3.9; 0.5.12 Requires-Python >=3.7,<3.12; 0.5.13 Requires-Python >=3.7,<3.12; 0.5.14 Requires-Python >=3.7,<3.13; 1.21.2 Requires-Python >=3.7,<3.11; 1.21.3 Requires-Python >=3.7,<3.11; 1.21.4 Requires-Python >=3.7,<3.11; 1.21.5 Requires-Python >=3.7,<3.11; 1.21.6 Requires-Python >=3.7,<3.11; 1.26.0 Requires-Python <3.13,>=3.9; 1.26.1 Requires-Python <3.13,>=3.9; 3.0.0 Requires-Python <3.13,>=3.8; 3.0.1 Requires-Python <3.13,>=3.8; 3.0.2 Requires-Python <3.13,>=3.8; 3.0.3 Requires-Python <3.13,>=3.8
+ERROR: Could not find a version that satisfies the requirement pywin32==310 (from versions: none)
+ERROR: No matching distribution found for pywin32==310
+
+[notice] A new release of pip is available: 24.0 -> 25.2
+[notice] To update, run: pip install --upgrade pip
+Checking if Streamlit is installed
+Installing rich for an improved exception logging
+Using standard pip install.
+Collecting rich>=10.14.0
+  Downloading rich-14.1.0-py3-none-any.whl.metadata (18 kB)
+Collecting markdown-it-py>=2.2.0 (from rich>=10.14.0)
+  Downloading markdown_it_py-4.0.0-py3-none-any.whl.metadata (7.3 kB)
+Collecting pygments<3.0.0,>=2.13.0 (from rich>=10.14.0)
+  Downloading pygments-2.19.2-py3-none-any.whl.metadata (2.5 kB)
+Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=10.14.0)
+  Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+Downloading rich-14.1.0-py3-none-any.whl (243 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 243.4/243.4 kB 17.5 MB/s eta 0:00:00[2025-09-26 08:15:44.803776] 
+Downloading markdown_it_py-4.0.0-py3-none-any.whl (87 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.3/87.3 kB 195.1 MB/s eta 0:00:00[2025-09-26 08:15:44.814110] 
+Downloading pygments-2.19.2-py3-none-any.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 91.9 MB/s eta 0:00:00[2025-09-26 08:15:44.837139] 
+Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Installing collected packages: pygments, mdurl, markdown-it-py, rich
+  Attempting uninstall: pygments
+    Found existing installation: Pygments 2.19.2
+    Uninstalling Pygments-2.19.2:
+      Successfully uninstalled Pygments-2.19.2
+  Attempting uninstall: mdurl
+    Found existing installation: mdurl 0.1.2
+    Uninstalling mdurl-0.1.2:
+      Successfully uninstalled mdurl-0.1.2
+  Attempting uninstall: markdown-it-py
+    Found existing installation: markdown-it-py 4.0.0
+    Uninstalling markdown-it-py-4.0.0:
+      Successfully uninstalled markdown-it-py-4.0.0
+  Attempting uninstall: rich
+    Found existing installation: rich 14.1.0
+    Uninstalling rich-14.1.0:
+      Successfully uninstalled rich-14.1.0
+Successfully installed markdown-it-py-4.0.0 mdurl-0.1.2 pygments-2.19.2 rich-14.1.0
+
+[notice] A new release of pip is available: 24.0 -> 25.2
+[notice] To update, run: pip install --upgrade pip
+
+────────────────────────────────────────────────────────────────────────────────────────
+
+[08:15:46] ❗️ installer returned a non-zero exit code
+[08:15:46] ❗️ Error during processing dependencies! Please fix the error and push an update, or try restarting the app.

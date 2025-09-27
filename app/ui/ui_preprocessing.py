@@ -1,6 +1,6 @@
 import streamlit as st
 from graph.builder_st import build_initial_graph
-from utils.data_loader_st import load_information_pdf_streamlit, load_keywords_csv_streamlit
+from utils.data_loader_js import load_information_pdf_streamlit, load_keywords_csv_streamlit
 
 
 def show_analysis_progress():
