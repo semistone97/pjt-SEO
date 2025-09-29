@@ -50,24 +50,43 @@ def load_keywords_csv(product_name):
             print(f"[Error] 파일 읽기 실패: {file_path} ({e})")
             continue
         
-        # 다형식 지원
-        required_cols = None
-        for cols in required_cols_variants:
-            if set(cols).issubset(df.columns):
-                required_cols = cols
-                break
-        
-        # 컬럼 형식 맞추기
-        if required_cols:
-            df_required = df[required_cols].copy()
-            df_required.columns = ['keyword', 'search_volume', 'competing_products']
-            df_required['competing_products'] = df_required['competing_products'].fillna(0).astype(str).str.replace('>', '').astype('Int64')
-            dfs.append(df_required)
-            good_files.append(file_path.name)
+        # 키워드 컬럼을 찾고, 존재하면 다른 컬럼은 옵션으로 처리
+        keyword_col_names = [cols[0] for cols in required_cols_variants]
+        found_keyword_col = next((col for col in keyword_col_names if col in df.columns), None)
+
+        if found_keyword_col:
+            # 'keyword' 컬럼을 필수로 포함하는 새 DataFrame 생성
+            df_processed = pd.DataFrame()
+            df_processed['keyword'] = df[found_keyword_col]
+
+            # 'search_volume' 컬럼이 있으면 추가, 없으면 NA로 채움
+            if 'Search Volume' in df.columns:
+                df_processed['search_volume'] = pd.to_numeric(df['Search Volume'], errors='coerce')
+            else:
+                df_processed['search_volume'] = pd.NA
+
+            # 'competing_products' 컬럼 처리
+            competing_col = None
+            if 'Competing Products' in df.columns:
+                competing_col = 'Competing Products'
+            elif 'Keyword Sales' in df.columns:
+                competing_col = 'Keyword Sales'
             
+            if competing_col:
+                df_processed['competing_products'] = pd.to_numeric(df[competing_col].astype(str).str.replace('>', ''), errors='coerce').fillna(pd.NA)
+            else:
+                df_processed['competing_products'] = pd.NA
+            
+            # 최종적으로 데이터 타입 변환
+            df_processed['search_volume'] = df_processed['search_volume'].astype('Int64')
+            df_processed['competing_products'] = df_processed['competing_products'].astype('Int64')
+
+            dfs.append(df_processed)
+            good_files.append(file_path.name)
+        
         # 컬럼 불일치
         else:
-            print(f"[Skipped] 컬럼 형식 불일치: {file_path}")
+            print(f"[Skipped] 키워드 컬럼을 찾을 수 없음: {file_path}")
 
     # 형식 없으면 바로 종료
     if not good_files:
