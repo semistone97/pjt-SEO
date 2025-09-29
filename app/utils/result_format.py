@@ -2,8 +2,7 @@ import streamlit as st
 
 def result_format():
 
-    result_template_1 = '''
-[AI 기반 아마존 리스팅 최적화 결과]
+    result_template_1 = '''[AI 기반 아마존 리스팅 최적화 결과]
 
 상품명: {product_name}
 카테고리: {category}

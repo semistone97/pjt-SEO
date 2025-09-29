@@ -132,10 +132,10 @@ def regenerate_bp(state: State):
                 st.write(bp)
                 bp_length.append(len(bp))    
 
-            st.info(f'재작성된 Bullet Point: 각 {','.join(bp_length)}자')
+            st.info(f'재작성된 Bullet Point: 각 {','.join(map(str, bp_length))}자')      
             status.update(label="Bullet Points 재작성 완료", state="complete", expanded=False)
 
-            return {'bp': res.bp, 'user_feedback_bp': ''}
+            return {'bp': list(res.bp), 'user_feedback_bp': ''}
         
         except Exception as e:
             st.warning(f"Bullet Point 재작성 중 에러가 발생했습니다: {e}")
